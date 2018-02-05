@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) jGuru Europe AB.
+  ~ All rights reserved.
+  -->
+
+<project xmlns="http://maven.apache.org/DECORATION/1.8.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd">
+
+    <bannerLeft>
+        <name><![CDATA[<span style="color: #777777;">${project.artifactId}</span>]]></name>
+    </bannerLeft>
+    <bannerRight>
+        <name><![CDATA[<span style="color: #777777;">jGuru:</span> <a href="https://www.jguru.se/dev/codestyle">Codestyle</a>]]></name>
+        <href>https://www.jguru.se/dev/codestyle</href>
+    </bannerRight>
+
+    <publishDate position="left" format="yyyy-MM-dd"/>
+    <version position="right"/>
+
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.7</version>
+    </skin>
+
+    <custom>
+        <fluidoSkin>
+            <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+            <topBarEnabled>true</topBarEnabled>
+            <sideBarEnabled>false</sideBarEnabled>
+            <topBarContainerStyle>width: 90%;</topBarContainerStyle>
+        </fluidoSkin>
+    </custom>
+
+    <body>
+        <menu name="Overview">
+            <item name="Introduction" href="index.html"/>
+            <item name="Modules" href="modules.html"/>
+            <item name="Kotlin on JVM" href="kotlin_jvm.html"/>
+            <item name="Kotlin on JavaScript" href="kotlin_js.html"/>
+        </menu>
+        
+        <menu ref="modules" inherit="bottom"/>
+        <menu ref="reports" inherit="bottom"/>
+    </body>
+</project>
