@@ -7,6 +7,7 @@ package se.jguru.codestyle.projects
 
 import org.apache.maven.model.Model
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader
+import org.apache.maven.plugin.testing.stubs.ArtifactStub
 import org.apache.maven.project.MavenProject
 import java.io.InputStreamReader
 
@@ -19,7 +20,7 @@ object MavenTestUtils {
     /**
      * The default Stub version.
      */
-    val DEFAULT_VERSION = "1.0.0"
+    private const val DEFAULT_VERSION = "1.0.0"
 
     /**
      * Reads the POM found at the supplied filePath, retrieving the created MavenProject.
@@ -85,6 +86,11 @@ object MavenTestUtils {
         toReturn.artifactId = artifactId
         toReturn.packaging = packaging
         toReturn.version = version
+
+        toReturn.artifact = ArtifactStub()
+        toReturn.artifact.artifactId = artifactId
+        toReturn.artifact.groupId = groupId
+        
         return toReturn
     }
 }
