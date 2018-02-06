@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) jGuru Europe AB.
+  ~ All rights reserved.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+    ################################################
+    # Section 1:  Project information
+    ################################################
+    -->
+    <parent>
+        <groupId>se.jguru.codestyle</groupId>
+        <artifactId>jguru-codestyle-reactor</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>se.jguru.codestyle.poms</groupId>
+    <artifactId>jguru-codestyle-poms-reactor</artifactId>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <url>${site.top.url}/${path.in.reactor}</url>
+    <description>jGuru Codestyle: POMs Reactor (POM, version ${project.version})</description>
+
+    <properties>
+        <path.in.reactor>poms</path.in.reactor>
+    </properties>
+
+    <!--
+    ################################################
+    # Section 2:  Modules
+    ################################################
+    -->
+    <modules>
+        <module>tools-parent</module>
+        <module>external</module>
+    </modules>
+
+    <!--
+    ################################################
+    # Section 3:  Build settings
+    ################################################
+    -->
+
+    <!--
+    ################################################
+    # Section 4:  External systems
+    ################################################
+    -->
+
+    <!--
+        Compensate for Maven standard variable extrapolation.
+        Git requires steady URLs (... but Subversion requires path extrapolation, hence the problem).
+     -->
+    <distributionManagement>
+        <site>
+            <id>github_site</id>
+            <name>GitHub Site for Nazgul Tools</name>
+            <url>${site.top.url}/${path.in.reactor}</url>
+        </site>
+    </distributionManagement>
+
+    <!--
+        Define connections for Maven's VCS integration.
+    -->
+    <scm>
+        <connection>${scm.connection.url}</connection>
+        <developerConnection>${scm.devConnection.url}</developerConnection>
+        <url>${scm.url}</url>
+        <tag>HEAD</tag>
+    </scm>
+</project>
