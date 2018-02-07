@@ -109,7 +109,6 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
                 // The PackageExtractor implementation must have a default constructor.
                 // Fire, and handle any exceptions.
                 extractors.add(aClass.newInstance() as PackageExtractor)
-                
             } catch (e: Exception) {
                 throw IllegalArgumentException("Could not instantiate PackageExtractor from class ["
                     + current + "]. Validate that implementation has a default constructor, and implements the"

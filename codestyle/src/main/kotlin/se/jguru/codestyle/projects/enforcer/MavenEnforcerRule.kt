@@ -153,15 +153,15 @@ abstract class AbstractEnforcerRule(
             splice(toSplice).mapTo(ArrayList<Pattern>()) { Pattern.compile(it) }
 
     /**
-     * Matches the provided `toMatch` string with all Patterns in the patternList.
+     * Matches the provided `toMatch` string with all [Regex] in the patternList.
      * If one pattern matches, this method returns `true`.
      *
-     * @param toMatch     The string to match to every Pattern in the supplied patternList.
-     * @param patternList The List of Patterns to use in matching.
+     * @param toMatch     The string to match to every [Regex] in the supplied patternList.
+     * @param patternList The List of [Regex] to use in matching.
      * @return `true` if one pattern in the patternList matches, this method returns `true`.
      */
-    protected fun matches(toMatch: String, patternList: List<Pattern>): Boolean =
-            patternList.any { it.matcher(toMatch).matches() }
+    protected fun matches(toMatch: String, patternList: List<Regex>): Boolean =
+            patternList.any { it.matches(toMatch) }
 
     /**
      * Checks if any element within source startsWith the provided toCheck string.
