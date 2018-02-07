@@ -11,7 +11,6 @@ import org.apache.maven.project.MavenProject
 import java.io.File
 import java.io.FileFilter
 import java.util.ArrayList
-import java.util.Arrays
 import java.util.SortedMap
 import java.util.SortedSet
 import java.util.TreeMap
@@ -25,7 +24,7 @@ import java.util.TreeSet
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
-                           private val packageExtractors: List<PackageExtractor> = DEFAULT_PACKAGE_EXTRACTORS)
+                           private var packageExtractors: List<PackageExtractor> = DEFAULT_PACKAGE_EXTRACTORS)
     : AbstractNonCacheableEnforcerRule(lvl) {
 
     /**
@@ -52,9 +51,7 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
         }
 
         val pkg2SourceFilesMap = sortedMapOf<String, SortedSet<String>>()
-        for (current in compileSourceRoots) {
-            addPackages(File(current), pkg2SourceFilesMap)
-        }
+        compileSourceRoots.forEach { current -> addPackages(File(current), pkg2SourceFilesMap) }
 
         // Retrieve the groupId of this project
         val groupId = project.groupId
@@ -66,23 +63,23 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
         } else {
 
             // Correct packaging everywhere?
-            val incorrectPackages = TreeSet<String>()
-            for ((candidate) in pkg2SourceFilesMap) {
+            val incorrectPackages = pkg2SourceFilesMap.keys
+                .filter { !it.startsWith(groupId) }
+                .toCollection(TreeSet())
 
-                if (!candidate.startsWith(groupId)) {
-                    incorrectPackages.add(candidate)
-                }
-            }
-
-            if (incorrectPackages.size > 0) {
+            if (incorrectPackages.isNotEmpty()) {
 
                 val result = TreeMap<String, SortedSet<String>>()
                 for (current in incorrectPackages) {
-                    result[current] = pkg2SourceFilesMap[current]
+
+                    val sourceFiles = pkg2SourceFilesMap[current]
+                    if(sourceFiles != null) {
+                        result[current] = sourceFiles
+                    }
                 }
 
                 throw RuleFailureException("Incorrect packaging detected; required [" + groupId
-                        + "] but found package to file names: " + result, project.artifact)
+                    + "] but found package to file names: " + result, project.artifact)
             }
         }
     }
@@ -99,12 +96,7 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
      * instantiated PackageExtractor instance.
      */
     @Throws(IllegalArgumentException::class)
-    fun setPackageExtractors(packageExtractorImplementations: String?) {
-
-        // Check sanity
-        if (packageExtractorImplementations == null) {
-            throw NullPointerException("Cannot handle empty packageExtractorImplementations argument.")
-        }
+    fun setPackageExtractors(packageExtractorImplementations: String) {
 
         // Instantiate the PackageExtractor instances.
         val extractors = ArrayList<PackageExtractor>()
@@ -112,15 +104,16 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
             try {
 
                 // Load the current PackageExtractor implementation class
-                val aClass = getClass().getClassLoader().loadClass(current)
+                val aClass = javaClass.classLoader.loadClass(current)
 
                 // The PackageExtractor implementation must have a default constructor.
                 // Fire, and handle any exceptions.
                 extractors.add(aClass.newInstance() as PackageExtractor)
+                
             } catch (e: Exception) {
                 throw IllegalArgumentException("Could not instantiate PackageExtractor from class ["
-                        + current + "]. Validate that implementation has a default constructor, and implements the"
-                        + PackageExtractor::class.java!!.getSimpleName() + " interface.")
+                    + current + "]. Validate that implementation has a default constructor, and implements the"
+                    + PackageExtractor::class.java.simpleName + " interface.")
             }
 
         }
@@ -139,39 +132,35 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
      * Adds all source file found by recursive search under sourceRoot to the
      * toPopulate List, using a width-first approach.
      *
-     * @param fileOrDirectory      The file or directory to search for packages and [if a directory] recursively
-     * search for further source files.
+     * @param fileOrDirectory      The file or directory to search for packages and [if a directory]
+     * recursively search for further source files.
      * @param package2FileNamesMap A Map relating package names extracted by the PackageExtractors.
      */
     private fun addPackages(fileOrDirectory: File,
                             package2FileNamesMap: SortedMap<String, SortedSet<String>>) {
 
-        for (current in packageExtractors) {
+        packageExtractors.forEach { current ->
 
-
+            // Process Files first
+            //
             if (fileOrDirectory.isFile && current.sourceFileFilter.accept(fileOrDirectory)) {
 
                 // Single source file to add.
                 val thePackage = current.getPackage(fileOrDirectory)
 
-                var sourceFileNames: SortedSet<String>? = package2FileNamesMap[thePackage]
-                if (sourceFileNames == null) {
-                    sourceFileNames = TreeSet()
-                    package2FileNamesMap[thePackage] = sourceFileNames
-                }
-
                 // Done.
+                val sourceFileNames = package2FileNamesMap.getOrDefault(thePackage, sortedSetOf())
                 sourceFileNames.add(fileOrDirectory.name)
 
             } else if (fileOrDirectory.isDirectory) {
 
                 // Add the immediate source files
-                for (currentChild in fileOrDirectory.listFiles(sourceFileDefinitionFilter)!!) {
+                for (currentChild in fileOrDirectory.listFiles(current.sourceFileFilter)) {
                     addPackages(currentChild, package2FileNamesMap)
                 }
 
                 // Recurse into subdirectories
-                for (currentSubdirectory in fileOrDirectory.listFiles(DIRECTORY_FILTER)!!) {
+                for (currentSubdirectory in fileOrDirectory.listFiles(DIRECTORY_FILTER)) {
                     addPackages(currentSubdirectory, package2FileNamesMap)
                 }
             }
@@ -181,12 +170,13 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
     companion object {
 
         // Constants
+        @JvmStatic
         private val DIRECTORY_FILTER = FileFilter { candidate -> candidate.isDirectory }
 
         /**
          * The default List of PackageExtractors used to identify packages within found source files.
          */
-        val DEFAULT_PACKAGE_EXTRACTORS = Arrays.asList<PackageExtractor>(
-                JavaPackageExtractor(), KotlinPackageExtractor())
+        @JvmStatic
+        val DEFAULT_PACKAGE_EXTRACTORS = listOf(JavaPackageExtractor(), KotlinPackageExtractor())
     }
 }
