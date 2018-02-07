@@ -13,7 +13,7 @@ import java.io.InputStreamReader
 
 /**
  *
- * @author <a href="mailto:lj@jguru.se">Lennart J&ouml;relid</a>, jGuru Europe AB
+ * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 object MavenTestUtils {
 

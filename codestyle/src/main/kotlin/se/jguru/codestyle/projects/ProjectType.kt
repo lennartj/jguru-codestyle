@@ -10,7 +10,7 @@ import java.io.Serializable
 /**
  * Specification for how to classify Maven projects originating from their GAV.
  *
- * @author <a href="mailto:lj@jguru.se">Lennart J&ouml;relid</a>, jGuru Europe AB
+ * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 interface ProjectType : Serializable {
 
@@ -143,6 +143,9 @@ open class DefaultProjectType(
         return true
     }
 
+    /**
+     * Simply delegates the hashCode to the internal [Regex] objects and the [acceptNullValues].
+     */
     override fun hashCode(): Int {
         var result = groupIdRegex.hashCode()
         result = 31 * result + artifactIdRegex.hashCode()
@@ -164,6 +167,4 @@ open class DefaultProjectType(
          */
         fun getDefaultRegexFor(pattern: String?): Regex = Regex(pattern ?: ".*", IGNORE_CASE_AND_COMMENTS)
     }
-
-
 }
