@@ -51,12 +51,12 @@ abstract class AbstractSimplePackageExtractor : PackageExtractor {
          * semicolon. Otherwise this termination is required.
          */
         fun getPackageRegExp(optionalSemicolonTermination: Boolean) = Regex("^\\s*$PACKAGE_WORD\\s*" +
-                "([a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)?\\s*" +
+                "([a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)?\\s*?;" +
                 when (optionalSemicolonTermination) {
-                    true -> ";?\\s*"
+                    true -> "?"
                     false -> ""
                 } +
-                "$");
+                "\\s*$");
 
         /**
          * Utility method which retrieves a FileFilter which accepts Files whose name ends
@@ -95,7 +95,7 @@ class KotlinPackageExtractor : AbstractSimplePackageExtractor() {
                 }
 
                 // All Done.
-                return aLine.trim().substring(PACKAGE_WORD.length, lastIndexInLine)
+                return aLine.trim().substring(PACKAGE_WORD.length, lastIndexInLine).trim()
             }
         }
 
@@ -129,7 +129,7 @@ class JavaPackageExtractor : AbstractSimplePackageExtractor() {
                 }
 
                 // All Done.
-                return aLine.trim().substring(PACKAGE_WORD.length, lastIndexInLine)
+                return aLine.trim().substring(PACKAGE_WORD.length, lastIndexInLine).trim()
             }
         }
 

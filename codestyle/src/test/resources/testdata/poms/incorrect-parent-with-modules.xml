@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  ~ Copyright (c) jGuru Europe AB.
+  ~ All rights reserved.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+    ################################################
+    # Section 1:  Project information
+    ################################################
+    -->
+    <parent>
+        <groupId>se.jguru.nazgul.tools.poms</groupId>
+        <artifactId>nazgul-tools-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../tools-parent</relativePath>
+    </parent>
+
+    <groupId>se.jguru.nazgul.tools.poms</groupId>
+    <artifactId>nazgul-parent</artifactId>
+    <version>1.0.0</version>
+    <name>${project.groupId}.${project.artifactId}</name>
+    <packaging>pom</packaging>
+
+    <!--
+    ################################################
+    # Section 2:  Dependency (management) settings
+    ################################################
+    -->
+    <dependencies>
+        <!--
+            These dependencies contain globally available Aspects.
+            No other dependencies must be included here.
+        -->
+        <dependency>
+            <groupId>se.jguru.nazgul.tools.validation</groupId>
+            <artifactId>nazgul-tools-validation-aspect</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>se.jguru.nazgul.tools.validation</groupId>
+                <artifactId>nazgul-tools-validation-aspect</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!--
+    ################################################
+    # Section 3:  Build settings
+    ################################################
+    -->
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.4</version>
+                <configuration>
+                    <complianceLevel>1.6</complianceLevel>
+                    <includes>
+                        <include>**/*.java</include>
+                        <include>**/*.aj</include>
+                    </includes>
+                    <aspectDirectory>src/main/java</aspectDirectory>
+                    <testAspectDirectory>src/test/java</testAspectDirectory>
+                    <!--
+                       This option causes the JoinPoint.getStaticPart() to
+                       sometimes return null - which crashes all Aspects relying
+                       on JoinPoint static information.... such as the ValidationAspect.
+
+                       Yes - it is a bug in AspectJ.
+                       // Lennart, 2011-07-23
+                    -->
+                    <!-- XaddSerialVersionUID>true</XaddSerialVersionUID -->
+                    <showWeaveInfo>true</showWeaveInfo>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>se.jguru.nazgul.tools.validation</groupId>
+                            <artifactId>nazgul-tools-validation-aspect</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compile_with_aspectj</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile_with_aspectj</id>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjrt</artifactId>
+                        <version>${aspectj.runtime.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>${aspectj.runtime.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>se.jguru.nazgul.tools.validation</groupId>
+                        <artifactId>nazgul-tools-validation-aspect</artifactId>
+                        <version>1.0.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+    <modules>
+        <module>foobar</module>
+    </modules>
+</project>

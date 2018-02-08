@@ -101,13 +101,13 @@ abstract class AbstractEnforcerRule(
      * @throws RuleFailureException If the enforcer rule was not satisfied.
      */
     @Throws(RuleFailureException::class)
-    protected abstract fun performValidation(project: MavenProject, helper: EnforcerRuleHelper)
+    abstract fun performValidation(project: MavenProject, helper: EnforcerRuleHelper)
 
     /**
      * @return A human-readable short description for this AbstractEnforcerRule.
      * (Example: "No -impl dependencies permitted in this project")
      */
-    protected abstract fun getShortRuleDescription(): String
+    abstract fun getShortRuleDescription(): String
 
     /**
      * This method tells the enforcer if the rule results may be cached.

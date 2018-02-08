@@ -54,5 +54,5 @@ class RuleFailureException(message: String? = null, cause: Throwable? = null, va
      * later retrieval by the [.getMessage] method.
      * @param offendingArtifact The artifact which triggered this RuleFailureException.
      */
-    constructor(message: String, offendingArtifact: Artifact) : this(message, null, offendingArtifact)
+    constructor(message: String, offendingArtifact: Artifact?) : this(message, null, offendingArtifact)
 }

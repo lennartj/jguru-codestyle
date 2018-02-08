@@ -5,6 +5,7 @@
 
 package se.jguru.codestyle.projects.enforcer
 
+import org.apache.maven.artifact.DefaultArtifact
 import org.apache.maven.enforcer.rule.api.EnforcerLevel
 import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
@@ -148,7 +149,19 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
                 val thePackage = current.getPackage(fileOrDirectory)
 
                 // Done.
-                val sourceFileNames = package2FileNamesMap.getOrDefault(thePackage, sortedSetOf())
+                val sourceFileNames : SortedSet<String> = if(package2FileNamesMap[thePackage] == null) {
+
+                    // Create a new SortedSet and add the file names to it.
+                    val toReturn : SortedSet<String> = sortedSetOf();
+                    package2FileNamesMap[thePackage] = toReturn
+
+                    // All Done
+                    toReturn
+
+                } else {
+                    package2FileNamesMap[thePackage]!!
+                }
+
                 sourceFileNames.add(fileOrDirectory.name)
 
             } else if (fileOrDirectory.isDirectory) {
