@@ -76,7 +76,7 @@ class CorrectPackagingRuleTest {
         val unitUnderTest = CorrectPackagingRule()
 
         // Act
-        unitUnderTest.setPackageExtractors(SillyPackageExtractor::class.java!!.getName() + "," +
+        unitUnderTest.setPackageExtractors(SillyPackageExtractor::class.java.name + "," +
             "" + JavaPackageExtractor::class.java.name)
 
         // Assert
@@ -85,7 +85,7 @@ class CorrectPackagingRuleTest {
 
         val extractors = packageExtractors.get(unitUnderTest) as List<PackageExtractor>
         Assert.assertEquals(2, extractors.size.toLong())
-        Assert.assertEquals(SillyPackageExtractor::class.java!!.getName(), extractors[0].javaClass.name)
+        Assert.assertEquals(SillyPackageExtractor::class.java.name, extractors[0].javaClass.name)
         Assert.assertEquals(JavaPackageExtractor::class.java.name, extractors[1].javaClass.name)
 
         Assert.assertNotNull(unitUnderTest.getShortRuleDescription())

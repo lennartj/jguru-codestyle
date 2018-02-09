@@ -42,9 +42,6 @@
     <body>
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
-            <item name="Modules" href="modules.html"/>
-            <item name="Kotlin on JVM" href="kotlin_jvm.html"/>
-            <item name="Kotlin on JavaScript" href="kotlin_js.html"/>
         </menu>
 
         <menu ref="modules" inherit="bottom"/>

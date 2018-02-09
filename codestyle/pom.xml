@@ -89,10 +89,11 @@
         <clean.plugin.version>2.6.1</clean.plugin.version>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.6</maven-site-plugin.version>
-        <doxia-modules.version>1.7</doxia-modules.version>
+        <maven-site-plugin.version>3.7</maven-site-plugin.version>
+        <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.1.4</versions-maven-plugin.version>
+        <kotlin.jvm.target>1.8</kotlin.jvm.target>
     </properties>
 
     <developers>
@@ -185,7 +186,7 @@
     <build>
         <sourceDirectory>src/main/kotlin</sourceDirectory>
         <testSourceDirectory>src/test/kotlin</testSourceDirectory>
-        
+
         <pluginManagement>
             <plugins>
                 <!--
@@ -243,7 +244,7 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-                
+
             </plugins>
         </pluginManagement>
 
@@ -277,7 +278,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>1.8</jvmTarget>
+                    <jvmTarget>${kotlin.jvm.target}</jvmTarget>
                 </configuration>
             </plugin>
 
@@ -322,7 +323,7 @@
             <!--
                 Configures the site plugin. Its use is further documented in the site documentation itself.
 
-                Why:  Make compile and publish the Nazgul documentation.
+                Why:  Make compile and publish the Codestyle documentation.
                 Used: Site lifecycle, mvn site.
             -->
             <plugin>
@@ -352,23 +353,6 @@
                     <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
                     <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.wagon</groupId>
-                        <artifactId>wagon-ssh</artifactId>
-                        <version>${wagon-modules.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.wagon</groupId>
-                        <artifactId>wagon-file</artifactId>
-                        <version>${wagon-modules.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.doxia</groupId>
-                        <artifactId>doxia-module-markdown</artifactId>
-                        <version>${doxia-modules.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <!--
@@ -383,7 +367,7 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>2.5.3</version>
                 <configuration>
-                    <arguments>-Pnazgul-release</arguments>
+                    <arguments>-Pjguru-release</arguments>
                     <mavenExecutorId>forked-path</mavenExecutorId>
                     <useReleaseProfile>false</useReleaseProfile>
                     <tagNameFormat>${reactor.name}-@{project.version}</tagNameFormat>
@@ -399,11 +383,11 @@
             </plugin>
 
             <!--
-                    Define OSGi bundle plugin version.
+                Define OSGi bundle plugin version.
 
-                    Why:  Plugin used to generate OSGi Manifest headers in JARs.
-                    Used: As included in [sub]projects.
-                -->
+                Why:  Plugin used to generate OSGi Manifest headers in JARs.
+                Used: As included in [sub]projects.
+            -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -433,6 +417,69 @@
                     </instructions>
                 </configuration>
             </plugin>
+
+            <!--
+                Use a standard Kotlin source code formatter.
+
+                Why:  Plugin used to provide source code Lint-ing.
+                Used: Standard lifecycle, verify phase
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>ktlint</id>
+                        <phase>verify</phase>
+                        <configuration>
+                            <target name="ktlint">
+                                <java taskname="ktlint"
+                                      dir="${basedir}"
+                                      fork="true"
+                                      failonerror="false"
+                                      classpathref="maven.plugin.classpath"
+                                      classname="com.github.shyiko.ktlint.Main">
+                                    <arg value="src/main/kotlin/**/*.kt"/>
+                                    <!--
+                                        Generates a Checkstyle-formatted report.
+
+                                        C.f. https://github.com/shyiko/ktlint#usage
+                                    -->
+                                    <arg value="--reporter=plain"/>
+                                    <arg value="--reporter=checkstyle,output=${project.build.directory}/ktlint.xml"/>
+                                </java>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>ktlint-format</id>
+                        <configuration>
+                            <target name="ktlint">
+                                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
+                                      classpathref="maven.plugin.classpath" classname="com.github.shyiko.ktlint.Main">
+                                    <arg value="-F"/>
+                                    <arg value="src/main/kotlin/**/*.kt"/>
+                                </java>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.github.shyiko</groupId>
+                        <artifactId>ktlint</artifactId>
+                        <version>0.15.0</version>
+                    </dependency>
+                    <!-- additional 3rd party ruleset(s) can be specified here -->
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
@@ -449,7 +496,7 @@
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -487,11 +534,12 @@
             </plugin>
 
             <!--
-                    Use a working version of the Maven versions plugin.
 
-                    Why:  Workaround for https://jira.codehaus.org/browse/MVERSIONS-236
-                    Used: Only when called.
-                -->
+                Use a working version of the Maven versions plugin.
+
+                Why:  Workaround for https://jira.codehaus.org/browse/MVERSIONS-236
+                Used: Only when called.
+            -->
             <plugin>
                 <groupId>de.lgohlke.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -511,7 +559,7 @@
     -->
     <ciManagement>
         <system>TravisCI</system>
-        <url>https://travis-ci.org/lennartj/nazgul_tools</url>
+        <url>https://travis-ci.org/lennartj/jguru-codestyle</url>
     </ciManagement>
 
     <!--
@@ -519,7 +567,7 @@
     -->
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/lennartj/nazgul_tools/issues</url>
+        <url>https://github.com/lennartj/jguru-codestyle/issues</url>
     </issueManagement>
 
     <!--
@@ -539,7 +587,7 @@
         </snapshotRepository>
         <site>
             <id>github_site</id>
-            <name>GitHub Site for Nazgul Tools</name>
+            <name>GitHub Site for jGuru Codestyle</name>
             <url>${site.top.url}/${path.in.reactor}</url>
         </site>
     </distributionManagement>
@@ -565,7 +613,7 @@
             Release profile for Nazgul Reactors.
         -->
         <profile>
-            <id>nazgul-release</id>
+            <id>jguru-release</id>
             <build>
                 <plugins>
                     <plugin>
@@ -615,22 +663,6 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- plugin>
-                        <groupId>com.github.github</groupId>
-                        <artifactId>site-maven-plugin</artifactId>
-                        <configuration>
-                            <message>Creating site for version ${project.version}</message>
-                            <noJekyll>true</noJekyll>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>site</goal>
-                                </goals>
-                                <phase>site</phase>
-                            </execution>
-                        </executions>
-                    </plugin -->
                 </plugins>
             </build>
         </profile>

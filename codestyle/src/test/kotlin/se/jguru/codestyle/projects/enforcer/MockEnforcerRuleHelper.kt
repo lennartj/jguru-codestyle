@@ -18,7 +18,8 @@ import java.io.File
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-class MockEnforcerRuleHelper(val project: MavenProject) : EnforcerRuleHelper {
+class MockEnforcerRuleHelper(val project: MavenProject,
+                             val logLevel : Level = Level.DEBUG) : EnforcerRuleHelper {
 
     override fun alignToBaseDirectory(file: File): File? = null
 
@@ -49,5 +50,23 @@ class MockEnforcerRuleHelper(val project: MavenProject) : EnforcerRuleHelper {
 
     override fun getContainer(): PlexusContainer? = null
 
-    override fun getLog(): Log = SystemStreamLog()
+    override fun getLog(): Log = MutableStateLog(logLevel)
+
+    enum class Level {
+
+        WARN,
+
+        INFO,
+
+        DEBUG
+    }
+
+    class MutableStateLog(val level: Level = Level.DEBUG) : SystemStreamLog() {
+
+        override fun isInfoEnabled(): Boolean = level <= Level.INFO
+
+        override fun isWarnEnabled(): Boolean = level <= Level.WARN
+
+        override fun isDebugEnabled(): Boolean = level == Level.DEBUG
+    }
 }

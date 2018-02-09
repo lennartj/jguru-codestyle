@@ -12,7 +12,6 @@ import java.io.FileNotFoundException
 import java.util.Arrays
 import java.util.TreeMap
 import kotlin.reflect.KProperty
-import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.jvm.isAccessible
 
@@ -31,7 +30,6 @@ class JavaPackageExtractorTest {
         val validPackages = Arrays.asList("se", "se.jguru", "se.jguru.nazgul")
         val invalidPackages = Arrays.asList("se.", "se..jguru", ".se.jguru.nazgul")
         val javaPackageRegex = getRegexFrom(JavaPackageExtractor())
-
 
         // Act & Assert
         validPackages
@@ -71,7 +69,7 @@ class JavaPackageExtractorTest {
         Assert.assertEquals("se.jguru", packageNames["okPackage.java"])
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun validateDefaultPackageReturnedOnMalformedPackageStatement() {
 
         // Assemble

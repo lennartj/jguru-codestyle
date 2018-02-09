@@ -13,7 +13,7 @@ At the time of this writing, most code-quality maven plugins require Java source
 are currently few and far between. Also, most build-style plugins are currently geared towards the Java 8 release, 
 while this Codestyle targets the Java 9 release.   
 
-## JVM target - Java9 interoperability
+## "JVM" target: Java9 interoperability
 
 The Jigsaw module system of Java9 is similar to OSGi and JBoss Modules in that it attempts to define how to access 
 (and limit access to) classes or resources. In this sense, the 3 module systems are similar - but the way to make 
@@ -21,7 +21,7 @@ those module systems interact smoothly with the build process are different. The
 reactor aims to achieve complete interoperability by defining project types which define what kind of access are 
 given to resources within the artifacts of said project.
 
-## JS target - CommonJS interoperability
+## "JS" target: CommonJS interoperability
 
 The JavaScript development for Kotlin can use and access standard AMD and CommonJS-packaged dependencies/artifacts 
 from standard package managers such as [Node Package Modules](https://www.npmjs.com). This implies that Kotlin can be

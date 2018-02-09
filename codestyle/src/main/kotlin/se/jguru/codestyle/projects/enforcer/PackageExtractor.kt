@@ -51,12 +51,12 @@ abstract class AbstractSimplePackageExtractor : PackageExtractor {
          * semicolon. Otherwise this termination is required.
          */
         fun getPackageRegExp(optionalSemicolonTermination: Boolean) = Regex("^\\s*$PACKAGE_WORD\\s*" +
-                "([a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)?\\s*?;" +
-                when (optionalSemicolonTermination) {
-                    true -> "?"
-                    false -> ""
-                } +
-                "\\s*$");
+            "([a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)?\\s*?;" +
+            when (optionalSemicolonTermination) {
+                true -> "?"
+                false -> ""
+            } +
+            "\\s*$");
 
         /**
          * Utility method which retrieves a FileFilter which accepts Files whose name ends
@@ -64,8 +64,8 @@ abstract class AbstractSimplePackageExtractor : PackageExtractor {
          */
         fun getSuffixFileFilter(requiredLowerCaseSuffix: String) = FileFilter { aFile ->
             aFile != null &&
-                    aFile.isFile &&
-                    aFile.name.toLowerCase().trim().endsWith(requiredLowerCaseSuffix.toLowerCase())
+                aFile.isFile &&
+                aFile.name.toLowerCase().trim().endsWith(requiredLowerCaseSuffix.toLowerCase())
         }
     }
 }
@@ -87,7 +87,7 @@ class KotlinPackageExtractor : AbstractSimplePackageExtractor() {
 
         for (aLine: String in sourceFile.readLines(Charsets.UTF_8)) {
 
-            if(packageRegEx.matches(aLine)) {
+            if (packageRegEx.matches(aLine)) {
 
                 val lastIndexInLine = when (aLine.contains(";")) {
                     true -> aLine.indexOfFirst { it == ';' }
@@ -99,8 +99,9 @@ class KotlinPackageExtractor : AbstractSimplePackageExtractor() {
             }
         }
 
-        // Complain
-        throw IllegalArgumentException("Could not acquire package from file [${sourceFile.path}]")
+        // No package statement found.
+        // Return default package.
+        return ""
     }
 }
 
@@ -121,7 +122,7 @@ class JavaPackageExtractor : AbstractSimplePackageExtractor() {
 
         for (aLine: String in sourceFile.readLines(Charsets.UTF_8)) {
 
-            if(packageRegEx.matches(aLine)) {
+            if (packageRegEx.matches(aLine)) {
 
                 val lastIndexInLine = when (aLine.contains(";")) {
                     true -> aLine.indexOfFirst { it == ';' }
@@ -133,7 +134,8 @@ class JavaPackageExtractor : AbstractSimplePackageExtractor() {
             }
         }
 
-        // Complain
-        throw IllegalArgumentException("Could not acquire package from file [${sourceFile.path}]")
+        // No package statement found.
+        // Return default package.
+        return ""
     }
 }

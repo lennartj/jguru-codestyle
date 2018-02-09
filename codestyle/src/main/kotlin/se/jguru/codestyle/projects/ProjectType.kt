@@ -5,10 +5,13 @@
 
 package se.jguru.codestyle.projects
 
+import org.apache.maven.project.MavenProject
 import java.io.Serializable
 
 /**
  * Specification for how to classify Maven projects originating from their GAV.
+ * All implementations must supply a `toString()` method to supply usable debug logs
+ * from some of the enforcer rules, such as [se.jguru.codestyle.projects.enforcer.PermittedProjectTypeRule].
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
@@ -40,6 +43,20 @@ interface ProjectType : Serializable {
      * @return `true` if the provided packaging was compliant with the rules for this ProjectType.
      */
     fun isCompliantPackaging(packaging: String?): Boolean
+
+    /**
+     * Convenience implementation used to test whether or not a [MavenProject] is compliance with this [ProjectType].
+     * Override to provide extra mechanics for validation; it is recommended not to forget to invoke
+     * [isCompliantWith] as defined within the [ProjectType] interface.
+     *
+     * @param project The MavenProject to ascertain compliance for this ProjectType.
+     */
+    fun isCompliantWith(project: MavenProject): Boolean {
+
+        return isCompliantGroupID(project.groupId) &&
+            isCompliantArtifactID(project.artifactId) &&
+            isCompliantPackaging(project.packaging)
+    }
 }
 
 /**
@@ -48,25 +65,25 @@ interface ProjectType : Serializable {
  */
 open class DefaultProjectType(
 
-        /**
-         * The [Regex] to identify matching Aether GroupIDs for this [ProjectType]
-         */
-        protected val groupIdRegex: Regex,
+    /**
+     * The [Regex] to identify matching Aether GroupIDs for this [ProjectType]
+     */
+    protected val groupIdRegex: Regex,
 
-        /**
-         * The [Regex] to identify matching Aether ArtifactIDs for this [ProjectType]
-         */
-        protected val artifactIdRegex: Regex,
+    /**
+     * The [Regex] to identify matching Aether ArtifactIDs for this [ProjectType]
+     */
+    protected val artifactIdRegex: Regex,
 
-        /**
-         * The [Regex] to identify matching Aether packaging for this [ProjectType]
-         */
-        protected val packagingRegex: Regex,
+    /**
+     * The [Regex] to identify matching Aether packaging for this [ProjectType]
+     */
+    protected val packagingRegex: Regex,
 
-        /**
-         * Indicates if received [null]s should be accepted or rejected.
-         */
-        protected val acceptNullValues: Boolean = false) : ProjectType {
+    /**
+     * Indicates if received [null]s should be accepted or rejected.
+     */
+    protected val acceptNullValues: Boolean = false) : ProjectType {
 
     /**
      * Convenience constructor using the pure String [Pattern]s instead of the full [Regex] objects.
@@ -78,10 +95,10 @@ open class DefaultProjectType(
                 artifactIdPattern: String? = null,
                 packagingPattern: String? = null,
                 acceptNullValues: Boolean = false) : this(
-            getDefaultRegexFor(groupIdPattern),
-            getDefaultRegexFor(artifactIdPattern),
-            getDefaultRegexFor(packagingPattern),
-            acceptNullValues)
+        getDefaultRegexFor(groupIdPattern),
+        getDefaultRegexFor(artifactIdPattern),
+        getDefaultRegexFor(packagingPattern),
+        acceptNullValues)
 
     /**
      * Default implementation validates that the received [artifactID] matches the [artifactIdRegex]
@@ -121,8 +138,8 @@ open class DefaultProjectType(
      */
     override fun toString(): String {
         return "[ProjectType: ${javaClass.name}] - GroupIdRegex: ${groupIdRegex.pattern}, " +
-                "ArtifactIdRegex: ${artifactIdRegex.pattern}, " +
-                "PackagingRegex: ${packagingRegex.pattern}"
+            "ArtifactIdRegex: ${artifactIdRegex.pattern}, " +
+            "PackagingRegex: ${packagingRegex.pattern}"
     }
 
     /**

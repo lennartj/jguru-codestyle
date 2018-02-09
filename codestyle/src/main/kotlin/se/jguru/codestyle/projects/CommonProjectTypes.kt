@@ -126,16 +126,18 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
 
     // Internal state
     private val delegate: DefaultProjectType = DefaultProjectType(
-            groupIdPattern,
-            artifactIdPattern,
-            packagingPattern,
-            acceptNullValues)
+        groupIdPattern,
+        artifactIdPattern,
+        packagingPattern,
+        acceptNullValues)
 
     override fun isCompliantArtifactID(artifactID: String?): Boolean = delegate.isCompliantArtifactID(artifactID)
 
     override fun isCompliantGroupID(groupID: String?): Boolean = delegate.isCompliantGroupID(groupID)
 
     override fun isCompliantPackaging(packaging: String?): Boolean = delegate.isCompliantPackaging(packaging)
+
+    override fun toString(): String = "CommonProjectType.$name"
 
     companion object {
 
@@ -152,15 +154,15 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
         fun getProjectType(anArtifact: Artifact): CommonProjectTypes {
 
             val matches = CommonProjectTypes
-                    .values()
-                    .filter {
-                        it.isCompliantArtifactID(anArtifact.artifactId) &&
-                                it.isCompliantGroupID(anArtifact.groupId) &&
-                                it.isCompliantPackaging(anArtifact.type)
-                    }
+                .values()
+                .filter {
+                    it.isCompliantArtifactID(anArtifact.artifactId) &&
+                        it.isCompliantGroupID(anArtifact.groupId) &&
+                        it.isCompliantPackaging(anArtifact.type)
+                }
 
             val errorPrefix = "Incorrect Artifact type definition for [${anArtifact.groupId} :: " +
-                    "${anArtifact.artifactId} :: ${anArtifact.version} ]: "
+                "${anArtifact.artifactId} :: ${anArtifact.version} ]: "
 
             // Check sanity
             if (matches.isEmpty()) {
@@ -188,15 +190,15 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
         fun getProjectType(project: MavenProject): CommonProjectTypes {
 
             val matches = CommonProjectTypes
-                    .values()
-                    .filter {
-                        it.isCompliantArtifactID(project.artifactId) &&
-                                it.isCompliantGroupID(project.groupId) &&
-                                it.isCompliantPackaging(project.packaging)
-                    }
+                .values()
+                .filter {
+                    it.isCompliantArtifactID(project.artifactId) &&
+                        it.isCompliantGroupID(project.groupId) &&
+                        it.isCompliantPackaging(project.packaging)
+                }
 
             val errorPrefix = "Incorrect project type definition for [${project.groupId} " +
-                    ":: ${project.artifactId} :: ${project.version}]: "
+                ":: ${project.artifactId} :: ${project.version}]: "
 
             // Check sanity
             if (matches.isEmpty()) {
@@ -215,14 +217,14 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
                     // This project should not contain modules.
                     if (project.modules != null && !project.modules.isEmpty()) {
                         throw IllegalArgumentException("${CommonProjectTypes.PARENT.name} projects may not contain " +
-                                "module definitions. (Modules are reserved for reactor projects).")
+                            "module definitions. (Modules are reserved for reactor projects).")
                     }
 
                 REACTOR -> {
 
                     val errorText = "${CommonProjectTypes.REACTOR.name} projects may not contain " +
-                            "dependency [incl. Management] definitions. (Dependencies should be defined " +
-                            "within parent projects)."
+                        "dependency [incl. Management] definitions. (Dependencies should be defined " +
+                        "within parent projects)."
 
                     fun containsElements(depList: List<Dependency>?): Boolean = depList != null && !depList.isEmpty()
 
@@ -247,6 +249,41 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
 
             // All done.
             return toReturn
+        }
+    }
+
+    /**
+     * Special handling to separate PARENT, REACTOR and ASSEMBLY pom types.
+     */
+    override fun isCompliantWith(project: MavenProject): Boolean {
+
+        // First, check standard compliance.
+        val standardCompliance = super.isCompliantWith(project)
+
+        // All Done.
+        return standardCompliance && when (this) {
+
+            REACTOR -> {
+
+                fun containsElements(depList: List<Dependency>?): Boolean = depList != null && !depList.isEmpty()
+
+                // This project not contain Dependency definitions.
+                val hasNoDependencies = !containsElements(project.dependencies)
+
+                // This kind of project should not contain DependencyManagement definitions.
+                val dependencyManagement = project.dependencyManagement
+                val hasNoManagementDependencies = dependencyManagement == null
+                    || !containsElements(dependencyManagement.dependencies)
+
+                // All Done.
+                hasNoDependencies && hasNoManagementDependencies
+            }
+            PARENT, ASSEMBLY -> {
+
+                // This project should not contain modules.
+                project.modules.isEmpty()
+            }
+            else -> true
         }
     }
 }

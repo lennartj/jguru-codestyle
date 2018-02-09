@@ -102,6 +102,7 @@
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.9</wagon-modules.version>
         <kotlin.version>1.2.21</kotlin.version>
+        <kotlin.jvm.target>1.8</kotlin.jvm.target>
     </properties>
 
     <dependencies>
@@ -275,14 +276,14 @@
             <!--
                 Configures the site plugin. Its use is further documented in the site documentation itself.
 
-                Why:  Make compile and publish the Nazgul documentation.
+                Why:  Make compile and publish the Codestyle documentation.
                 Used: Site lifecycle, mvn site.
             -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${maven-site-plugin.version}</version>
-                <executions>
+                <executions combine.self="override">
                     <execution>
                         <id>attach-descriptor</id>
                         <goals>
@@ -305,33 +306,6 @@
                     <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
                     <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.velocity</groupId>
-                        <artifactId>velocity</artifactId>
-                        <version>1.7</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.wagon</groupId>
-                        <artifactId>wagon-ssh</artifactId>
-                        <version>${wagon-modules.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.wagon</groupId>
-                        <artifactId>wagon-file</artifactId>
-                        <version>${wagon-modules.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.doxia</groupId>
-                        <artifactId>doxia-module-markdown</artifactId>
-                        <version>${doxia-modules.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.doxia</groupId>
-                        <artifactId>doxia-module-xhtml</artifactId>
-                        <version>${doxia-modules.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <!--
@@ -376,6 +350,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -397,7 +372,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <jvmTarget>1.8</jvmTarget>
+                    <jvmTarget>${kotlin.jvm.target}</jvmTarget>
                 </configuration>
             </plugin>
         </plugins>

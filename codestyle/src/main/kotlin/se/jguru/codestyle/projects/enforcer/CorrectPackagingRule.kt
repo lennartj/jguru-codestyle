@@ -5,7 +5,6 @@
 
 package se.jguru.codestyle.projects.enforcer
 
-import org.apache.maven.artifact.DefaultArtifact
 import org.apache.maven.enforcer.rule.api.EnforcerLevel
 import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
@@ -74,7 +73,7 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
                 for (current in incorrectPackages) {
 
                     val sourceFiles = pkg2SourceFilesMap[current]
-                    if(sourceFiles != null) {
+                    if (sourceFiles != null) {
                         result[current] = sourceFiles
                     }
                 }
@@ -109,7 +108,7 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
 
                 // The PackageExtractor implementation must have a default constructor.
                 // Fire, and handle any exceptions.
-                extractors.add(aClass.newInstance() as PackageExtractor)
+                extractors.add(aClass.getDeclaredConstructor().newInstance() as PackageExtractor)
             } catch (e: Exception) {
                 throw IllegalArgumentException("Could not instantiate PackageExtractor from class ["
                     + current + "]. Validate that implementation has a default constructor, and implements the"
@@ -149,10 +148,10 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
                 val thePackage = current.getPackage(fileOrDirectory)
 
                 // Done.
-                val sourceFileNames : SortedSet<String> = if(package2FileNamesMap[thePackage] == null) {
+                val sourceFileNames: SortedSet<String> = if (package2FileNamesMap[thePackage] == null) {
 
                     // Create a new SortedSet and add the file names to it.
-                    val toReturn : SortedSet<String> = sortedSetOf();
+                    val toReturn: SortedSet<String> = sortedSetOf()
                     package2FileNamesMap[thePackage] = toReturn
 
                     // All Done

@@ -32,16 +32,15 @@ object MavenTestUtils {
 
         try {
             val pomResource = MavenTestUtils::class.java
-                    .classLoader
-                    .getResource(filePath)
+                .classLoader
+                .getResource(filePath)
 
-            val pomReader = InputStreamReader(pomResource!!.openStream())
+            val pomReader = InputStreamReader(pomResource.openStream())
             return MavenProject(MavenXpp3Reader().read(pomReader))
 
         } catch (e: Exception) {
             throw IllegalArgumentException("Could not read pom from [$filePath]", e)
         }
-
     }
 
     /**
@@ -90,7 +89,7 @@ object MavenTestUtils {
         toReturn.artifact = ArtifactStub()
         toReturn.artifact.artifactId = artifactId
         toReturn.artifact.groupId = groupId
-        
+
         return toReturn
     }
 }
