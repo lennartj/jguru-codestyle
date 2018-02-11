@@ -106,9 +106,12 @@
                     <version>${nazgul-tools.version}</version>
                 </dependency>
                 <dependency>
-                    <groupId>org.jboss.weld</groupId>
-                    <artifactId>weld-api</artifactId>
-                    <version>3.0.4</version>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>javax</groupId>
+                    <artifactId>javaee-api</artifactId>
                 </dependency>
             </dependencies>
         </profile>
