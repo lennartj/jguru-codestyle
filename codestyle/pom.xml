@@ -330,7 +330,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${maven-site-plugin.version}</version>
-                <executions combine.self="override">
+                <executions>
                     <execution>
                         <id>attach-descriptor</id>
                         <goals>
@@ -420,11 +420,12 @@
 
             <!--
                 Use a standard Kotlin source code formatter.
+                Does not work with Java 9, unfortunately.
 
                 Why:  Plugin used to provide source code Lint-ing.
                 Used: Standard lifecycle, verify phase
             -->
-            <plugin>
+            <!-- plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.8</version>
@@ -441,13 +442,13 @@
                                       classpathref="maven.plugin.classpath"
                                       classname="com.github.shyiko.ktlint.Main">
                                     <arg value="src/main/kotlin/**/*.kt"/>
-                                    <!--
+                                    < ! - -
                                         Generates a Checkstyle-formatted report.
 
                                         C.f. https://github.com/shyiko/ktlint#usage
-                                    -->
-                                    <arg value="--reporter=plain"/>
-                                    <arg value="--reporter=checkstyle,output=${project.build.directory}/ktlint.xml"/>
+                                    - - >
+                                    <arg value="- -reporter=plain"/>
+                                    <arg value="- -reporter=checkstyle,output=${project.build.directory}/ktlint.xml"/>
                                 </java>
                             </target>
                         </configuration>
@@ -477,9 +478,8 @@
                         <artifactId>ktlint</artifactId>
                         <version>0.15.0</version>
                     </dependency>
-                    <!-- additional 3rd party ruleset(s) can be specified here -->
                 </dependencies>
-            </plugin>
+            </plugin -->
         </plugins>
     </build>
 
