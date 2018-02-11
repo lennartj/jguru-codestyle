@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
-
 <!--
   ~ Copyright (c) jGuru Europe AB.
   ~ All rights reserved.
@@ -20,13 +19,13 @@
         <version>9</version>
     </parent>
 
-    <groupId>se.jguru.codestyle</groupId>
-    <artifactId>jguru-codestyle</artifactId>
+    <groupId>se.jguru.codestyle.poms</groupId>
+    <artifactId>jguru-codestyle-kotlin-internal-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
-    <description>jGuru Codestyle: Definitions (JAR, version ${project.version})</description>
+    <description>jGuru Codestyle: Kotlin Internal Parent (${project.packaging}}, version ${project.version})</description>
     <inceptionYear>2018</inceptionYear>
 
     <organization>
@@ -53,7 +52,7 @@
             These can be overridden in sub-reactors to tailor releases to other locations.
         -->
         <reactor.name>jguru-codestyle</reactor.name>
-        <path.in.reactor>codestyle</path.in.reactor>
+        <path.in.reactor>poms/kotlin-internal-parent</path.in.reactor>
 
         <!-- Kotlin constants -->
         <kotlin.version>1.2.21</kotlin.version>
@@ -80,6 +79,7 @@
         <maven.version>3.0</maven.version>
         <enforcer.api.version>1.4.1</enforcer.api.version>
         <jdk.version>1.8</jdk.version>
+        <validation-api.version>2.0.0.Final</validation-api.version>
 
         <!-- Code style properties -->
         <pmd.plugin.version>3.8</pmd.plugin.version>
@@ -94,6 +94,10 @@
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.1.4</versions-maven-plugin.version>
+
+        <!-- Standard test-scope properties -->
+        <junit.version>4.12</junit.version>
+        <cdi-unit.version>4.0.1</cdi-unit.version>
     </properties>
 
     <developers>
@@ -115,68 +119,87 @@
     # Section 2:  Dependency (management) settings
     ################################################
     -->
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.maven.enforcer</groupId>
-            <artifactId>enforcer-api</artifactId>
-            <version>${enforcer.api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-core</artifactId>
-            <version>${maven.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-artifact</artifactId>
-            <version>${maven.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-plugin-api</artifactId>
-            <version>${maven.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-container-default</artifactId>
-            <scope>provided</scope>
-            <version>1.7.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven.shared</groupId>
-            <artifactId>maven-plugin-testing-harness</artifactId>
-            <version>1.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--
+                JavaEE specification.
+            -->
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>7.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--
+                AOP dependencies.
+            -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.runtime.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjtools</artifactId>
+                <version>${aspectj.runtime.version}</version>
+            </dependency>
+
+            <!--
+                OSGi dependencies
+            -->
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>${osgiVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>osgi.cmpn</artifactId>
+                <version>${osgiVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.7</version>
+            </dependency>
+
+            <!--
+               Test framework dependencies
+            -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <scope>test</scope>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jglue.cdi-unit</groupId>
+                <artifactId>cdi-unit</artifactId>
+                <version>${cdi-unit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <!--
     ################################################
@@ -387,7 +410,7 @@
 
                 Why:  Plugin used to generate OSGi Manifest headers in JARs.
                 Used: As included in [sub]projects.
-            -->
+            -->             
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -410,75 +433,12 @@
                         <supportedProjectType>ear</supportedProjectType>
                     </supportedProjectTypes>
                     <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Embed-Directory>osgi/embedded</Embed-Directory>
                         <_consumer-policy><![CDATA[$<range;[===,+)>]]></_consumer-policy>
                         <_provider-policy><![CDATA[$<range;[===,=+)>]]></_provider-policy>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Embed-Directory>lib</Embed-Directory>
                     </instructions>
                 </configuration>
-            </plugin>
-
-            <!--
-                Use a standard Kotlin source code formatter.
-
-                Why:  Plugin used to provide source code Lint-ing.
-                Used: Standard lifecycle, verify phase
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <id>ktlint</id>
-                        <phase>verify</phase>
-                        <configuration>
-                            <target name="ktlint">
-                                <java taskname="ktlint"
-                                      dir="${basedir}"
-                                      fork="true"
-                                      failonerror="false"
-                                      classpathref="maven.plugin.classpath"
-                                      classname="com.github.shyiko.ktlint.Main">
-                                    <arg value="src/main/kotlin/**/*.kt"/>
-                                    <!--
-                                        Generates a Checkstyle-formatted report.
-
-                                        C.f. https://github.com/shyiko/ktlint#usage
-                                    -->
-                                    <arg value="--reporter=plain"/>
-                                    <arg value="--reporter=checkstyle,output=${project.build.directory}/ktlint.xml"/>
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>ktlint-format</id>
-                        <configuration>
-                            <target name="ktlint">
-                                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
-                                      classpathref="maven.plugin.classpath" classname="com.github.shyiko.ktlint.Main">
-                                    <arg value="-F"/>
-                                    <arg value="src/main/kotlin/**/*.kt"/>
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.github.shyiko</groupId>
-                        <artifactId>ktlint</artifactId>
-                        <version>0.15.0</version>
-                    </dependency>
-                    <!-- additional 3rd party ruleset(s) can be specified here -->
-                </dependencies>
             </plugin>
         </plugins>
     </build>

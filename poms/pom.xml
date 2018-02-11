@@ -23,7 +23,7 @@
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <url>${site.top.url}/${path.in.reactor}</url>
-    <description>jGuru Codestyle: POMs Reactor (POM, version ${project.version})</description>
+    <description>jGuru Codestyle: POMs Reactor (${project.packaging}}, version ${project.version})</description>
 
     <properties>
         <path.in.reactor>poms</path.in.reactor>
@@ -35,8 +35,11 @@
     ################################################
     -->
     <modules>
-        <module>tools-parent</module>
-        <module>external</module>
+        <module>kotlin-internal-parent</module>
+        <module>kotlin-parent</module>
+        <module>kotlin-api-parent</module>
+        <!-- module>kotlin-model-parent</module -->
+        <!-- module>kotlin-war-parent</module -->
     </modules>
 
     <!--

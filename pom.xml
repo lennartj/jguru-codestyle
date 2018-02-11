@@ -126,9 +126,9 @@
     -->
     <modules>
         <module>codestyle</module>
+        <module>poms</module>
         <!-- module>validation</module>
         <module>visualization</module>
-        <module>poms</module>
         <module>features-assembly</module -->
     </modules>
 

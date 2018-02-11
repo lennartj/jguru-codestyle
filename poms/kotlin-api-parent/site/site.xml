@@ -42,7 +42,6 @@
     <body>
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
-            <item name="Project Types" href="project_types.html"/>
         </menu>
 
         <menu ref="modules" inherit="bottom"/>

@@ -36,11 +36,11 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
     ASSEMBLY(".*-assembly$", null, "pom"),
 
     /**
-     * Aspect definition project, holding publicly available aspects.
+     * Aspect definition project, holding publicly available aspect implementations.
      */
     ASPECT(".*-aspect$", ".*\\.aspect$", "bundle|jar", false),
 
-    /**s
+    /**
      * Model project defining entities. May have test-scope dependencies on test and proof-of-concept projects.
      */
     MODEL(".*-model$", ".*\\.model$", "bundle|jar"),
