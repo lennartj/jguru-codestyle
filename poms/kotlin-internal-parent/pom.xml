@@ -25,7 +25,7 @@
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
-    <description>jGuru Codestyle: Kotlin Internal Parent (${project.packaging}}, version ${project.version})</description>
+    <description>jGuru Codestyle: Kotlin Internal Parent (${project.packaging}, version ${project.version})</description>
     <inceptionYear>2018</inceptionYear>
 
     <organization>
@@ -53,6 +53,7 @@
         -->
         <reactor.name>jguru-codestyle</reactor.name>
         <path.in.reactor>poms/kotlin-internal-parent</path.in.reactor>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
         <kotlin.version>1.2.21</kotlin.version>
@@ -80,6 +81,13 @@
         <enforcer.api.version>1.4.1</enforcer.api.version>
         <jdk.version>1.8</jdk.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
+
+        <!-- Commonly controlled version properties -->
+        <aspectj.runtime.version>1.8.13</aspectj.runtime.version>
+        <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
+        <osgi.version>6.0.0</osgi.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <logback.version>1.2.3</logback.version>
 
         <!-- Code style properties -->
         <pmd.plugin.version>3.8</pmd.plugin.version>
@@ -169,12 +177,12 @@
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>org.osgi.core</artifactId>
-                <version>${osgiVersion}</version>
+                <version>${osgi.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>osgi.cmpn</artifactId>
-                <version>${osgiVersion}</version>
+                <version>${osgi.version}</version>
             </dependency>
 
             <dependency>

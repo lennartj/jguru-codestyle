@@ -13,8 +13,8 @@ However, the tasks and uses of these 3 POM projects differ:
 2. **jguru-codestyle-kotlin-parent**: This is a POM intended as parent for projects
    which produce an artifact. Such projects typically have a POM whose packaging is JAR, WAR, EAR
    or bundle - but typically **not** with packaging POM and not defining any modules (Maven sub-projects).
-   The jguru-codestyle-kotlin-parent POM extends the `jguru-codestyle-kotlin-parent` POM by including 
-   some basic <a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming">aspects</a> which can be
+   The `jguru-codestyle-kotlin-parent` POM extends the `jguru-codestyle-kotlin-internal-parent` POM by including 
+   some basic [aspects](http://en.wikipedia.org/wiki/Aspect-oriented_programming) which can be
    used to ensure that objects are created with correct state (i.e. validate the internal state
    of objects). Typically, state validation is done after calling a constructor or after converting
    an object from another form (like XML or JSON during transport).

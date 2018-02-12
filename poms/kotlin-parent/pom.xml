@@ -24,7 +24,7 @@
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <url>${site.top.url}/${path.in.reactor}</url>
-    <description>jGuru Codestyle: Kotlin Parent (${project.packaging}}, version ${project.version})</description>
+    <description>jGuru Codestyle: Kotlin Parent (${project.packaging}, version ${project.version})</description>
 
     <properties>
         <!--
