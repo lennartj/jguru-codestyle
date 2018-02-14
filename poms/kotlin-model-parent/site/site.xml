@@ -42,7 +42,6 @@
     <body>
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
-            <item name="Dependency Injection" href="cdi_spec.html"/>
         </menu>
 
         <menu ref="modules" inherit="bottom"/>

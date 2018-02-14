@@ -59,8 +59,7 @@
         <kotlin.version>1.2.21</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
         <kotlin.plugin>jpa</kotlin.plugin>
-        <dokka.version>0.9.15</dokka.version>
-
+        
         <!--
             Define URL prefixes used in the various URL settings of the POM.
         -->
@@ -608,6 +607,66 @@
     ################################################
     -->
     <profiles>
+
+        <profile>
+            <id>jdk8</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+
+            <properties>
+
+                <!-- Include Dokka -->
+                <dokka.version>0.9.15</dokka.version>
+                <dokka.outputFormat>javadoc</dokka.outputFormat>
+            </properties>
+
+            <build>
+                <pluginManagement>
+                    <plugins>
+
+                        <!--
+                            Dokka Maven Plugin provides javadoc-a-like documentation for Kotlin classes.
+                            This plugin only works with JDK8, though, since it depends on the tools.jar
+                            for its execution.
+                        -->
+                        <plugin>
+                            <groupId>org.jetbrains.dokka</groupId>
+                            <artifactId>dokka-maven-plugin</artifactId>
+                            <version>${dokka.version}</version>
+                            <configuration>
+                                <outputDir>${project.reporting.outputDirectory}/dokka</outputDir>
+                                <outputFormat>${dokka.outputFormat}</outputFormat>
+                                <jdkVersion>8</jdkVersion>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+
+                <plugins>
+
+                    <!--
+                        Dokka Maven Plugin provides javadoc-a-like documentation for Kotlin classes.
+                        This plugin only works with JDK8, though, since it depends on the tools.jar
+                        for its execution.
+                    -->
+                    <plugin>
+                        <groupId>org.jetbrains.dokka</groupId>
+                        <artifactId>dokka-maven-plugin</artifactId>
+                        <version>${dokka.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>pre-site</phase>
+                                <goals>
+                                    <goal>dokka</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
 
         <!--
             Release profile for Nazgul Reactors.
