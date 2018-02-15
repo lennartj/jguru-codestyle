@@ -38,8 +38,8 @@
         <module>kotlin-internal-parent</module>
         <module>kotlin-parent</module>
         <module>kotlin-api-parent</module>
-        <!-- module>kotlin-model-parent</module -->
-        <!-- module>kotlin-war-parent</module -->
+        <module>kotlin-model-parent</module>
+        <module>kotlin-war-parent</module>
     </modules>
 
     <!--

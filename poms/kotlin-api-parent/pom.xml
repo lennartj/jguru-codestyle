@@ -14,9 +14,9 @@
     -->
     <parent>
         <groupId>se.jguru.codestyle.poms</groupId>
-        <artifactId>jguru-codestyle-kotlin-internal-parent</artifactId>
+        <artifactId>jguru-codestyle-kotlin-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../kotlin-internal-parent</relativePath>
+        <relativePath>../kotlin-parent</relativePath>
     </parent>
 
     <groupId>se.jguru.codestyle.poms</groupId>

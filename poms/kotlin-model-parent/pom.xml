@@ -16,7 +16,7 @@
         <groupId>se.jguru.codestyle.poms</groupId>
         <artifactId>jguru-codestyle-kotlin-api-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../kotlin-internal-api-parent</relativePath>
+        <relativePath>../kotlin-api-parent</relativePath>
     </parent>
 
     <groupId>se.jguru.codestyle.poms</groupId>
@@ -55,54 +55,296 @@
                 <version>${nazgul-core.version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>xmlunit</groupId>
-                <artifactId>xmlunit</artifactId>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <!--
-    ################################################
-    # Section 3:  Build settings
-    ################################################
-    -->
+    <!-- +=============================================== -->
+    <!-- | Section 3:  Build settings                     -->
+    <!-- +=============================================== -->
     <build>
+        <sourceDirectory>src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
+
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${project.build.directory}/jaxb2/transformed</directory>
+                <includes>
+                    <include>**/*.xsd</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
             <!--
-                Define OSGi bundle plugin version, and export all packages within this API.
-                (APIs should be fully exported to comply with the modularization standard.)
-
-                Why:  Plugin used to generate OSGi Manifest headers in JARs.
-                Used: As included in [sub]projects.
+                The Jaxb2 plugin cannot generate XSDs for Kotlin code. Yet.
             -->
             <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>bundle-manifest</id>
-                        <phase>process-classes</phase>
+                        <id>schemagen</id>
                         <goals>
-                            <goal>manifest</goal>
+                            <goal>schemagen</goal>
                         </goals>
+                        <phase />
                     </execution>
                 </executions>
-                <configuration combine.self="append">
-                    <instructions>
-                        <Export-Package>{local-packages}</Export-Package>
-                    </instructions>
+            </plugin>
+
+            <!--
+                Configure the Surefire plugin to run using 2 forks per core.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <jpa_provider_class>${jpa.provider.class}</jpa_provider_class>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
-    <!--
-    ################################################
-    # Section 4:  External systems
-    ################################################
-    -->
+    <!-- +=============================================== -->
+    <!-- | Section 5:  Profiles                           -->
+    <!-- +=============================================== -->
+    <profiles>
+
+        <profile>
+            <id>eclipselink2</id>
+            <activation>
+                <property>
+                    <name>!jpaSpec</name>
+                </property>
+            </activation>
+
+            <properties>
+                <jpa.provider.class>org.eclipse.persistence.jpa.PersistenceProvider</jpa.provider.class>
+                <surefire.argLine>-javaagent:${basedir}/target/eclipselink.jar -Dfile.encoding=UTF-8 -Xmx1024m
+                    -XX:MaxPermSize=512m
+                </surefire.argLine>
+
+                <!-- Eclipselink versions -->
+                <org.eclipse.persistence.osgi.version>2.2.0</org.eclipse.persistence.osgi.version>
+                <org.eclipse.persistence.version>2.7.1</org.eclipse.persistence.version>
+                <hibernate.validator.version>6.0.7.Final</hibernate.validator.version>
+            </properties>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.eclipse.persistence</groupId>
+                        <artifactId>javax.persistence</artifactId>
+                        <version>${org.eclipse.persistence.osgi.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.eclipse.persistence</groupId>
+                        <artifactId>eclipselink</artifactId>
+                        <version>${org.eclipse.persistence.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-validator</artifactId>
+                        <version>${hibernate.validator.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+            <dependencies>
+
+                <!-- Standard, persistence-API-related dependencies -->
+                <dependency>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>javax.persistence</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>eclipselink</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- Test-scope dependencies -->
+                <dependency>
+                    <groupId>org.xmlunit</groupId>
+                    <artifactId>xmlunit-matchers</artifactId>
+                    <version>${xmlunit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.xmlunit</groupId>
+                    <artifactId>xmlunit-core</artifactId>
+                    <version>${xmlunit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <!--
+                        Use the dependency plugin to copy the EclipseLink runtime
+                        to the target directory.
+                    -->
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.10</version>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.eclipse.persistence</groupId>
+                                            <artifactId>eclipselink</artifactId>
+                                            <version>${eclipselink.version}</version>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                            <destFileName>eclipselink.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>openjpa2</id>
+
+            <activation>
+                <property>
+                    <name>jpaSpec</name>
+                    <value>openjpa2</value>
+                </property>
+            </activation>
+
+            <properties>
+                <openjpa.version>2.4.0</openjpa.version>
+                <openjpa.includes>se/jguru/nazgul/**/*.class</openjpa.includes>
+                <openjpa.excludes>se/jguru/nazgul/core/xmlbinding/spi/jaxb/transport/EntityWrapper.class
+                </openjpa.excludes>
+                <openjpa.persistenceXmlPath>weaving/openjpa/v2/${project.artifactId}-persistence.xml
+                </openjpa.persistenceXmlPath>
+                <openjpa.persistenceXmlFile>${project.basedir}/src/main/${openjpa.persistenceXmlPath}
+                </openjpa.persistenceXmlFile>
+                <openjpa.persistenceXmlTestFile>${project.basedir}/src/test/${openjpa.persistenceXmlPath}
+                </openjpa.persistenceXmlTestFile>
+                <jpa.provider.class>org.apache.openjpa.persistence.PersistenceProviderImpl</jpa.provider.class>
+                <surefire.argLine>-javaagent:${basedir}/target/openjpa.jar -Dfile.encoding=UTF-8 -Xmx1024m
+                    -XX:MaxPermSize=512m
+                </surefire.argLine>
+            </properties>
+
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jpa_2.0_spec</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.openjpa</groupId>
+                    <artifactId>openjpa</artifactId>
+                    <version>${openjpa.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.hsqldb</groupId>
+                    <artifactId>hsqldb</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <!--
+                            OpenJPA static enhancement.
+                        -->
+                        <plugin>
+                            <groupId>org.apache.openjpa</groupId>
+                            <artifactId>openjpa-maven-plugin</artifactId>
+                            <version>${openjpa.version}</version>
+                            <configuration>
+                                <includes>${openjpa.includes}</includes>
+                                <excludes>${openjpa.excludes}</excludes>
+                                <addDefaultConstructor>true</addDefaultConstructor>
+                                <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>weave-openjpa-test-classes</id>
+                                    <phase>process-test-classes</phase>
+                                    <goals>
+                                        <goal>test-enhance</goal>
+                                        <goal>sql</goal>
+                                    </goals>
+                                    <configuration>
+                                        <persistenceXmlFile>${openjpa.persistenceXmlTestFile}</persistenceXmlFile>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>org.apache.openjpa</groupId>
+                                    <artifactId>openjpa</artifactId>
+                                    <version>${openjpa.version}</version>
+                                </dependency>
+                            </dependencies>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+
+                <plugins>
+                    <!--
+                        Use the dependency plugin to copy the OpenJPA runtime
+                        to the target directory.
+                    -->
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.apache.openjpa</groupId>
+                                            <artifactId>openjpa</artifactId>
+                                            <version>${openjpa.version}</version>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                            <destFileName>openjpa.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!--
+                    <plugin>
+                        <groupId>org.apache.openjpa</groupId>
+                        <artifactId>openjpa-maven-plugin</artifactId>
+                    </plugin>
+                    -->
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <!--
         Compensate for Maven standard variable extrapolation.

@@ -118,10 +118,10 @@
                     <groupId>javax.validation</groupId>
                     <artifactId>validation-api</artifactId>
                 </dependency>
-                <dependency>
+                <!-- dependency>
                     <groupId>javax</groupId>
                     <artifactId>javaee-api</artifactId>
-                </dependency>
+                </dependency -->
             </dependencies>
         </profile>
 
