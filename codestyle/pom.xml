@@ -18,6 +18,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
+        <relativePath/>
     </parent>
 
     <groupId>se.jguru.codestyle</groupId>
@@ -33,10 +34,6 @@
         <name>jGuru Europe AB</name>
         <url>http://www.jguru.se/</url>
     </organization>
-
-    <prerequisites>
-        <maven>${maven.version}</maven>
-    </prerequisites>
 
     <licenses>
         <license>
@@ -243,7 +240,6 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-
             </plugins>
         </pluginManagement>
 
@@ -415,6 +411,33 @@
                         <Embed-Directory>lib</Embed-Directory>
                     </instructions>
                 </configuration>
+            </plugin>
+
+            <!--
+                Enforce not importing incorrect projects.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4.1</version>
+                <executions>
+                    <execution>
+                        <id>enforce-imports</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.0.4,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${jdk.version}</version>
+                                </requireJavaVersion>>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <!--

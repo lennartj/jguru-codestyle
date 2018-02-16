@@ -3,6 +3,8 @@
   ~ Copyright (c) jGuru Europe AB.
   ~ All rights reserved.
   -->
+
+<!--suppress MavenRedundantGroupId -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -239,18 +241,12 @@
             <properties>
                 <openjpa.version>2.4.0</openjpa.version>
                 <openjpa.includes>se/jguru/nazgul/**/*.class</openjpa.includes>
-                <openjpa.excludes>se/jguru/nazgul/core/xmlbinding/spi/jaxb/transport/EntityWrapper.class
-                </openjpa.excludes>
-                <openjpa.persistenceXmlPath>weaving/openjpa/v2/${project.artifactId}-persistence.xml
-                </openjpa.persistenceXmlPath>
-                <openjpa.persistenceXmlFile>${project.basedir}/src/main/${openjpa.persistenceXmlPath}
-                </openjpa.persistenceXmlFile>
-                <openjpa.persistenceXmlTestFile>${project.basedir}/src/test/${openjpa.persistenceXmlPath}
-                </openjpa.persistenceXmlTestFile>
+                <openjpa.excludes>se/jguru/nazgul/core/xmlbinding/spi/jaxb/transport/EntityWrapper.class</openjpa.excludes>
+                <openjpa.persistenceXmlPath>weaving/openjpa/v2/${project.artifactId}-persistence.xml</openjpa.persistenceXmlPath>
+                <openjpa.persistenceXmlFile>${project.basedir}/src/main/${openjpa.persistenceXmlPath}</openjpa.persistenceXmlFile>
+                <openjpa.persistenceXmlTestFile>${project.basedir}/src/test/${openjpa.persistenceXmlPath}</openjpa.persistenceXmlTestFile>
                 <jpa.provider.class>org.apache.openjpa.persistence.PersistenceProviderImpl</jpa.provider.class>
-                <surefire.argLine>-javaagent:${basedir}/target/openjpa.jar -Dfile.encoding=UTF-8 -Xmx1024m
-                    -XX:MaxPermSize=512m
-                </surefire.argLine>
+                <surefire.argLine>-javaagent:${basedir}/target/openjpa.jar -Dfile.encoding=UTF-8 -Xmx1024m</surefire.argLine>
             </properties>
 
             <dependencies>

@@ -3,6 +3,8 @@
   ~ Copyright (c) jGuru Europe AB.
   ~ All rights reserved.
   -->
+
+<!--suppress MavenRedundantGroupId -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -36,6 +38,11 @@
         <!-- Dependency properties -->
         <nazgul-tools.version>6.0.3</nazgul-tools.version>
         <nazgul-core.version>3.0.0</nazgul-core.version>
+
+        <!-- License plugin configuration parameters. -->
+        <license.id>jguru_apl_v2</license.id>
+        <license.licenseResolver>classpath://codestyle/license</license.licenseResolver>
+        <breakOnFailure.license>true</breakOnFailure.license>
     </properties>
 
     <!--
@@ -64,6 +71,101 @@
     # Section 3:  Build settings
     ################################################
     -->
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!--
+                    The license plugin is quite inflexible about the format for the injected/detected file header
+                    in terms of license structure. Use it as intended, but provide a variable to handle the
+                    desired license and license resolver.
+
+                    Why:  Ensures that all files contain a license header.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>1.14</version>
+                    <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <descriptionTemplate>/codestyle/license/${license.id}/licenseDescriptionTemplate.ftl</descriptionTemplate>
+                        <failOnMissingHeader>${breakOnFailure.license}</failOnMissingHeader>
+                        <licenseName>${license.id}</licenseName>
+                        <licenseResolver>${license.licenseResolver}</licenseResolver>
+                        <canUpdateDescription>true</canUpdateDescription>
+                        <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+                        <licenseFile>${project.build.directory}/LICENSE.TXT</licenseFile>
+                        <roots>
+                            <root>${project.basedir}/src/main</root>
+                            <root>${project.basedir}/src/site</root>
+                        </roots>
+                        <excludes>
+                            <!-- Custom excludes -->
+                            <param>**/*.json</param>
+                            <!-- Modelling filetypes -->
+                            <param>**/*.zargo</param>
+                            <param>**/*.uml</param>
+                            <param>**/*.umldi</param>
+                            <param>**/*.umldi</param>
+                            <param>**/*.xmi</param>
+                            <!-- Image filetypes -->
+                            <param>**/*.img</param>
+                            <param>**/*.png</param>
+                            <param>**/*.jpg</param>
+                            <param>**/*.jpeg</param>
+                            <param>**/*.gif</param>
+                            <!-- Archives -->
+                            <param>**/*.zip</param>
+                            <param>**/*.jar</param>
+                            <param>**/*.war</param>
+                            <param>**/*.ear</param>
+                            <param>**/*.tgz</param>
+                            <param>**/*.gz</param>
+                        </excludes>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>1.0.0-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <!--
+                The license plugin is quite inflexible about the format for the injected/detected file header
+                in terms of license structure. Use it as intended, but provide a variable to handle the
+                desired license and license resolver.
+
+                Why:  Ensures that all files contain a license header.
+                Used: Standard lifecycle, mvn package.
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>check-file-header</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>check-file-header</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>add-license</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>update-project-license</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <!--
     ################################################
