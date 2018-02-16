@@ -34,7 +34,7 @@
         <path.in.reactor>poms/kotlin-model-parent</path.in.reactor>
 
         <!-- Version definitions -->
-        <nazgul-core.version>3.0.0</nazgul-core.version>
+        <hsqldb.version>2.4.0</hsqldb.version>
     </properties>
 
     <!--
@@ -53,6 +53,12 @@
                 <groupId>se.jguru.nazgul.core.xmlbinding.spi.jaxb</groupId>
                 <artifactId>nazgul-core-xmlbinding-spi-jaxb</artifactId>
                 <version>${nazgul-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>${hsqldb.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
