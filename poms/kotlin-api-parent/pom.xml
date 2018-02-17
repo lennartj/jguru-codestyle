@@ -48,6 +48,36 @@
     ################################################
     -->
     <build>
+        <pluginManagement>
+            <plugins>
+                <!--
+                    Define OSGi bundle plugin version, and export all packages within this API.
+                    (APIs should be fully exported to comply with the modularization standard.)
+
+                    Why:  Plugin used to generate OSGi Manifest headers in JARs.
+                    Used: As included in [sub]projects.
+                -->
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <executions>
+                        <execution>
+                            <id>bundle-manifest</id>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>manifest</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration combine.self="append">
+                        <instructions>
+                            <Export-Package>{local-packages}</Export-Package>
+                        </instructions>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <!--
                 Define OSGi bundle plugin version, and export all packages within this API.
@@ -68,11 +98,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration combine.self="append">
-                    <instructions>
-                        <Export-Package>{local-packages}</Export-Package>
-                    </instructions>
-                </configuration>
             </plugin>
         </plugins>
     </build>
