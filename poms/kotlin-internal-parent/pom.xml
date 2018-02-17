@@ -26,14 +26,15 @@
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
-    <description>jGuru Codestyle: Kotlin Internal Parent (${project.packaging}, version ${project.version})</description>
+    <description>jGuru Codestyle: Kotlin Internal Parent (${project.packaging}, version ${project.version})
+    </description>
     <inceptionYear>2018</inceptionYear>
 
     <organization>
         <name>jGuru Europe AB</name>
         <url>http://www.jguru.se/</url>
     </organization>
-    
+
     <licenses>
         <license>
             <name>jGuru Europe Corporate Source License, based on The Apache Software License, Version 2.0</name>
@@ -85,7 +86,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
         <xmlunit.version>2.5.1</xmlunit.version>
-        
+
         <!-- Code style properties -->
         <pmd.plugin.version>3.8</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
@@ -267,7 +268,7 @@
                         <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
-                
+
                 <!--
                     Ensure that the kotlin-maven-plugin uses the standard src/main/kotlin
                     and src/test/kotlin directories.
@@ -406,8 +407,8 @@
                                 <sourceRoot>src/main/java</sourceRoot>
                                 <sourceRoot>src/main/kotlin</sourceRoot>
                             </compileSourceRoots>
-                        </configuration>
-                    </execution -->
+                        </configuration -->
+                    </execution>
                     <execution>
                         <id>java-test-compile</id>
                         <phase>test-compile</phase>
