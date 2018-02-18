@@ -224,6 +224,17 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <!--
+            Always have the Codestyle Annotations available.
+        -->
+        <dependency>
+            <groupId>se.jguru.codestyle.annotations</groupId>
+            <artifactId>jguru-codestyle-annotations</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
     <!--
     ################################################
     # Section 3:  Build settings
@@ -288,7 +299,7 @@
                         </compilerPlugins>
                         <pluginOptions>
                             <option>no-arg:annotation=se.jguru.codestyle.annotations.AddDefaultConstructor</option>
-                            <option>spring:annotation=se.jguru.codestyle.annotations.UseSpring</option>
+                            <option>spring:annotation=se.jguru.codestyle.annotations.UsesSpringFramework</option>
                             <option>sam-with-receiver:annotation=se.jguru.codestyle.annotations.ReceiverIsThisInSingleAbstractMethod</option>
                             <!-- Call instance initializers in the synthetic constructor -->
                             <!-- <option>no-arg:invokeInitializers=true</option> -->
