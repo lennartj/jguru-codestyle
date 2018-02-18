@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package se.jguru.codestyle.projects.junit
+package se.jguru.codestyle.annotations.junit
 
 /**
  * jUnit group category interface, indicating tests which should
