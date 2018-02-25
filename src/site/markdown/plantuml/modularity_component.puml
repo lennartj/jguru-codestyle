@@ -1,0 +1,8 @@
+@startuml
+
+model -- [Software Component]
+api -- [Software Component]
+
+model <. api : depends on
+
+@enduml

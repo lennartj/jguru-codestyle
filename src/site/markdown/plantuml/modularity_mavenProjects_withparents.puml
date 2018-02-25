@@ -1,0 +1,37 @@
+@startuml
+
+skinparam component {
+  BackgroundColor<<Private>> #EEEEFF
+  BorderColor<<Private>> black
+}
+
+node "poms in project [forodrim]" {
+    component "forodrim-parent"
+    component "forodrim-api-parent"
+    component "forodrim-model-parent"
+
+    [forodrim-api-parent] <|-- [forodrim-model-parent] : has parent
+    [forodrim-parent] <|-- [forodrim-api-parent] : has parent
+}
+
+node "Software Component [foo] in project [forodrim]" {
+
+    component "forodrim-foo-impl-bar"<<Private>>
+    component "forodrim-foo-impl-baz"<<Private>>
+    component "forodrim-foo-impl-gnat"<<Private>>
+
+    [forodrim-foo-model] *-- [forodrim-foo-api] : depends on
+    [forodrim-foo-api] *--- [forodrim-foo-impl-bar] : depends on
+    [forodrim-foo-api] *-- [forodrim-foo-spi-baz] : depends on
+    [forodrim-foo-spi-baz] *-- [forodrim-foo-impl-baz] : depends on
+    [forodrim-foo-spi-baz] *-- [forodrim-foo-impl-gnat] : depends on
+
+    [forodrim-model-parent] <|-- [forodrim-foo-model] : has parent
+    [forodrim-api-parent] <|-- [forodrim-foo-api] : has parent
+    [forodrim-api-parent] <|-- [forodrim-foo-spi-baz] : has parent
+    [forodrim-parent] <|-- [forodrim-foo-impl-baz] : has parent
+    [forodrim-parent] <|-- [forodrim-foo-impl-gnat] : has parent
+    [forodrim-parent] <|-- [forodrim-foo-impl-bar] : has parent
+}
+
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+
+skinparam class {
+  BackgroundColor<<Impl>> #EEEEFF
+  BorderColor<<Impl>> black
+}
+
+package "4. Run-time Dependencies" {
+
+    package "3. Compile-time Dependencies for API usage" #fffff0 {
+
+        package "1. All-In-One" {
+
+            interface ApiType {
+                someMethod()
+            }
+
+            class "ImplType" <<Impl>>
+
+            ApiType *--right-- ImplType
+        }
+
+        package "2a. ApiDependencies" {
+
+            class SomeDependency
+
+            ApiType --* SomeDependency
+        }
+
+        package "2b. ImplDependencies" {
+
+            ImplType --* SomeImplDependency1 <<Impl>>
+            ImplType --* SomeImplDependency2 <<Impl>>
+        }
+    }
+}
+
+class "Calling Client"
+ApiType <..down. "Calling Client"
+
+@enduml

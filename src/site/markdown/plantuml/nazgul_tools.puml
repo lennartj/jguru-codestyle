@@ -1,0 +1,36 @@
+@startuml
+
+skinparam component {
+  BackgroundColor<<External>> #EEEEFF
+  BorderColor<<External>> black
+}
+
+component codestyle
+component "nazgul-tools-root"
+
+node poms {
+
+    component "tools-parent"
+
+    package external {
+
+        component "parent"<<External>>
+        component "reactor-parent"<<External>>
+    }
+
+    [codestyle] *--- [tools-parent]
+    [tools-parent] <|--- [parent]
+    [nazgul-tools-root] <|----- [reactor-parent]
+}
+
+node validation {
+
+    component "validation-api"
+    component "validation-aspect"
+
+    [tools-parent] <|-- [validation-api]
+    [validation-api] <|-- [validation-aspect]
+    [validation-aspect] *-- [parent]
+}
+
+@enduml

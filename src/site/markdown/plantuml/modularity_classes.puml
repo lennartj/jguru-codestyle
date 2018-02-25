@@ -1,0 +1,47 @@
+@startuml
+
+title Simple Domain Component Structure [Organisation]
+
+
+package "[a.package.structure].configuration" #F0F0F0 {
+
+
+package configuration-model #FFFFFF {
+
+    class Property {
+        state
+        ---
+        Property(...)
+        ...
+        getterMethods()
+    }
+}
+
+package configuration-api #FFFFFF {
+
+    interface Configuration {
+        V get(K key)
+    }
+
+    abstract class AbstractCacheBackedConfiguration {
+        <<Contains>>
+    }
+
+    Configuration <|-- AbstractCacheBackedConfiguration
+    Property <|-- Configuration
+}
+
+package configuration-impl-hazelcast #FFFFFF {
+
+   class HazelcastBackedConfiguration {
+        <<full implementation here>>
+   }
+
+   AbstractCacheBackedConfiguration <|-- HazelcastBackedConfiguration
+}
+
+"configuration-model" <|.... "configuration-api"
+"configuration-api" <|.... "configuration-impl-hazelcast"
+
+}
+@enduml

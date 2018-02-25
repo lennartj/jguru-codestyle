@@ -1,0 +1,26 @@
+@startuml
+
+skinparam component {
+  BackgroundColor<<Private>> #EEEEFF
+  BorderColor<<Private>> black
+}
+
+node "Software Component [foo]" {
+
+    component "foo-impl-bar"<<Private>>
+    component "foo-impl-baz"<<Private>>
+    component "foo-impl-gnat"<<Private>>
+    component "foo-example"<<Private>>
+
+    [foo-model] *-- [foo-api]
+    [foo-api] *--- [foo-impl-bar]
+    [foo-api] *-- [foo-spi-baz]
+    [foo-spi-baz] *-- [foo-impl-baz]
+    [foo-spi-baz] *-- [foo-impl-gnat]
+
+    [foo-impl-bar] *-- [foo-example]
+    [foo-impl-baz] *-- [foo-example]
+    [foo-impl-gnat] *-- [foo-example]
+}
+
+@enduml

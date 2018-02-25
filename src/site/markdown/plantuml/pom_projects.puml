@@ -1,0 +1,34 @@
+@startuml
+
+skinparam component {
+  BackgroundColor<<Reactor>> #EEEEFF
+  BorderColor<<Reactor>> black
+}
+
+node nazgul_tools {
+    component "nazgul-tools-external-parent"
+    component "nazgul-tools-external-reactor-parent"<<Reactor>>
+}
+
+node nazgul_core {
+    component "nazgul-core-parent"
+
+    [nazgul-tools-external-parent] <|-- [nazgul-core-parent]
+}
+
+node your_reactor {
+    component "your-parent"
+    component "your-api-parent"
+    component "your-model-parent"
+    component "your-war-parent"
+    component "your-reactor"<<Reactor>>
+
+    [nazgul-core-parent] <|-- [your-parent]
+    [your-parent] <|-- [your-api-parent]
+    [your-api-parent] <|-- [your-model-parent]
+    [your-api-parent] <|-- [your-war-parent]
+    [nazgul-tools-external-reactor-parent] <|-- [your-reactor]
+}
+
+
+@enduml

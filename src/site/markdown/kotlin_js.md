@@ -3,7 +3,7 @@
 The Kotlin compiler can produce JavaScript which execute within a Browser or on NodeJS servers.
 The `jGuru Codestyle Parent POM` is tailored to simplify working with Kotlin-only projects,
 and has defined some properties to handle this in an extensible way. Typically these properties
-control the versions of Kotlin, its emitted Ecmascript version, its documentation plugin and its modules. 
+control the versions of Kotlin, its emitted Ecmascript version, its documentation plugin and its modules.
 
 ## `kotlin.version` property
 
@@ -13,18 +13,16 @@ within your project on the following form:
 
     <kotlin.version>1.2.21</kotlin.version>         
 
-## `kotlinjs.outputfile` property
+## `kotlin.js.sourceMap` property
 
-By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit its JavaScript code
-into the `target/web/${project.artifactId}_${project.version}.js`.
-If you prefer another output file, supply another value for the kotlinjs.outputfile property: 
+Boolean variable indicating whether or not the emitted JavaScript should contain a source map. 
 
-    <kotlinjs.outputfile>target/foo/bar.js</kotlinjs.outputfile>
+    <kotlin.js.sourceMap>true</kotlin.js.sourceMap>
     
-## `kotlinjs.modulekind` property
+## `kotlin.js.moduleKind` property
 
 By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit plain JavaScript modules.
-Assign the `kotlinjs.modulekind` property to another value should you desire another output.
+Assign the `kotlin.js.moduleKind` property to another value should you desire another output.
 Permitted values are:
 
 1. plain (default)
@@ -34,5 +32,5 @@ Permitted values are:
 
 Hence - for example:
 
-    <kotlinjs.modulekind>commonjs</kotlinjs.modulekind>
+    <kotlin.js.moduleKind>commonjs</kotlin.js.moduleKind>
         
