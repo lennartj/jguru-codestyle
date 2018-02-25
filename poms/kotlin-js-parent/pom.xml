@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  ~ Copyright (c) jGuru Europe AB.
+  ~ All rights reserved.
+  -->
+
+<!--suppress MavenRedundantGroupId -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+    ################################################
+    # Section 1:  Project information
+    ################################################
+    -->
+    <parent>
+        <groupId>se.jguru.codestyle.poms</groupId>
+        <artifactId>jguru-codestyle-kotlin-internal-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../kotlin-internal-parent</relativePath>
+    </parent>
+
+    <groupId>se.jguru.codestyle.poms</groupId>
+    <artifactId>jguru-codestyle-kotlin-javascript-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <url>${site.top.url}/${path.in.reactor}</url>
+    <description>jGuru Codestyle: Kotlin JavaScript Parent (${project.packaging}, version ${project.version})
+    </description>
+
+    <properties>
+        <!--
+            Define the URL prefixes for Site Deployment and DistributionManagement.
+            These can be overridden in sub-reactors to tailor releases to other locations.
+        -->
+        <path.in.reactor>poms/kotlin-js-parent</path.in.reactor>
+
+        <!-- Dependency properties -->
+        <nazgul-tools.version>6.0.3</nazgul-tools.version>
+        <nazgul-core.version>3.0.0</nazgul-core.version>
+
+        <!-- Kotlin JS compiler options -->
+        <kotlin.js.sourceMap>true</kotlin.js.sourceMap>
+        <kotlin.js.moduleKind>plain</kotlin.js.moduleKind>
+
+        <!-- License plugin configuration parameters. -->
+        <license.id>jguru_apl_v2</license.id>
+        <license.licenseResolver>classpath://codestyle/license</license.licenseResolver>
+        <breakOnFailure.license>true</breakOnFailure.license>
+    </properties>
+
+    <!--
+    ################################################
+    # Section 2:  Dependency (management) settings
+    ################################################
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-js</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-test-js</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-js</artifactId>
+        </dependency>
+
+        <!--
+            Test-scope dependencies
+        -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test-js</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!--
+    ################################################
+    # Section 3:  Build settings
+    ################################################
+    -->
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!--
+                    The license plugin is quite inflexible about the format for the injected/detected file header
+                    in terms of license structure. Use it as intended, but provide a variable to handle the
+                    desired license and license resolver.
+
+                    Why:  Ensures that all files contain a license header.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>1.14</version>
+                    <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <descriptionTemplate>/codestyle/license/${license.id}/licenseDescriptionTemplate.ftl
+                        </descriptionTemplate>
+                        <failOnMissingHeader>${breakOnFailure.license}</failOnMissingHeader>
+                        <licenseName>${license.id}</licenseName>
+                        <licenseResolver>${license.licenseResolver}</licenseResolver>
+                        <canUpdateDescription>true</canUpdateDescription>
+                        <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+                        <licenseFile>${project.build.directory}/LICENSE.TXT</licenseFile>
+                        <roots>
+                            <root>${project.basedir}/src/main</root>
+                            <root>${project.basedir}/src/site</root>
+                        </roots>
+                        <excludes>
+                            <!-- Custom excludes -->
+                            <param>**/*.json</param>
+                            <!-- Modelling filetypes -->
+                            <param>**/*.zargo</param>
+                            <param>**/*.uml</param>
+                            <param>**/*.umldi</param>
+                            <param>**/*.umldi</param>
+                            <param>**/*.xmi</param>
+                            <!-- Image filetypes -->
+                            <param>**/*.img</param>
+                            <param>**/*.png</param>
+                            <param>**/*.jpg</param>
+                            <param>**/*.jpeg</param>
+                            <param>**/*.gif</param>
+                            <!-- Archives -->
+                            <param>**/*.zip</param>
+                            <param>**/*.jar</param>
+                            <param>**/*.war</param>
+                            <param>**/*.ear</param>
+                            <param>**/*.tgz</param>
+                            <param>**/*.gz</param>
+                        </excludes>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>1.0.0-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Ensure that the kotlin-maven-plugin uses the standard src/main/kotlin
+                    and src/test/kotlin directories.
+
+                    Why:  Ensures standard placement for Kotlin sources.
+                    Used: Standard lifecycle, mvn compile / test-compile.
+                -->
+                <plugin>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-maven-plugin</artifactId>
+                    <version>${kotlin.version}</version>
+                    <configuration combine.self="override">
+                        <compilerPlugins>
+                            <plugin>no-arg</plugin>
+                        </compilerPlugins>
+                        <pluginOptions>
+                            <option>no-arg:annotation=se.jguru.codestyle.annotations.AddDefaultConstructor</option>
+                            <!-- Call instance initializers in the synthetic constructor -->
+                            <!-- <option>no-arg:invokeInitializers=true</option> -->
+                        </pluginOptions>
+
+                        <!-- JavaScript-specific compiler options -->
+                        <sourceMap>${kotlin.js.sourceMap}</sourceMap>
+                        <moduleKind>${kotlin.js.moduleKind}</moduleKind>
+                        
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.jetbrains.kotlin</groupId>
+                            <artifactId>kotlin-maven-noarg</artifactId>
+                            <version>${kotlin.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>se.jguru.codestyle.annotations</groupId>
+                            <artifactId>jguru-codestyle-annotations</artifactId>
+                            <version>1.0.0-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <!--
+                The license plugin is quite inflexible about the format for the injected/detected file header
+                in terms of license structure. Use it as intended, but provide a variable to handle the
+                desired license and license resolver.
+
+                Why:  Ensures that all files contain a license header.
+                Used: Standard lifecycle, mvn package.
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>check-file-header</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>check-file-header</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>add-license</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>update-project-license</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                Ensures that the Kotlin Maven plugin is used to compile JavaScript.
+                
+                Why:  Perform a JavaScript compilation
+                Used: Standard lifecycle, mvn compile.
+            -->
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>js</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--
+    ################################################
+    # Section 4:  External systems
+    ################################################
+    -->
+
+    <!--
+        Compensate for Maven standard variable extrapolation.
+        Git requires steady URLs (... but Subversion requires path extrapolation, hence the problem).
+     -->
+    <distributionManagement>
+        <site>
+            <id>github_site</id>
+            <name>GitHub Site for Nazgul Tools</name>
+            <url>${site.top.url}/${path.in.reactor}</url>
+        </site>
+    </distributionManagement>
+
+    <!--
+        Define connections for Maven's VCS integration.
+    -->
+    <scm>
+        <connection>${scm.connection.url}</connection>
+        <developerConnection>${scm.devConnection.url}</developerConnection>
+        <url>${scm.url}</url>
+        <tag>HEAD</tag>
+    </scm>
+</project>
