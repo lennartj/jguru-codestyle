@@ -390,6 +390,15 @@
                     </configuration>
                 </plugin>
 
+                <!--
+                    Generate maven dependencies listing file
+                 -->
+                <plugin>
+                    <groupId>org.apache.servicemix.tooling</groupId>
+                    <artifactId>depends-maven-plugin</artifactId>
+                    <version>1.4.0</version>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -507,6 +516,24 @@
                     <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
                     <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
                 </configuration>
+            </plugin>
+
+            <!--
+                Generate maven dependencies listing file
+
+                Used: Standard lifecycle, mvn compile.
+            -->
+            <plugin>
+                <groupId>org.apache.servicemix.tooling</groupId>
+                <artifactId>depends-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-depends-file</id>
+                        <goals>
+                            <goal>generate-depends-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!--
