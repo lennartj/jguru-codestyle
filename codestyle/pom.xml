@@ -53,7 +53,7 @@
         <path.in.reactor>codestyle</path.in.reactor>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.21</kotlin.version>
+        <kotlin.version>1.2.30</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
         <kotlin.plugin>jpa</kotlin.plugin>
         
