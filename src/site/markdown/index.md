@@ -11,7 +11,35 @@ The jGuru Codestyle project provides parents and plugin configuration for
 [Kotlin development](http://www.kotlinlang.org), mainly on the Java Virtual Machine and JavaScript platforms.
 At the time of this writing, most code-quality maven plugins require Java sources to operate on - Kotlin equivalents 
 are currently few and far between. Also, most build-style plugins are currently geared towards the Java 8 release, 
-while this Codestyle targets the Java 9 release.   
+while this Codestyle targets the Java 9 release.
+
+The main parts of the `jGuru Codestyle` build reactor are:
+
+1. **jguru-codestyle-annotations**. The jguru-codestyle-annotations project contains annotations to control the kotlin
+         compiler and jUnit test grouping.
+
+2. **jguru-codestyle**. The jguru-codestyle project contains configurations and implementations for defining and
+         enforcing the [Nazgul Software Component](theory/software_components.html) ("NSC") patterns.
+         The maven build rules defined within this project are used throughout all projects within the reactor, and 
+         also applied to all projects using the provided parents from this project (i.e. jguru-kotlin-parent).
+         The configuration and plugin codestyle defined here is adapted to Kotlin projects.
+
+3. **jguru-codestyle-kotlin-parent**. Including definitions from the codestyle project, this pom is the internal
+        parent for all projecs within the jguru-codestyle reactor. The jguru-kotlin-parent pom configures most of the 
+        plugins used for the build cycle definition. This parent is, however, internal to the Nazgul Tools reactor 
+        and should not be used as parent for any project outside it.
+
+4. **jguru-codestyle-kotlin-api-parent**. This is a pom which should be used as a parent pom API and SPI projects. 
+        It includes infrastructure required to export all packages into an OSGi container (manifest entries), and will
+        arrange Java 9 module properties according to best practises.
+        
+5. **jguru-codestyle-kotlin-model-parent**. This is a pom which should be used as a parent pom for Model projects which
+        contains JAXB and/or JPA annotated POJO entity classes. This POM includes facilities for unit testing such 
+        annotations and classes in simple manners.
+        
+5. **jguru-codestyle-kotlin-war-parent**. Use this POM as parent for WAR projects. 
+
+6. **jguru-codestyle-kotlin-js-parent**. Use this POM as parent for JavaScript projects. 
 
 ## "JVM" target: Java9 interoperability
 
