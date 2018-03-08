@@ -23,7 +23,7 @@ cd jguru-codestyle
 git fetch --tags
 ```
 
-## 2.2. Building the Nazgul Tools project
+## 2.2. Building the `jguru-codestyle` project
 
 For the latest development build, simply run the build against the latest master branch revision:
 
