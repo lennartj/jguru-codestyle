@@ -313,9 +313,8 @@
                         <pluginOptions>
                             <option>no-arg:annotation=se.jguru.codestyle.annotations.AddDefaultConstructor</option>
                             <option>spring:annotation=se.jguru.codestyle.annotations.UsesSpringFramework</option>
-                            <option>
-                                sam-with-receiver:annotation=se.jguru.codestyle.annotations.ReceiverIsThisInSingleAbstractMethod
-                            </option>
+                            <option>all-open:annotation=se.jguru.codestyle.annotations.UseOpenMembers</option>
+                            <option>sam-with-receiver:annotation=se.jguru.codestyle.annotations.ReceiverIsThisInSingleAbstractMethod</option>
                             <!-- Call instance initializers in the synthetic constructor -->
                             <option>no-arg:invokeInitializers=true</option>
                         </pluginOptions>
@@ -496,6 +495,7 @@
                 <executions>
                     <execution>
                         <id>attach-descriptor</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>attach-descriptor</goal>
                         </goals>
