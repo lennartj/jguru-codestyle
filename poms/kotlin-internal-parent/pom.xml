@@ -604,31 +604,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
-                <configuration>
-                    <failOnError>false</failOnError>
-                    <stylesheet>java</stylesheet>
-                    <groups>
-                        <group>
-                            <title>jGuru Codestyle</title>
-                            <packages>se.jguru.codestyle.*</packages>
-                        </group>
-                        <group>
-                            <title>Nazgul Framework: Tools Packages</title>
-                            <packages>se.jguru.nazgul.tools.*</packages>
-                        </group>
-                        <group>
-                            <title>Nazgul Framework: Core Packages</title>
-                            <packages>se.jguru.nazgul.core.*</packages>
-                        </group>
-                    </groups>
-                    <useStandardDocletOptions>true</useStandardDocletOptions>
-                    <charset>${project.build.sourceEncoding}</charset>
-                    <breakiterator>true</breakiterator>
-                    <version>true</version>
-                    <author>true</author>
-                    <keywords>true</keywords>
-                </configuration>
             </plugin>
 
             <plugin>

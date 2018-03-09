@@ -201,6 +201,47 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <!--
+                    Configure the javadoc plugin not to fail on standard HTML
+                    constructs when building using JDK 8.
+                    Typical standard constructs include empty tags, like: <p />
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <failOnError>false</failOnError>
+                        <stylesheet>java</stylesheet>
+                        <groups>
+                            <group>
+                                <title>jGuru Codestyle</title>
+                                <packages>se.jguru.codestyle.*</packages>
+                            </group>
+                            <group>
+                                <title>Nazgul Framework: Tools Packages</title>
+                                <packages>se.jguru.nazgul.tools.*</packages>
+                            </group>
+                            <group>
+                                <title>Nazgul Framework: Core Packages</title>
+                                <packages>se.jguru.nazgul.core.*</packages>
+                            </group>
+                            <group>
+                                <title>Nazgul Framework: Test Artifact Packages</title>
+                                <packages>se.jguru.nazgul.test.*</packages>
+                            </group>
+                        </groups>
+                        <useStandardDocletOptions>true</useStandardDocletOptions>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <docencoding>${project.build.sourceEncoding}</docencoding>
+                        <charset>${project.build.sourceEncoding}</charset>
+                        <breakiterator>true</breakiterator>
+                        <version>true</version>
+                        <author>true</author>
+                        <keywords>true</keywords>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         
@@ -238,41 +279,15 @@
 
                 Typical standard constructs include empty tags, like: <p />
             -->
-            <plugin>
+            <!-- plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
-                <configuration>
-                    <failOnError>false</failOnError>
-                    <stylesheet>java</stylesheet>
-                    <groups>
-                        <group>
-                            <title>jGuru Codestyle</title>
-                            <packages>se.jguru.codestyle.*</packages>
-                        </group>
-                        <group>
-                            <title>Nazgul Framework: Tools Packages</title>
-                            <packages>se.jguru.nazgul.tools.*</packages>
-                        </group>
-                        <group>
-                            <title>Nazgul Framework: Core Packages</title>
-                            <packages>se.jguru.nazgul.core.*</packages>
-                        </group>
-                        <group>
-                            <title>Nazgul Framework: Test Artifact Packages</title>
-                            <packages>se.jguru.nazgul.test.*</packages>
-                        </group>
-                    </groups>
-                    <useStandardDocletOptions>true</useStandardDocletOptions>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <docencoding>${project.build.sourceEncoding}</docencoding>
-                    <charset>${project.build.sourceEncoding}</charset>
-                    <breakiterator>true</breakiterator>
-                    <version>true</version>
-                    <author>true</author>
-                    <keywords>true</keywords>
-                </configuration>
-            </plugin>
+                <executions>
+                    <execution>
+                        <id>produce-javadocs</id>
+                    </execution>
+                </executions>
+            </plugin -->
 
             <!--
                 Configures the site plugin. Its use is further documented in the site documentation itself.
@@ -284,7 +299,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${maven-site-plugin.version}</version>
-                <executions combine.self="override">
+                <executions>
                     <execution>
                         <id>attach-descriptor</id>
                         <goals>
@@ -509,9 +524,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <failOnError>false</failOnError>
-                        </configuration>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
