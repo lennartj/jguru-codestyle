@@ -305,6 +305,7 @@
                     <version>${kotlin.version}</version>
                     <configuration>
                         <compilerPlugins>
+                            <plugin>all-open</plugin>
                             <plugin>spring</plugin>
                             <plugin>no-arg</plugin>
                             <plugin>jpa</plugin>
