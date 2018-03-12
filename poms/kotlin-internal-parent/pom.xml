@@ -77,6 +77,7 @@
         <enforcer.api.version>1.4.1</enforcer.api.version>
         <jdk.version>1.8</jdk.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
+        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
 
         <!-- Commonly controlled version properties -->
         <aspectj.runtime.version>1.8.13</aspectj.runtime.version>
@@ -260,6 +261,19 @@
 
         <pluginManagement>
             <plugins>
+
+                <!--
+                    Up the version of the source plugin.
+
+                    Why:  Use a newer source plugin version.
+                    Used: Only when called, typically release profile.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+                
                 <!--
                     Use a working version of the Maven versions plugin.
                     (TODO: Update the Codehaus versions plugin with the fine additions done by Lars.)
@@ -397,6 +411,33 @@
                     <groupId>org.apache.servicemix.tooling</groupId>
                     <artifactId>depends-maven-plugin</artifactId>
                     <version>1.4.0</version>
+                </plugin>
+
+                <!--
+                    Specify the version of the GPG plugin
+
+                    Why:  Used to sign artifacts.
+                    Used: To sign artifacts, using GPG.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
+                </plugin>
+
+                <!--
+                    Specify the version of the Deploy plugin
+
+                    Why:  Used to deploy artifacts to repositories.
+                    Used: To copy/upload artifacts to repos.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                    <configuration>
+                        <updateReleaseInfo>true</updateReleaseInfo>
+                    </configuration>
                 </plugin>
 
             </plugins>
@@ -603,11 +644,6 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
                 <version>2.5</version>
             </plugin>
@@ -738,7 +774,7 @@
             <properties>
 
                 <!-- Include Dokka -->
-                <dokka.version>0.9.15</dokka.version>
+                <dokka.version>0.9.16</dokka.version>
                 <dokka.outputFormat>javadoc</dokka.outputFormat>
             </properties>
 
@@ -804,13 +840,7 @@
             <id>jguru-release</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <configuration>
-                            <updateReleaseInfo>true</updateReleaseInfo>
-                        </configuration>
-                    </plugin>
+                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -823,6 +853,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
@@ -838,6 +869,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -847,6 +879,24 @@
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <configuration>
+                            <updateReleaseInfo>true</updateReleaseInfo>
+                        </configuration>
+                        
+                        <executions>
+                            <execution>
+                                <id>deploy-to-repo</id>
+                                <goals>
+                                    <goal>deploy</goal>
                                 </goals>
                             </execution>
                         </executions>
