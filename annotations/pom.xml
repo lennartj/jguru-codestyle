@@ -132,6 +132,47 @@
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.0.1</version>
                 </plugin>
+
+                <!--
+                    Configure the javadoc plugin not to fail on standard HTML
+                    constructs when building using JDK 8.
+                    Typical standard constructs include empty tags, like: <p />
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <failOnError>false</failOnError>
+                        <stylesheet>java</stylesheet>
+                        <groups>
+                            <group>
+                                <title>jGuru Codestyle</title>
+                                <packages>se.jguru.codestyle.*</packages>
+                            </group>
+                            <group>
+                                <title>Nazgul Framework: Tools Packages</title>
+                                <packages>se.jguru.nazgul.tools.*</packages>
+                            </group>
+                            <group>
+                                <title>Nazgul Framework: Core Packages</title>
+                                <packages>se.jguru.nazgul.core.*</packages>
+                            </group>
+                            <group>
+                                <title>Nazgul Framework: Test Artifact Packages</title>
+                                <packages>se.jguru.nazgul.test.*</packages>
+                            </group>
+                        </groups>
+                        <useStandardDocletOptions>true</useStandardDocletOptions>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <docencoding>${project.build.sourceEncoding}</docencoding>
+                        <charset>${project.build.sourceEncoding}</charset>
+                        <breakiterator>true</breakiterator>
+                        <version>true</version>
+                        <author>true</author>
+                        <keywords>true</keywords>
+                    </configuration>
+                </plugin>
                 
                 <!--
                     Use a working version of the Maven versions plugin.
@@ -520,18 +561,10 @@
             <id>jguru-release</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <configuration>
-                            <updateReleaseInfo>true</updateReleaseInfo>
-                        </configuration>
-                    </plugin>
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>default-jar-no-fork</id>
@@ -548,6 +581,7 @@
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
@@ -567,6 +601,14 @@
                                 </goals>
                             </execution>
                         </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <updateReleaseInfo>true</updateReleaseInfo>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
