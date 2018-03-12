@@ -4,8 +4,7 @@
   ~ All rights reserved.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -21,7 +20,7 @@
 
     <groupId>se.jguru.codestyle</groupId>
     <artifactId>jguru-codestyle-reactor</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.9.1</version>
     <name>${project.artifactId}</name>
     <url>${site.top.url}/${path.in.reactor}</url>
     <description>jGuru Codestyle: Reactor (POM, version ${project.version})</description>
@@ -66,7 +65,7 @@
             These can be overridden in sub-reactors to tailor releases to other locations.
         -->
         <reactor.name>jguru-codestyle</reactor.name>
-        <path.in.reactor/>
+        <path.in.reactor />
 
         <!--
             Define URL prefixes used in the various URL settings of the POM.
@@ -322,7 +321,7 @@
                         <id>default-deploy</id>
                         <phase>site-deploy</phase>
                         <goals>
-                            <goal/>
+                            <goal />
                         </goals>
                     </execution>
                 </executions>
@@ -493,7 +492,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>jguru-codestyle-0.9.1</tag>
     </scm>
 
     <!--

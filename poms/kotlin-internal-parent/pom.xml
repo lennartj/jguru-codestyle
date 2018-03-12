@@ -5,8 +5,7 @@
   -->
 
 <!--suppress MavenRedundantGroupId -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -22,7 +21,7 @@
 
     <groupId>se.jguru.codestyle.poms</groupId>
     <artifactId>jguru-codestyle-kotlin-internal-parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.9.1</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
@@ -245,7 +244,7 @@
         <dependency>
             <groupId>se.jguru.codestyle.annotations</groupId>
             <artifactId>jguru-codestyle-annotations</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>0.9.1</version>
         </dependency>
     </dependencies>
 
@@ -354,7 +353,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle.annotations</groupId>
                             <artifactId>jguru-codestyle-annotations</artifactId>
-                            <version>1.0.0-SNAPSHOT</version>
+                            <version>0.9.1</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -546,7 +545,7 @@
                         <id>default-deploy</id>
                         <phase>site-deploy</phase>
                         <goals>
-                            <goal/>
+                            <goal />
                         </goals>
                     </execution>
                 </executions>
@@ -714,7 +713,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>jguru-codestyle-0.9.1</tag>
     </scm>
 
     <!--
