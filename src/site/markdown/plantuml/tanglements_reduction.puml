@@ -29,8 +29,11 @@ package "4. Run-time Dependencies" {
 
         package "2b. ImplDependencies" {
 
-            ImplType --* SomeImplDependency1 <<Impl>>
-            ImplType --* SomeImplDependency2 <<Impl>>
+            class SomeImplDependency1 <<Impl>>
+            class SomeImplDependency2 <<Impl>>
+
+            ImplType --* SomeImplDependency1
+            ImplType --* SomeImplDependency2
         }
     }
 }
