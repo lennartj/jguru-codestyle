@@ -48,6 +48,39 @@ class CorrectPackagingRuleTest {
 
     }
 
+    @Test
+    fun validateExceptionOnIncorrectKotlinSourceCodePackaging() {
+
+        // Assemble
+        val prefix = "testdata/kotlin/incorrect"
+        val compileSourceRoot = CorrectPackagingRuleTest::class.java.classLoader.getResource("$prefix/src/main/kotlin")
+        Assert.assertNotNull("compileSourceRoot not found", compileSourceRoot)
+
+        val project = MavenTestUtils.readPom("$prefix/pom.xml")
+        project.addCompileSourceRoot(compileSourceRoot.path)
+
+        val mockHelper = MockEnforcerRuleHelper(project)
+        val unitUnderTest = CorrectPackagingRule()
+
+        // Act & Assert
+        try {
+
+            unitUnderTest.performValidation(project, mockHelper)
+
+            Assert.fail("CorrectPackagingRule should yield an exception for projects not " +
+                "complying with packaging rules.")
+
+        } catch (e: RuleFailureException) {
+
+            val message = e.message ?: "<none>"
+
+            // Validate that the message contains the package-->fileName data
+            Assert.assertTrue(
+                message.contains("se.jguru.nazgul.tools.validation.api=[Validatable.kt]"))
+        }
+    }
+
+
     @Test(expected = IllegalArgumentException::class)
     fun validateExceptionOnCustomPackageExtractorDoesNotImplementPackageExtractor() {
 

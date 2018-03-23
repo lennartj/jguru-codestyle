@@ -73,7 +73,6 @@
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
         <maven.version>3.0</maven.version>
-        <enforcer.api.version>1.4.1</enforcer.api.version>
         <jdk.version>1.8</jdk.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>

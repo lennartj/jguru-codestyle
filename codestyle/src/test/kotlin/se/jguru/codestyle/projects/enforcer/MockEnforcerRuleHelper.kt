@@ -30,11 +30,6 @@ class MockEnforcerRuleHelper(val project: MavenProject,
     }
 
     @Throws(ComponentLookupException::class)
-    override fun getComponent(clazz: Class<*>): Any {
-        throw ComponentLookupException("Foo", "Bar", "Baz")
-    }
-
-    @Throws(ComponentLookupException::class)
     override fun getComponent(componentKey: String): Any = {
         throw ComponentLookupException("Foo", "Bar", "Baz")
     }
@@ -46,7 +41,17 @@ class MockEnforcerRuleHelper(val project: MavenProject,
     override fun getComponentList(role: String): List<*>? = null
 
     @Throws(ComponentLookupException::class)
-    override fun getComponentMap(role: String): Map<*, *>? = null
+    override fun <T : Any?> getComponent(clazz: Class<T>?): T {
+        throw ComponentLookupException("Foo", "Bar", "Baz")
+    }
+
+    @Throws(ComponentLookupException::class)
+    override fun <T : Any?> getComponent(clazz: Class<T>?, roleHint: String?): T {
+        throw ComponentLookupException("Foo", "Bar", "Baz")
+    }
+
+    @Throws(ComponentLookupException::class)
+    override fun getComponentMap(role: String): Map<String, *>? = null
 
     override fun getContainer(): PlexusContainer? = null
 

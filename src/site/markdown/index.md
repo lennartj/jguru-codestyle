@@ -10,8 +10,7 @@ lot of experience in software development ... all in one repo.
 The jGuru Codestyle project provides parents and plugin configuration for 
 [Kotlin development](http://www.kotlinlang.org), mainly on the Java Virtual Machine and JavaScript platforms.
 At the time of this writing, most code-quality maven plugins require Java sources to operate on - Kotlin equivalents 
-are currently few and far between. Also, most build-style plugins are currently geared towards the Java 8 release, 
-while this Codestyle targets the Java 9 release.
+are currently few and far between. Also, most build-style plugins are currently geared towards the Java 8 release.
 
 The main parts of the `jGuru Codestyle` build reactor are:
 

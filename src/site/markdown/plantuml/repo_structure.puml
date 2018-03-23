@@ -1,0 +1,62 @@
+'
+' Purpose: Repo responsibilities illustration
+'
+@startuml
+
+    package "OSS Repos" {
+
+        ' Parts
+        '
+        node "Codestyle Repo" as repoCodeStyle
+        node "Shared Components Repo" as repoShared
+
+        ' Relations
+        '
+        repoShared .up.> repoCodeStyle : " Uses definitions from ..."
+
+        ' Notes
+        '
+        note right of repoCodeStyle {
+            Contains:
+            # Build-scope Annotations
+            # Plugin configurations
+            # License definitions
+            # Setup instructions
+            # Parent POMs
+        }
+
+        note right of repoShared {
+            Contains:
+            # Library definitions
+            # Non-domain components
+        }
+    }
+
+    package "Closed-source or OSS Repos" {
+
+        ' Parts
+        '
+        node "Domain-Component Repos" <<Multiple>> as repoDomainComponents
+        node "Application Repos" <<Multiple>> as repoApplications
+
+        ' Relations
+        '
+        repoApplications .up.> repoDomainComponents : " Aggregates components from ..."
+        repoDomainComponents .up.> repoShared : " Uses components from ..."
+
+        ' Notes
+        '
+        note right of repoDomainComponents {
+            Contains:
+            # Domain model
+            # Domain components
+            # Generated domain documentation
+        }
+
+        note right of repoApplications {
+            Contains:
+            # JavaEE application projects ("<i>WAR</i>", etc)
+            # Assembly projects
+        }
+    }
+@enduml

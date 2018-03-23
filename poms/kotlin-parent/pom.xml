@@ -5,7 +5,8 @@
   -->
 
 <!--suppress MavenRedundantGroupId -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -37,6 +38,11 @@
         <!-- Dependency properties -->
         <nazgul-tools.version>6.0.3</nazgul-tools.version>
         <nazgul-core.version>3.0.0</nazgul-core.version>
+
+        <enforcer.version>3.0.0-M1</enforcer.version>
+        <enforcer.includedGroupIdPatterns>^se\\.jguru\\..*</enforcer.includedGroupIdPatterns>
+        <enforcer.excludedGroupIdPatterns>^se\\.jguru\\..*\\.generated\\..*,^se\\.jguru\\.codestyle\\..*</enforcer.excludedGroupIdPatterns>
+        <breakOnFailure.enforcer>true</breakOnFailure.enforcer>
 
         <!-- Plugin versions -->
         <maven-jdeps-plugin.version>3.1.1</maven-jdeps-plugin.version>
@@ -147,6 +153,71 @@
                     <artifactId>maven-jdeps-plugin</artifactId>
                     <version>${maven-jdeps-plugin.version}</version>
                 </plugin>
+
+                <!-- Enforce not importing incorrect projects. -->
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${enforcer.version}</version>
+                    <configuration combine.self="override">
+                        <fail>${breakOnFailure.enforcer}</fail>
+                        <rules>
+                            <requireMavenVersion>
+                                <version>[3.0.5,)</version>
+                            </requireMavenVersion>
+                            <requireJavaVersion>
+                                <version>${jdk.version}</version>
+                            </requireJavaVersion>
+                            <requireUpperBoundDeps/>
+
+                            <!--
+                                Enforce the ProjectType structure, implying that all projects
+                                must comply with the project template definitions.
+                            -->
+                            <validateProjectTypes
+                                implementation="se.jguru.codestyle.projects.enforcer.PermittedProjectTypeRule"/>
+
+                            <!--
+                                Enforce the implementation rules for dependencies, to enforce that
+                                the level of dependency tanglement is not increased. This implies that
+                                implementation projects cannot import other implementation projects (but
+                                instead should import APIs).
+
+                                While the configuration below reflect the default settings, it is
+                                reproduced her to serve as an example of how to configure this enforcement rule
+                                in child reactors - where needs are likely different than here.
+                            -->
+                            <restrictImplDependencies
+                                implementation="se.jguru.codestyle.projects.enforcer.CorrectDependenciesRule">
+                                <evaluateGroupIds>${enforcer.includedGroupIdPatterns}</evaluateGroupIds>
+                                <dontEvaluateGroupIds>${enforcer.excludedGroupIdPatterns}</dontEvaluateGroupIds>
+                            </restrictImplDependencies>
+
+                            <!--
+                                Enforce using correct packages for classes within a NSC project.
+                                The root package of any project should be identical to its groupId.
+                                Any package below the root package can safely be used - so ...
+
+                                if the groupId of a project is "com.acme.foobar",
+                                then all code within that project must reside within the "com.acme.foobar" package,
+                                or in any subpackage thereof.
+                            -->
+                            <correctPackaging
+                                implementation="se.jguru.codestyle.projects.enforcer.CorrectPackagingRule"/>
+                        </rules>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>0.9.2-SNAPSHOT</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.maven.enforcer</groupId>
+                            <artifactId>enforcer-api</artifactId>
+                            <version>${enforcer.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -175,6 +246,22 @@
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>update-project-license</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                Enforce that projects 
+            -->
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${enforcer.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce-imports</id>
+                        <goals>
+                            <goal>enforce</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -239,7 +326,7 @@
                 </property>
             </activation>
 
-            <properties />
+            <properties/>
 
             <dependencies>
                 <dependency>

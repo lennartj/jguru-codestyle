@@ -2,10 +2,28 @@
 
 <img src="src/site/resources/images/jGuruLogo.png" style="float:right" width="167" height="185"/> Put simply - the 
 codestyle project contains all those settings and configurations which makes your development, deployment and 
-runtime execution _just work_. The jGuru Codestyle project contains a
+runtime execution *just work*. The jGuru Codestyle project contains a
 implemented set of best-pracises to start projects quickly - and scale those projects without needing to change your
 development and delivery process. This is in part usability engineering for the development process, and in part a 
 lot of experience in software development ... all in one repo.
+
+The Codestyle repository defines how to _build the build_. For kotlin projects, simply use the various parents as
+parent within the projects within your other repositories. A typical repository structure is shown in the image below:
+
+1. **Codestyle repository**: Single Respository which defines the build, including Maven plugin configuration and 
+   parent POMs for different types of project. Normally OSS, since there is no domain information in these components.
+2. **Shared components repository**: Single Repository which contains components aimed at simplifying or harmonizing 
+   using the standards, such as various bits of the JavaEE / EE4J stack. Typically OSS, since there is no domain 
+   information in these components.
+3. **Domain definition repositories**: One or more Repositories which contain domain definition and usage components.
+   These domain components may/should depend on components from the Shared component repository, to ensure that all
+   in-house standards are adhered to. This is normally where the business secrets and competitive advantages are 
+   stored - and hence lends itself well to closed-source licensing.
+4. **Application repositories**: One or more Repositories which assemble domain definitions into JavaEE 
+   deployment archives (typically WAR, EAR or JAR archives) and the corresponding runtime structure, termed 
+   "Assemblies".    
+
+<img src="src/site/resources/images/repo_structure.png" style="float:right; border:1px solid black;" width="294" height="320"/>
 
 # 2. Getting and building jGuru Codestyle
 

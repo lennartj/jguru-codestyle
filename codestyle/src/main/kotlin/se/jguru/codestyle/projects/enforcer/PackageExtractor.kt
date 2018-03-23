@@ -50,13 +50,17 @@ abstract class AbstractSimplePackageExtractor : PackageExtractor {
          * @param optionalSemicolonTermination if `true` the package statement may optionally be terminated by a
          * semicolon. Otherwise this termination is required.
          */
-        fun getPackageRegExp(optionalSemicolonTermination: Boolean) = Regex("^\\s*$PACKAGE_WORD\\s*" +
-            "([a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)?\\s*?;" +
-            when (optionalSemicolonTermination) {
-                true -> "?"
-                false -> ""
-            } +
-            "\\s*$");
+        fun getPackageRegExp(optionalSemicolonTermination: Boolean) : Regex {
+
+            val expression = "^\\s*$PACKAGE_WORD\\s*" +
+                "([a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)?\\s*?;" +
+                when (optionalSemicolonTermination) {
+                    true -> "?"
+                    false -> ""
+                } + "\\s*$"
+
+            return Regex(expression)
+        }
 
         /**
          * Utility method which retrieves a FileFilter which accepts Files whose name ends

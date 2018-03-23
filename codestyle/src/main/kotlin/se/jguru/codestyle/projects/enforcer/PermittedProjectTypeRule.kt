@@ -46,7 +46,7 @@ class PermittedProjectTypeRule(val permittedProjectTypes: List<ProjectType> = Co
     override fun performValidation(project: MavenProject, helper: EnforcerRuleHelper) {
 
         // Does any of the supplied project types match?
-        val firstMatchingProjectType = permittedProjectTypes.firstOrNull { it.isCompliantWith(project)}
+        val firstMatchingProjectType = permittedProjectTypes.firstOrNull { it.isCompliantWith(project) }
 
         if (firstMatchingProjectType == null) {
 
