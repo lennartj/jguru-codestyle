@@ -22,7 +22,7 @@
 
     <groupId>se.jguru.codestyle</groupId>
     <artifactId>jguru-codestyle</artifactId>
-    <version>0.9.2-SNAPSHOT</version>
+    <version>0.9.2</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
@@ -503,13 +503,11 @@
                         <phase>verify</phase>
                         <configuration>
                             <target name="ktlint">
-                                <java taskname="ktlint" dir="${basedir}" fork="true"
-                                      failonerror="false"
+                                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="false"
                                       classpathref="maven.plugin.classpath"
                                       classname="com.github.shyiko.ktlint.Main">
                                     <arg value="src/main/kotlin/**/*.kt" />
-                                    < ! - - Generates a Checkstyle-formatted report. C.f. https://github.com/shyiko/ktlint#usage
-                                    - - >
+                                    < ! - - Generates a Checkstyle-formatted report. C.f. https://github.com/shyiko/ktlint#usage - - >
                                     <arg value="- -reporter=plain" />
                                     <arg value="- -reporter=checkstyle,output=${project.build.directory}/ktlint.xml" />
                                 </java>
@@ -631,7 +629,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>jguru-codestyle-0.9.2</tag>
     </scm>
 
     <!--
