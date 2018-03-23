@@ -10,6 +10,8 @@ lot of experience in software development ... all in one repo.
 The Codestyle repository defines how to _build the build_. For kotlin projects, simply use the various parents as
 parent within the projects within your other repositories. A typical repository structure is shown in the image below:
 
+<img src="src/site/resources/images/repo_structure.png" style="float:right; border:1px solid black;" width="294" height="320"/>
+
 1. **Codestyle repository**: Single Respository which defines the build, including Maven plugin configuration and 
    parent POMs for different types of project. Normally OSS, since there is no domain information in these components.
 2. **Shared components repository**: Single Repository which contains components aimed at simplifying or harmonizing 
@@ -21,9 +23,7 @@ parent within the projects within your other repositories. A typical repository 
    stored - and hence lends itself well to closed-source licensing.
 4. **Application repositories**: One or more Repositories which assemble domain definitions into JavaEE 
    deployment archives (typically WAR, EAR or JAR archives) and the corresponding runtime structure, termed 
-   "Assemblies".    
-
-<img src="src/site/resources/images/repo_structure.png" style="float:right; border:1px solid black;" width="294" height="320"/>
+   "Assemblies".
 
 # 2. Getting and building jGuru Codestyle
 
