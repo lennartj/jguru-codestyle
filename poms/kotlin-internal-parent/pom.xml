@@ -523,6 +523,49 @@
             </plugin>
 
             <!--
+                Provides Plantuml integration into site deployments.
+
+                Why:  Convert Plantuml (*.puml) documents to png images, for use in site documentation.
+                Used: Site lifecycle, mvn site.
+            -->
+            <plugin>
+                <groupId>com.github.jeluard</groupId>
+                <artifactId>plantuml-maven-plugin</artifactId>
+                <version>7954</version>
+                <configuration>
+                    <sourceFiles>
+                        <directory>${basedir}</directory>
+                        <includes>
+                            <include>src/site/**/*.puml</include>
+                        </includes>
+                    </sourceFiles>
+                    <outputDirectory>${project.build.directory}/site/images/plantuml</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-plantuml-diagrams</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <!--
+                        NOTE!
+
+                        Do not upgrade the plantuml dependency above version 8030, as those plantuml releases
+                        are not binary compatible with the plugin version 7954.
+                    -->
+                    <dependency>
+                        <groupId>net.sourceforge.plantuml</groupId>
+                        <artifactId>plantuml</artifactId>
+                        <version>8030</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!--
                 Configures the site plugin. Its use is further documented in the site documentation itself.
 
                 Why:  Make compile and publish the Codestyle documentation.
@@ -802,7 +845,7 @@
                             <configuration>
                                 <outputDir>${project.reporting.outputDirectory}/dokka</outputDir>
                                 <outputFormat>${dokka.outputFormat}</outputFormat>
-                                <jdkVersion>1.8</jdkVersion>
+                                <jdkVersion>8</jdkVersion>
                             </configuration>
                         </plugin>
                     </plugins>

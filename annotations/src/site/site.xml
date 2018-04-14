@@ -28,14 +28,6 @@
     <custom>
         <fluidoSkin>
             <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
-            <topBarEnabled>true</topBarEnabled>
-            <sideBarEnabled>false</sideBarEnabled>
-            <topBarContainerStyle>width: 90%;</topBarContainerStyle>
-            <copyrightClass>pull-right</copyrightClass>
-
-            <!-- Social Media Integration -->
-            <facebookLike/>
-            <googlePlusOne/>
         </fluidoSkin>
     </custom>
 

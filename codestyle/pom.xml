@@ -485,60 +485,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!--
-                Use a standard Kotlin source code formatter.
-                Does not work with Java 9, unfortunately.
-
-                Why:  Plugin used to provide source code Lint-ing.
-                Used: Standard lifecycle, verify phase
-            -->
-            <!-- plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <id>ktlint</id>
-                        <phase>verify</phase>
-                        <configuration>
-                            <target name="ktlint">
-                                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="false" classpathref="maven.plugin.classpath"
-                                      classname="com.github.shyiko.ktlint.Main">
-                                    <arg value="src/main/kotlin/**/*.kt" />
-                                    < ! - - Generates a Checkstyle-formatted report. C.f. https://github.com/shyiko/ktlint#usage - - >
-                                    <arg value="- -reporter=plain" />
-                                    <arg value="- -reporter=checkstyle,output=${project.build.directory}/ktlint.xml" />
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>ktlint-format</id>
-                        <configuration>
-                            <target name="ktlint">
-                                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true" classpathref="maven.plugin.classpath" classname="com.github.shyiko.ktlint.Main">
-                                    <arg value="-F" />
-                                    <arg value="src/main/kotlin/**/*.kt" />
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.github.shyiko</groupId>
-                        <artifactId>ktlint</artifactId>
-                        <version>0.15.0</version>
-                    </dependency>
-                </dependencies>
-            </plugin -->
         </plugins>
     </build>
 

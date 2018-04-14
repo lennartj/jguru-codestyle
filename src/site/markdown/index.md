@@ -5,12 +5,18 @@ project contains all those settings and configurations which makes your developm
 _just work_. The jGuru Codestyle project contains a
 implemented set of best-pracises to start projects quickly - and scale those projects without needing to change your
 development and delivery process. This is in part usability engineering for the development process, and in part a 
-lot of experience in software development ... all in one repo.
+lot of experience in software development ... all in one repo. 
 
 The jGuru Codestyle project provides parents and plugin configuration for 
 [Kotlin development](http://www.kotlinlang.org), mainly on the Java Virtual Machine and JavaScript platforms.
 At the time of this writing, most code-quality maven plugins require Java sources to operate on - Kotlin equivalents 
 are currently few and far between. Also, most build-style plugins are currently geared towards the Java 8 release.
+The intended structure and responsibilities of projects/artifacts within repositories could/should be ordered as 
+illustrated in the image below:
+
+![Repository Dependencies](images/plantuml/repo_structure.png "Repository Dependency Structure")
+
+### Reactor Parts
 
 The main parts of the `jGuru Codestyle` build reactor are:
 
