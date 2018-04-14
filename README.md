@@ -10,7 +10,7 @@ lot of experience in software development ... all in one repo.
 The Codestyle repository defines how to _build the build_. For kotlin projects, simply use the various parents as
 parent within the projects within your other repositories. A typical repository structure is shown in the image below:
 
-<img src="src/site/resources/images/repo_structure.png" style="float:right; border:1px solid black;" width="294" height="320"/>
+<img src="src/site/resources/images/repo_structure.png" style="float:right; border:1px solid black;"/>
 
 1. **Codestyle repository**: Single Respository which defines the build, including Maven plugin configuration and 
    parent POMs for different types of project. Normally OSS, since there is no domain information in these components.
