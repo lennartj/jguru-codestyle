@@ -16,8 +16,10 @@ import org.apache.maven.artifact.Artifact
  * @param offendingArtifact The artifact which triggered this RuleFailureException.
  * @author <a href="mailto:lj@jguru.se">Lennart J&ouml;relid</a>, jGuru Europe AB
  */
-class RuleFailureException(message: String? = null, cause: Throwable? = null, var offendingArtifact: Artifact?)
-    : RuntimeException(message, cause) {
+class RuleFailureException @JvmOverloads constructor(
+    message: String? = null,
+    cause: Throwable? = null,
+    var offendingArtifact: Artifact?) : RuntimeException(message, cause) {
 
     /**
      * Constructs a new runtime exception with the specified detail message.
@@ -44,15 +46,4 @@ class RuleFailureException(message: String? = null, cause: Throwable? = null, va
      * @since 1.4
      */
     constructor(message: String, cause: Throwable) : this(message, cause, null)
-
-    /**
-     * Constructs a new runtime exception with the specified detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to [.initCause].
-     *
-     * @param message           the detail message. The detail message is saved for
-     * later retrieval by the [.getMessage] method.
-     * @param offendingArtifact The artifact which triggered this RuleFailureException.
-     */
-    constructor(message: String, offendingArtifact: Artifact?) : this(message, null, offendingArtifact)
 }

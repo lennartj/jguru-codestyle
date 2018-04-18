@@ -8,6 +8,7 @@ package se.jguru.codestyle.projects.enforcer
 import org.apache.maven.enforcer.rule.api.EnforcerLevel
 import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
+import se.jguru.codestyle.projects.enforcer.CorrectPackagingRule.Companion.DEFAULT_PACKAGE_EXTRACTORS
 import java.io.File
 import java.io.FileFilter
 import java.util.ArrayList
@@ -21,11 +22,18 @@ import java.util.TreeSet
  * implying that all source files should be located within or under a package identical
  * to the groupId of the project itself.
  *
+ * @property enforcerLevel The level of enforcement within this Rule. Defaults to `EnforcerLevel.ERROR`.
+ * @property packageExtractors The PackageExtractor implementations used to find packages from source code.
+ * Defaults to [DEFAULT_PACKAGE_EXTRACTORS].
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
-                           private var packageExtractors: List<PackageExtractor> = DEFAULT_PACKAGE_EXTRACTORS)
-    : AbstractNonCacheableEnforcerRule(lvl) {
+class CorrectPackagingRule @JvmOverloads constructor(
+
+    enforcerLevel: EnforcerLevel = EnforcerLevel.ERROR,
+
+    private var packageExtractors: List<PackageExtractor> = DEFAULT_PACKAGE_EXTRACTORS)
+
+    : AbstractNonCacheableEnforcerRule(enforcerLevel) {
 
     /**
      * The description of this CorrectPackagingRule.
@@ -58,7 +66,9 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
         if (groupId == null || groupId == "") {
 
             // Don't accept empty groupIds
-            throw RuleFailureException("Maven groupId cannot be null or empty.", project.artifact)
+            throw RuleFailureException(
+                message = "Maven groupId cannot be null or empty.",
+                offendingArtifact = project.artifact)
 
         } else {
 
@@ -78,8 +88,9 @@ class CorrectPackagingRule(lvl: EnforcerLevel = EnforcerLevel.ERROR,
                     }
                 }
 
-                throw RuleFailureException("Incorrect packaging detected; required [" + groupId
-                    + "] but found package to file names: " + result, project.artifact)
+                throw RuleFailureException(message = "Incorrect packaging detected; required [" + groupId
+                    + "] but found package to file names: " + result,
+                    offendingArtifact = project.artifact)
             }
         }
     }

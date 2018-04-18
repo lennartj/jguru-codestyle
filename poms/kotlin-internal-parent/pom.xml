@@ -80,6 +80,7 @@
         <!-- Commonly controlled version properties -->
         <aspectj.runtime.version>1.8.13</aspectj.runtime.version>
         <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
+        <jaxb2-maven-plugin.version>2.3.1</jaxb2-maven-plugin.version>
         <osgi.version>6.0.0</osgi.version>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
@@ -435,6 +436,47 @@
                     <version>${maven-deploy-plugin.version}</version>
                     <configuration>
                         <updateReleaseInfo>true</updateReleaseInfo>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Use the latest jaxb2-maven-plugin to provide XSD generation abilities.
+
+                    Why: To enable XML-to-Java and Java-to-XML code generation
+                    Used: in Model projects, as inserted.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jaxb2-maven-plugin</artifactId>
+                    <version>${jaxb2-maven-plugin.version}</version>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/jaxb2/transformed/generated-schema</outputDirectory>
+                        <transformSchemas>
+                            <!--
+                                Each schema element defines:
+
+                                a) A <<namespace uri>> for one of your namespaces.
+                                   This namespace uri must be unique within the schemas element.
+
+                                b) A <<toPrefix>> that you want to use for the namespace.
+                                   Should not contain whitespace or exotic characters.
+                                   This yields a namespace definition on the form
+                                   <xs:schema ... xmlns:[toPrefix]="[uri]" ... />
+
+                                   (I.e: <xs:schema ... xmlns:some="http://some/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema"> )
+
+                                   ... and transforms relevant xml schema elements to use the provided namespace prefix:
+
+                                   <some:elementName ... />
+
+                                c) The desired <<toFile>> name of the generated XML schema definition file,
+                                   excluding the ".xsd" suffix (which will be added automatically).
+                            -->
+                            <transformSchema>
+                                <uri>http://www.jguru.se/nazgul/core</uri>
+                                <toFile>NazgulCore.xsd</toFile>
+                            </transformSchema>
+                        </transformSchemas>
                     </configuration>
                 </plugin>
 

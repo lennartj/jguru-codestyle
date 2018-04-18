@@ -21,9 +21,10 @@ import java.util.regex.PatternSyntaxException
  * Abstract Enforcer rule specification, handling some pretty printing
  * of Maven's Enforcement exceptions.
  *
+ * @property enforcerLevel The level of enforcement within this Rule. Defaults to `EnforcerLevel.ERROR`.
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-abstract class AbstractEnforcerRule(
+abstract class AbstractEnforcerRule @JvmOverloads constructor(
 
     /**
      * Assigns the EnforcerLevel of this AbstractEnforcerRule.
@@ -193,9 +194,11 @@ abstract class AbstractEnforcerRule(
 /**
  * AbstractEnforcerRule implementation which implements a non-cacheable behaviour.
  *
+ * @property enforcerLevel The level of enforcement within this Rule. Defaults to `EnforcerLevel.ERROR`.
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-abstract class AbstractNonCacheableEnforcerRule(
+abstract class AbstractNonCacheableEnforcerRule @JvmOverloads constructor(
+
     /**
      * Assigns the EnforcerLevel of this AbstractEnforcerRule.
      *

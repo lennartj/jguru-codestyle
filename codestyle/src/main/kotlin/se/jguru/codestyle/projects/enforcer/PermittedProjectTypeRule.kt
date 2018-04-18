@@ -19,7 +19,8 @@ import se.jguru.codestyle.projects.ProjectType
  * @see ProjectType
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-class PermittedProjectTypeRule(val permittedProjectTypes: List<ProjectType> = CommonProjectTypes.values().asList())
+class PermittedProjectTypeRule @JvmOverloads constructor(
+    val permittedProjectTypes: List<ProjectType> = CommonProjectTypes.values().asList())
     : AbstractNonCacheableEnforcerRule() {
 
     // Internal state

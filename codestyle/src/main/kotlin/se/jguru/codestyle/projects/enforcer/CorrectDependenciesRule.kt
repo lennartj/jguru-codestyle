@@ -136,16 +136,19 @@ class CorrectDependenciesRule(
                 val prefix = "Don't use $artifactProjectType dependencies "
 
                 if (artifactProjectType === CommonProjectTypes.IMPLEMENTATION) {
-                    throw RuleFailureException(prefix + "outside of application projects.", current)
+                    throw RuleFailureException(prefix + "outside of application projects.",
+                        offendingArtifact = current)
                 }
 
                 if (artifactProjectType === CommonProjectTypes.TEST) {
-                    throw RuleFailureException(prefix + "in compile scope for non-test artifacts.", current)
+                    throw RuleFailureException(prefix + "in compile scope for non-test artifacts.",
+                        offendingArtifact = current)
                 }
 
                 if (artifactProjectType === CommonProjectTypes.JEE_APPLICATION
                     || artifactProjectType === CommonProjectTypes.PROOF_OF_CONCEPT) {
-                    throw RuleFailureException(prefix + "in bundles.", current)
+                    throw RuleFailureException(prefix + "in bundles.",
+                        offendingArtifact = current)
                 }
             }
         }
