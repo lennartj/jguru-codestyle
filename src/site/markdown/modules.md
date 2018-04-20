@@ -12,7 +12,7 @@ Modularity yields advantages in two main groups:
    learning a new codebase for developers and lay the grounds for better deployment, scaling and monitoring.
 
 2. *Runtime improvements*. To be effective, modularity needs be enforced in the running JVM.
-   The Nazgul Framework is built in compliance with OSGi, which is one of the best efforts to date to enforce
+   The jGuru Codestyle is built in compliance with OSGi, which is one of the best efforts to date to enforce
    modularity in a running JVM. Therefore, all projects using the jGuru Codestyle development model will take
    advantage of the runtime container - both standalone or within Java9/OSGi/JBoss Modules containers.
 
@@ -30,7 +30,7 @@ of development.
 >
 > [Albert Einstein?](http://quoteinvestigator.com/2011/05/13/einstein-simple/ "Einstein quote")
 
-The Nazgul Framework provides a development model built around separation-of-concerns.
+The jGuru Codestyle provides a development model built around separation-of-concerns.
 by dividing development into [Nazgul Software Component ("NSC")](software_components.html) modules
 consisting of collaborating maven projects, we recieve improved overview and better architecture.
 Even small projects benefit from dividing their public API into one project and their implementation
@@ -38,7 +38,7 @@ into another. As the project codebase or number of developers grows, this benefi
 
 ### Modularity for JVM runtime improvements
 
-The Nazgul Framework provides fully OSGi-compliant projects, where model, API and SPI project types export all
+The jGuru Codestyle provides fully OSGi-compliant projects, where model, API and SPI project types export all
 packages as public, whereas the implementation projects hide all their classes
 (i.e. having completely private packages).
 

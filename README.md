@@ -1,6 +1,6 @@
 # [jGuru Codestyle](https://lennartj.github.io/jguru-codestyle)
 
-<img src="src/site/resources/images/jGuruLogo.png" style="float:right" width="167" height="185"/> Put simply - the 
+<img src="src/site/resources/images/jGuruLogo.png" style="float:right;" width="167" height="185"/> Put simply - the 
 codestyle project contains all those settings and configurations which makes your development, deployment and 
 runtime execution *just work*. The jGuru Codestyle project contains a
 implemented set of best-pracises to start projects quickly - and scale those projects without needing to change your
