@@ -13,7 +13,8 @@ import java.io.FileFilter
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-class IncorrectNoDefaultConstructorPackageExtractor(someConstructorArgument: String) : PackageExtractor {
+class IncorrectNoDefaultConstructorPackageExtractor(
+    @Suppress("UNUSED_PARAMETER") someConstructorArgument: String) : PackageExtractor {
 
     override val sourceFileFilter: FileFilter = FileFilter { true }
 

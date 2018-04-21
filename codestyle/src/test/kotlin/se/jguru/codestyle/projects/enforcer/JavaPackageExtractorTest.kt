@@ -74,7 +74,7 @@ class JavaPackageExtractorTest {
 
         // Assemble
         val resource = JavaPackageExtractorTest::class.java.getResource(
-            JAVA_PACKAGES + "/incorrect/nokNotAPackage.txt")
+            "$JAVA_PACKAGES/incorrect/nokNotAPackage.txt")
         val packageDir = File(resource.path).parentFile
 
         val unitUnderTest = JavaPackageExtractor()
@@ -94,7 +94,7 @@ class JavaPackageExtractorTest {
     fun validateExceptionOnSubmittingDirectoriesToPackageExtractor() {
 
         // Assemble
-        val resource = JavaPackageExtractorTest::class.java.getResource(JAVA_PACKAGES + "/incorrect")
+        val resource = JavaPackageExtractorTest::class.java.getResource("$JAVA_PACKAGES/incorrect")
         val unitUnderTest = JavaPackageExtractor()
 
         // Act
@@ -105,7 +105,7 @@ class JavaPackageExtractorTest {
     // Private helpers
     //
 
-    fun getRegexFrom(packageExtractor: AbstractSimplePackageExtractor): Regex {
+    private fun getRegexFrom(packageExtractor: AbstractSimplePackageExtractor): Regex {
 
         val propName = "packageRegEx"
         val props = packageExtractor::class.declaredMemberProperties.filter { it.name == propName }
@@ -114,6 +114,7 @@ class JavaPackageExtractorTest {
             // Make the property accessible
             props[0].isAccessible = true
 
+            @Suppress("UNCHECKED_CAST")
             return (props[0] as KProperty<Regex>).getter.call(packageExtractor)
         }
 

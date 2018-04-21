@@ -98,7 +98,7 @@ class CorrectPackagingRuleTest {
         val unitUnderTest = CorrectPackagingRule()
 
         // Act & Assert
-        unitUnderTest.setPackageExtractors(IncorrectNoDefaultConstructorPackageExtractor::class.java!!.getName())
+        unitUnderTest.setPackageExtractors(IncorrectNoDefaultConstructorPackageExtractor::class.java.name)
     }
 
     @Test
@@ -116,6 +116,7 @@ class CorrectPackagingRuleTest {
         val packageExtractors = unitUnderTest.javaClass.getDeclaredField("packageExtractors")
         packageExtractors.isAccessible = true
 
+        @Suppress("UNCHECKED_CAST")
         val extractors = packageExtractors.get(unitUnderTest) as List<PackageExtractor>
         Assert.assertEquals(2, extractors.size.toLong())
         Assert.assertEquals(SillyPackageExtractor::class.java.name, extractors[0].javaClass.name)

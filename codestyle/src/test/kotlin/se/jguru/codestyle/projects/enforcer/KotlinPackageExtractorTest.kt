@@ -91,6 +91,7 @@ class KotlinPackageExtractorTest {
             // Make the property accessible
             props[0].isAccessible = true
 
+            @Suppress("UNCHECKED_CAST")
             return (props[0] as KProperty<Regex>).getter.call(packageExtractor)
         }
 
