@@ -53,7 +53,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.30</kotlin.version>
+        <kotlin.version>1.2.40</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
 
         <!--
