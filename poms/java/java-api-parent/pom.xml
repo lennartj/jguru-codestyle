@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) jGuru Europe AB.
+  ~ All rights reserved.
+  -->
+
+<!--suppress MavenRedundantGroupId -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- +=============================================== -->
+    <!-- | Section 1:  Project information                -->
+    <!-- +=============================================== -->
+    <parent>
+        <groupId>se.jguru.codestyle.poms.java</groupId>
+        <artifactId>jguru-codestyle-java-parent</artifactId>
+        <version>0.9.4-SNAPSHOT</version>
+        <relativePath>../java-parent</relativePath>
+    </parent>
+
+    <groupId>se.jguru.codestyle.poms.java</groupId>
+    <artifactId>jguru-codestyle-java-api-parent</artifactId>
+    <name>${project.artifactId}</name>
+    <description>jGuru Codestyle: Java API Parent (${project.packaging}, version ${project.version})</description>
+    <packaging>pom</packaging>
+    <url>${site.top.url}/${path.in.reactor}</url>
+
+    <properties>
+        <path.in.reactor>poms/java/java-api-parent</path.in.reactor>
+    </properties>
+
+    <!-- +=============================================== -->
+    <!-- | Section 2:  Dependency (management) settings   -->
+    <!-- +=============================================== -->
+
+    <!-- +=============================================== -->
+    <!-- | Section 3:  Build settings                     -->
+    <!-- +=============================================== -->
+    <build>
+        <plugins>
+            <!--
+                APIs should be fully exported
+            -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>3.2.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Export-Package>{local-packages}</Export-Package>
+                    </instructions>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>biz.aQute.bnd</groupId>
+                        <artifactId>biz.aQute.bndlib</artifactId>
+                        <version>3.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- +=============================================== -->
+    <!-- | Section 4:  External systems                   -->
+    <!-- +=============================================== -->
+
+    <!--
+        Compensate for Maven standard variable extrapolation.
+        Git requires steady URLs (... but Subversion requires path extrapolation, hence the problem).
+     -->
+    <distributionManagement>
+        <site>
+            <id>github</id>
+            <url>${distroManagement.url}</url>
+        </site>
+    </distributionManagement>
+
+    <scm>
+        <connection>${scm.connection.url}</connection>
+        <developerConnection>${scm.devConnection.url}</developerConnection>
+        <url>${scm.url}</url>
+    </scm>
+</project>

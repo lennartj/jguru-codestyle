@@ -1,0 +1,1801 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  ~ Copyright (c) jGuru Europe AB.
+  ~ All rights reserved.
+  -->
+
+<!--suppress MavenRedundantGroupId -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+    ################################################
+    # Section 1:  Project information
+    ################################################
+    -->
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+
+    <groupId>se.jguru.codestyle.poms.java</groupId>
+    <artifactId>jguru-codestyle-java-internal-parent</artifactId>
+    <version>0.9.4-SNAPSHOT</version>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+    <url>${site.top.url}/${path.in.reactor}</url>
+    <description>jGuru Codestyle: Java Internal Parent (${project.packaging}, version ${project.version})</description>
+    <inceptionYear>2018</inceptionYear>
+
+    <organization>
+        <name>jGuru Europe AB</name>
+        <url>http://www.jguru.se/</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>jGuru Europe Corporate Source License, based on The Apache Software License, Version 2.0</name>
+            <url>http://www.jguru.se/licenses/jguruCorporateSourceLicense-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <!--
+            Define the URL prefixes for Site Deployment and DistributionManagement.
+            These can be overridden in sub-reactors to tailor releases to other locations.
+        -->
+        <reactor.name>jguru_codestyle</reactor.name>
+        <path.in.reactor>poms/java/java-internal-parent</path.in.reactor>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Build-controlling properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <build.number/>
+        <artifact.distribution.directory>${project.build.outputDirectory}</artifact.distribution.directory>
+        <check.plugins.phase>package</check.plugins.phase>
+        <jdk.version>1.8</jdk.version>
+
+        <!--
+            Define URL prefixes used in the various URL settings of the POM.
+        -->
+        <git.repo.owner>lennartj</git.repo.owner>
+        <git.repo.url.prefix>https://github.com/${git.repo.owner}</git.repo.url.prefix>
+        <git.scm.url.prefix>scm:git:ssh://git@github.com/${git.repo.owner}</git.scm.url.prefix>
+        <site.url.prefix>http://${git.repo.owner}.github.io</site.url.prefix>
+        <site.top.url>${site.url.prefix}/${reactor.name}/Documentation/${project.version}</site.top.url>
+
+        <scm.connection.url>scm:git:${git.repo.url.prefix}/${reactor.name}.git</scm.connection.url>
+        <scm.devConnection.url>${git.scm.url.prefix}/${reactor.name}.git</scm.devConnection.url>
+        <distroManagement.url>${site.top.url}/${path.in.reactor}</distroManagement.url>
+        <scm.url>${git.repo.url.prefix}/${reactor.name}.git</scm.url>
+        <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
+
+        <!-- Version number properties -->
+        <maven.version>3.3.1</maven.version>
+        <openjpa.version>2.4.0</openjpa.version>
+        <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
+        <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
+        <osgiVersion>6.0.0</osgiVersion>
+        <slf4j.version>1.7.25</slf4j.version>
+        <logback.version>1.2.3</logback.version>
+        <kotlin.version>1.2.40</kotlin.version>
+
+        <!-- Diverse plugin versions -->
+        <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
+        <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
+        <dependency.plugin.version>3.0.2</dependency.plugin.version>
+        <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
+
+        <!-- Code style properties -->
+        <wtp.version>2.0</wtp.version>
+        <skip.verify.code>false</skip.verify.code>
+
+        <!-- Enforcer configuration parameters -->
+        <enforcer.version>3.0.0-M1</enforcer.version>
+        <enforcer.includedGroupIdPatterns>^se\\.jguru\\..*</enforcer.includedGroupIdPatterns>
+        <enforcer.excludedGroupIdPatterns>^se\\.jguru\\..*\\.generated\\..*,^se\\.jguru\\.codestyle\\..*</enforcer.excludedGroupIdPatterns>
+
+        <!-- Openclover configuration parameters -->
+        <clover.plugin.version>4.2.1</clover.plugin.version>
+        <clover.plugin.required.percentage>80%</clover.plugin.required.percentage>
+
+        <!-- AspectJ Properties -->
+        <aspectj.runtime.version>1.8.13</aspectj.runtime.version>
+        <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
+
+        <!-- Checkstyle configuration parameters. -->
+        <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
+        <checkstyle.config.location>codestyle/checkstyle.xml</checkstyle.config.location>
+        <checkstyle.suppressions.location>codestyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
+        <checkstyle.violationSeverity>error</checkstyle.violationSeverity>
+        <checkstyle.excludes>**/generated/**/*,**/grammars/**/*</checkstyle.excludes>
+
+        <!-- PMD configuration parameters. -->
+        <pmd.plugin.version>3.8</pmd.plugin.version>
+        <pmd.ruleset>/codestyle/pmd-rules.xml</pmd.ruleset>
+
+        <!-- Spotbugs configuration parameters. -->
+        <spotbugs.plugin.version>3.1.1</spotbugs.plugin.version>
+        <spotbugs.only.analyze>se.jguru.*</spotbugs.only.analyze>
+        <spotbugs.includeFilterFile>codestyle/spotbugs.xml</spotbugs.includeFilterFile>
+        <spotbugs.excludeFilterFile>codestyle/spotbugs-excludes.xml</spotbugs.excludeFilterFile>
+
+        <!-- Surefire configuration parameters. -->
+        <surefire.memconf>-Xmx1024m -XX:MaxPermSize=512m</surefire.memconf>
+        <surefire.encoding>-Dfile.encoding=${project.build.sourceEncoding}</surefire.encoding>
+        <surefire.argLine>${surefire.memconf} ${surefire.encoding}</surefire.argLine>
+
+        <!-- License plugin configuration parameters. -->
+        <license.id>jguru_apl_v2</license.id>
+        <license.licenseResolver>classpath://codestyle/license</license.licenseResolver>
+
+        <!-- Define code-breaking constants -->
+        <breakOnFailure.checkstyle>true</breakOnFailure.checkstyle>
+        <breakOnFailure.pmd>true</breakOnFailure.pmd>
+        <breakOnFailure.enforcer>true</breakOnFailure.enforcer>
+        <breakOnFailure.license>true</breakOnFailure.license>
+
+        <!-- Site plugin properties -->
+        <maven-site-plugin.version>3.7</maven-site-plugin.version>
+        <doxia-modules.version>1.8</doxia-modules.version>
+        <wagon-modules.version>2.10</wagon-modules.version>
+
+        <!-- Resource-controlling properties -->
+        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
+        <maven-resources-plugin.includeEmptyDirs>true</maven-resources-plugin.includeEmptyDirs>
+        <apiviz.version>1.3.4</apiviz.version>
+    </properties>
+
+    <developers>
+        <developer>
+            <id>lj</id>
+            <name>Lennart Jörelid</name>
+            <email>lj@jguru.se</email>
+            <roles>
+                <role>Committer</role>
+            </roles>
+            <organization>jGuru Europe AB</organization>
+            <organizationUrl>http://www.jguru.se</organizationUrl>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+    <!--
+    ################################################
+    # Section 2:  Dependency (management) settings
+    ################################################
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--
+                JavaEE specification.
+            -->
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>7.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--
+                AOP dependencies.
+            -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.runtime.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjtools</artifactId>
+                <version>${aspectj.runtime.version}</version>
+            </dependency>
+
+            <!--
+                OSGi dependencies
+            -->
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>${osgiVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>osgi.cmpn</artifactId>
+                <version>${osgiVersion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-jdk8</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+
+            <!--
+               Test framework dependencies
+            -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <scope>test</scope>
+                <version>4.12</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!--
+    ################################################
+    # Section 3:  Build settings
+    ################################################
+    -->
+    <build>
+        <pluginManagement>
+            <plugins>
+
+                <!--
+                    Provides Plantuml integration into site deployments.
+
+                    Why:  Convert Plantuml documents to png images.
+                    Used: Site lifecycle, mvn site.
+                -->
+                <plugin>
+                    <groupId>com.github.jeluard</groupId>
+                    <artifactId>plantuml-maven-plugin</artifactId>
+                    <version>7954</version>
+                    <configuration>
+                        <sourceFiles>
+                            <directory>${basedir}</directory>
+                            <includes>
+                                <include>src/site/**/*.puml</include>
+                            </includes>
+                        </sourceFiles>
+                        <outputDirectory>${project.build.directory}/site/images/plantuml</outputDirectory>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>generate-plantuml-diagrams</id>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <phase>pre-site</phase>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <!--
+                            NOTE!
+
+                            Do not upgrade the plantuml dependency above version 8030, as those plantuml releases
+                            are not binary compatible with the plugin version 7954.
+                        -->
+                        <dependency>
+                            <groupId>net.sourceforge.plantuml</groupId>
+                            <artifactId>plantuml</artifactId>
+                            <version>8030</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Use the latest maven-clean-plugin.
+
+                    Why:  Override the version in Maven's super pom.xml.
+                    Used: Clean lifecycle
+                -->
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                        <filesets>
+                            <fileset>
+                                <directory>${project.build.directory}</directory>
+                                <excludes>
+                                    <exclude>generated-resources/eclipse/**</exclude>
+                                </excludes>
+                            </fileset>
+                        </filesets>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    This is not a proper maven plugin configuration, but instead Eclipse metadata for M2E.
+
+                    Why:  Eclipse metadata for M2E lifecycle mappings
+                    Used: Only by Eclipse; neither used by Maven nor any other IDE.
+                -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>license-maven-plugin</artifactId>
+                                        <goals>
+                                            <goal>check-file-header</goal>
+                                            <goal>update-project-license</goal>
+                                        </goals>
+                                        <versionRange>[1.12,2)</versionRange>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute>
+                                            <runOnConfiguration>true</runOnConfiguration>
+                                            <runOnIncremental>false</runOnIncremental>
+                                        </execute>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-ear-plugin</artifactId>
+                                        <goals>
+                                            <goal>ear</goal>
+                                            <goal>generate-application-xml</goal>
+                                        </goals>
+                                        <versionRange>2.5</versionRange>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>buildnumber-maven-plugin</artifactId>
+                                        <goals>
+                                            <goal>create-timestamp</goal>
+                                        </goals>
+                                        <versionRange>[0.0,)</versionRange>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>build-helper-maven-plugin</artifactId>
+                                        <versionRange>[3.0.0,)</versionRange>
+                                        <goals>
+                                            <goal>add-source</goal>
+                                            <goal>add-test-source</goal>
+                                            <goal>add-resource</goal>
+                                            <goal>add-test-resource</goal>
+                                            <goal>maven-version</goal>
+                                            <goal>parse-version</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute>
+                                            <runOnConfiguration>true</runOnConfiguration>
+                                            <runOnIncremental>true</runOnIncremental>
+                                        </execute>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-dependency-plugin</artifactId>
+                                        <goals>
+                                            <goal>list</goal>
+                                            <goal>copy</goal>
+                                            <goal>copy-dependencies</goal>
+                                            <goal>unpack</goal>
+                                        </goals>
+                                        <versionRange>[0.0,)</versionRange>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.zeroturnaround</groupId>
+                                        <artifactId>jrebel-maven-plugin</artifactId>
+                                        <goals>
+                                            <goal>generate</goal>
+                                        </goals>
+                                        <versionRange>[0.0,)</versionRange>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>gwt-maven-plugin</artifactId>
+                                        <goals>
+                                            <goal>resources</goal>
+                                            <goal>compile</goal>
+                                            <goal>i18n</goal>
+                                            <goal>generateAsync</goal>
+                                        </goals>
+                                        <versionRange>[0.0,)</versionRange>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>aspectj-maven-plugin</artifactId>
+                                        <versionRange>[1.0,)</versionRange>
+                                        <goals>
+                                            <goal>test-compile</goal>
+                                            <goal>compile</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute/>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-war-plugin</artifactId>
+                                        <versionRange>[3.0,)</versionRange>
+                                        <goals>
+                                            <goal>exploded</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <execute/>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-enforcer-plugin</artifactId>
+                                        <goals>
+                                            <goal>enforce</goal>
+                                        </goals>
+                                        <versionRange>[1.0.0,)</versionRange>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.servicemix.tooling</groupId>
+                                        <artifactId>depends-maven-plugin</artifactId>
+                                        <goals>
+                                            <goal>generate-depends-file</goal>
+                                        </goals>
+                                        <versionRange>[1.2,)</versionRange>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.openjpa</groupId>
+                                        <artifactId>openjpa-maven-plugin</artifactId>
+                                        <goals>
+                                            <goal>enhance</goal>
+                                            <goal>test-enhance</goal>
+                                        </goals>
+                                        <versionRange>[1.2,)</versionRange>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Define the jdeps plugin version.
+
+                    Why:  Plugin used to validate projects for illegal Java9 code references.
+                    Used: As included in [sub]projects.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jdeps-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <configuration>
+                        <dotOutput>${project.build.directory}/classes/META-INF/jdeps</dotOutput>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Define OSGi bundle plugin version.
+
+                    Why:  Plugin used to generate OSGi Manifest headers in JARs.
+                    Used: As included in [sub]projects.
+                -->
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <executions>
+                        <execution>
+                            <id>bundle-manifest</id>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>manifest</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <supportedProjectTypes>
+                            <supportedProjectType>ejb</supportedProjectType>
+                            <supportedProjectType>jar</supportedProjectType>
+                            <supportedProjectType>bundle</supportedProjectType>
+                            <supportedProjectType>war</supportedProjectType>
+                            <supportedProjectType>ear</supportedProjectType>
+                        </supportedProjectTypes>
+                        <instructions>
+                            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        </instructions>
+                    </configuration>
+                </plugin>
+
+                <!--
+
+                    Configures the release plugin to use a custom release profile.
+
+                    Why:  Release artifacts
+                    Used: Normal lifecycle, release goal
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven.release.plugin.version}</version>
+                    <configuration>
+                        <arguments>-Pjguru-release</arguments>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <tagNameFormat>${reactor.name}-@{project.version}</tagNameFormat>
+                        <goals>deploy</goals>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>1.9.4</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Configures the WAR plugin to properly use the generated OSGi-compliant manifest.
+
+                    Why:  Assigns some manifest data within the WARs in WAR projects. Reads bundle-generated manifest.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                            <manifestEntries>
+                                <name>${project.name}</name>
+                                <description>${project.description}</description>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Configure EAR plugin, directs all normal dependencies in the /lib directory.
+
+                    Why:  Assigns some manifest data within JARs.
+                          Reads bundle-generated manifest. Uses JEE 6 style EARs.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>2.10.1</version>
+                    <executions>
+                        <execution>
+                            <id>packageEar</id>
+                            <goals>
+                                <goal>generate-application-xml</goal>
+                                <goal>ear</goal>
+                            </goals>
+                            <configuration>
+                                <!-- defaultJavaBundleDir>lib</defaultJavaBundleDir -->
+                                <defaultLibBundleDir>lib</defaultLibBundleDir>
+                                <version>6</version>
+                                <archive>
+                                    <manifest>
+                                        <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                    </manifest>
+                                    <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                                    <manifestEntries>
+                                        <name>${project.name}</name>
+                                        <description>${project.description}</description>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>${project.artifactId}</artifactId>
+                                    </manifestEntries>
+                                </archive>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                    Configure EJB plugin, uses EJB version 3.1 by default.
+
+                    Why:  Assigns some manifest data within JARs. Reads bundle-generated manifest.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <generateClient>false</generateClient>
+                        <ejbVersion>3.1</ejbVersion>
+                        <detail>true</detail>
+                        <archive>
+                            <manifest>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                            <manifestEntries>
+                                <description>${project.description}</description>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Configure JAR plugin.
+
+                    Why:  Assigns some manifest data within JARs. Reads bundle-generated manifest.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                            <manifestEntries>
+                                <name>${project.name}</name>
+                                <description>${project.description}</description>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Configure Compiler plugin.
+
+                    Why:  Ensures source and target Java versions, as well as source encoding (UTF-8).
+                    Used: Standard lifecycle, mvn compile.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <source>${jdk.version}</source>
+                        <target>${jdk.version}</target>
+                        <showWarnings>true</showWarnings>
+                        <showDeprecation>true</showDeprecation>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Define deploy plugin version.
+
+                    Why:  Version definition only.
+                    Used: Standard lifecycle, mvn deploy
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+
+                <!--
+                    Define project-info-reports plugin version, and reduce the time taken to run it.
+
+                    Why:  Version definition only.
+                    Used: Standard lifecycle, mvn site.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>${maven-project-info-reports-plugin.version}</version>
+                    <configuration>
+                        <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                        <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Configures the maven resources plugin.
+
+                    Why:  Ensures that all resources are handled using the standard source encoding.
+                    Used: Standard lifecycle, mvn process-resources.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${maven-resources-plugin.version}</version>
+                    <configuration>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <escapeString>\</escapeString>
+                        <includeEmptyDirs>${maven-resources-plugin.includeEmptyDirs}</includeEmptyDirs>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Analyzes imported dependencies.
+
+                    Why:  Provide warnings when imported dependencies are not used within the project.
+                    Used: Standard lifecycle.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${dependency.plugin.version}</version>
+                </plugin>
+
+                <!--
+                    Configures the maven surefire plugin, which runs the unit tests invoking JUnit.
+                    Surefire's argument line is overridable in subprojects using the property "surefire.argLine".
+
+                    Why:  Supply required encoding (UTF-8), as well as memory sizing definitions.
+                    Used: Standard lifecycle, mvn test.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.20.1</version>
+                    <configuration>
+                        <argLine>${surefire.argLine}</argLine>
+                        <trimStackTrace>false</trimStackTrace>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Define the version of the Failsafe plugin
+
+                    Why:  Ensure we have a recent enough surefire to use parallelism properly
+                    When: Standard lifecycle, integration-test phases
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.21.0</version>
+                    <configuration>
+                        <argLine>${surefire.argLine}</argLine>
+                        <parallelOptimized>true</parallelOptimized>
+                        <workingDirectory>${basedir}/target/FAILSAFE_FORK_DIRECTORY_${surefire.forkNumber}</workingDirectory>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.surefire</groupId>
+                            <artifactId>surefire-junit47</artifactId>
+                            <version>2.21.0</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Define source plugin version, which generates source:jars.
+
+                    Why:  Version definition only.
+                    Used: Standard lifecyle, mvn source:jar.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+
+                <!--
+                    Configures the site plugin to properly cope with link relativization, staging and deployment
+                    in a controlled and extensible manner.
+
+                    Why:  Generates site documentation. Adds wagon remote deployment capability.
+                    Used: Standard lifecycle, mvn site, mvn site:stage.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${maven-site-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-descriptor</id>
+                            <goals>
+                                <goal>attach-descriptor</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-deploy</id>
+                            <phase>site-deploy</phase>
+                            <goals>
+                                <goal/>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <topSiteURL>${site.url.prefix}/${reactor.name}</topSiteURL>
+                        <stagingSiteURL>${site.url.prefix}/${reactor.name}</stagingSiteURL>
+                        <stagingDirectory>${site.staging.localDirectory}</stagingDirectory>
+                        <generateSitemap>true</generateSitemap>
+                        <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+                        <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>0.9.4-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Provides PMD code-style checking integration into the project.
+
+                    Why:  Validates the codestyle.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>${pmd.plugin.version}</version>
+                    <configuration>
+                        <skip>${skip.verify.code}</skip>
+                        <excludes>
+                            <exclude>**/generated/**/*</exclude>
+                            <exclude>**/grammars/**/*</exclude>
+                        </excludes>
+                        <targetJdk>${jdk.version}</targetJdk>
+                        <rulesets>
+                            <ruleset>${pmd.ruleset}</ruleset>
+                        </rulesets>
+                        <printFailingErrors>true</printFailingErrors>
+                        <failOnViolation>${breakOnFailure.pmd}</failOnViolation>
+                        <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>0.9.4-SNAPSHOT</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>log4j</groupId>
+                            <artifactId>log4j</artifactId>
+                            <version>1.2.17</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Enforces the defined code style, as provided within the codestyle project.
+
+                    Why:  Validates the codestyle.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${checkstyle.plugin.version}</version>
+                    <configuration>
+                        <skip>${skip.verify.code}</skip>
+                        <configLocation>${checkstyle.config.location}</configLocation>
+                        <excludes>${checkstyle.excludes}</excludes>
+                        <suppressionsLocation>${checkstyle.suppressions.location}</suppressionsLocation>
+                        <failOnViolation>${breakOnFailure.checkstyle}</failOnViolation>
+                        <violationSeverity>${checkstyle.violationSeverity}</violationSeverity>
+                        <sourceDirectories>${basedir}/src/main/java</sourceDirectories>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>verify</id>
+                            <phase>${check.plugins.phase}</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>report</id>
+                            <goals>
+                                <goal>checkstyle</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>0.9.4-SNAPSHOT</version>
+                        </dependency>
+                        <!--
+                            Workaround https://github.com/jcgay/maven-color/issues/8
+                            i.e. Maven 2 to 3 incompatibilities.
+                         -->
+                        <dependency>
+                            <groupId>org.slf4j</groupId>
+                            <artifactId>jcl-over-slf4j</artifactId>
+                            <version>${slf4j.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.slf4j</groupId>
+                            <artifactId>slf4j-jdk14</artifactId>
+                            <version>${slf4j.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Provides unit test coverage for the project.
+
+                    Used: Standard build, mvn test.
+                -->
+                <plugin>
+                    <groupId>org.openclover</groupId>
+                    <artifactId>clover-maven-plugin</artifactId>
+                    <version>${clover.plugin.version}</version>
+                    <configuration>
+                        <cloverDatabase>${project.build.directory}/clover.db</cloverDatabase>
+                        <targetPercentage>${clover.plugin.required.percentage}</targetPercentage>
+                        <jdk>${jdk.version}</jdk>
+                        <includes>
+                            <include>**/*.java</include>
+                        </includes>
+                        <excludes>
+                            <exclude>src/test/java/**/*.java</exclude>
+                            <exclude>**/generated/**</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Provides Spotbugs for the project.
+
+                    Used: Standard build, mvn test, site.
+                -->
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>${spotbugs.plugin.version}</version>
+                    <configuration>
+                        <threshold>Low</threshold>
+                        <effort>Max</effort>
+                        <onlyAnalyze>${spotbugs.only.analyze}</onlyAnalyze>
+                        <includeFilterFile>${spotbugs.includeFilterFile}</includeFilterFile>
+                        <excludeFilterFile>${spotbugs.excludeFilterFile}</excludeFilterFile>
+                        <relaxed>false</relaxed>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>check</goal>
+                                <goal>spotbugs</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>0.9.4-SNAPSHOT</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.codehaus.groovy</groupId>
+                            <artifactId>groovy</artifactId>
+                            <version>2.4.13</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    The license plugin is quite inflexible about the format for the injected/detected file header
+                    in terms of license structure. Use it as intended, but provide a variable
+
+                    Why:  Ensures that all files contain a license header.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>1.14</version>
+                    <configuration>
+                        <descriptionTemplate>/codestyle/license/${license.id}/licenseDescriptionTemplate.ftl</descriptionTemplate>
+                        <failOnMissingHeader>${breakOnFailure.license}</failOnMissingHeader>
+                        <licenseName>${license.id}</licenseName>
+                        <licenseResolver>${license.licenseResolver}</licenseResolver>
+                        <canUpdateDescription>true</canUpdateDescription>
+                        <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+                        <licenseFile>${project.build.directory}/LICENSE.TXT</licenseFile>
+                        <roots>
+                            <root>${project.basedir}/src/main</root>
+                            <root>${project.basedir}/src/test</root>
+                            <root>${project.basedir}/src/site</root>
+                        </roots>
+                        <excludes>
+                            <!-- Custom excludes -->
+                            <param>**/*.json</param>
+                            <!-- Modelling filetypes -->
+                            <param>**/*.zargo</param>
+                            <param>**/*.uml</param>
+                            <param>**/*.umldi</param>
+                            <param>**/*.umldi</param>
+                            <param>**/*.xmi</param>
+                            <!-- Image filetypes -->
+                            <param>**/*.img</param>
+                            <param>**/*.png</param>
+                            <param>**/*.jpg</param>
+                            <param>**/*.jpeg</param>
+                            <param>**/*.gif</param>
+                            <!-- Archives -->
+                            <param>**/*.zip</param>
+                            <param>**/*.jar</param>
+                            <param>**/*.war</param>
+                            <param>**/*.ear</param>
+                            <param>**/*.tgz</param>
+                            <param>**/*.gz</param>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>check-file-header</id>
+                            <phase>process-sources</phase>
+                            <goals>
+                                <goal>check-file-header</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>add-license</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>update-project-license</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>0.9.4-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+
+                <!--
+                    Use a working version of the Maven versions plugin.
+
+                    Why:  Workaround for https://jira.codehaus.org/browse/MVERSIONS-236
+                    Used: Only when called.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${versions-maven-plugin.version}</version>
+                </plugin>
+
+                <!--
+                    Define the version of the maven-gpg-plugina
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                    Extracts dependency information from the build into a property file within the artifact.
+
+                    Why:  Plugin used to generate a META-INF/maven/dependencies.properties file within the artifact.
+                    Used: In all projects; generate-resources phase.
+                -->
+                <plugin>
+                    <groupId>org.apache.servicemix.tooling</groupId>
+                    <artifactId>depends-maven-plugin</artifactId>
+                    <version>1.4.0</version>
+                </plugin>
+
+                <!--
+                    Use the site-maven-plugin which works with GitHub site deployments.
+
+                    Why:  GitHub-based site deployment is done by committing into the branch gh-pages.
+                    Used: Only at release time.
+                -->
+                <plugin>
+                    <groupId>com.github.github</groupId>
+                    <artifactId>site-maven-plugin</artifactId>
+                    <version>0.12</version>
+                    <configuration>
+                        <message>Creating site for version ${project.version}</message>
+                        <noJekyll>true</noJekyll>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+
+            <!-- Attach a source jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Check codestyle, part 1: Checkstyle -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>verify</id>
+                        <phase>${check.plugins.phase}</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Check codestyle, part 2: PMD -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Check codestyle, part 3: Spotbugs -->
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Fix project license documents -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>check-file-header</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>update-file-header</goal>
+                            <goal>update-project-license</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Compile the code -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- Enforce not importing incorrect projects. -->
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${enforcer.version}</version>
+                <executions>
+                    <execution>
+                        <id>enforce-imports</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <fail>${breakOnFailure.enforcer}</fail>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.0.5,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${jdk.version}</version>
+                                </requireJavaVersion>
+                                <requireUpperBoundDeps/>
+
+                                <!--
+                                    Enforce the ProjectType structure, implying that all projects
+                                    must comply with the project template definitions.
+                                -->
+                                <validateProjectTypes
+                                        implementation="se.jguru.codestyle.projects.enforcer.PermittedProjectTypeRule"/>
+
+                                <!--
+                                    Enforce the implementation rules for dependencies, to enforce that
+                                    the level of dependency tanglement is not increased. This implies that
+                                    implementation projects cannot import other implementation projects (but
+                                    instead should import APIs).
+
+                                    While the configuration below reflect the default settings, it is
+                                    reproduced her to serve as an example of how to configure this enforcement rule
+                                    in child reactors - where needs are likely different than here.
+                                -->
+                                <restrictImplDependencies
+                                        implementation="se.jguru.codestyle.projects.enforcer.CorrectDependenciesRule">
+                                    <evaluateGroupIds>${enforcer.includedGroupIdPatterns}</evaluateGroupIds>
+                                    <dontEvaluateGroupIds>${enforcer.excludedGroupIdPatterns}</dontEvaluateGroupIds>
+                                </restrictImplDependencies>
+
+                                <!--
+                                    Enforce using correct packages for classes within a NSC project.
+                                    The root package of any project should be identical to its groupId.
+                                    Any package below the root package can safely be used - so ...
+
+                                    if the groupId of a project is "com.acme.foobar",
+                                    then all code within that project must reside within the "com.acme.foobar" package,
+                                    or in any subpackage thereof.
+                                -->
+                                <correctPackaging
+                                        implementation="se.jguru.codestyle.projects.enforcer.CorrectPackagingRule"/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>se.jguru.codestyle</groupId>
+                        <artifactId>jguru-codestyle</artifactId>
+                        <version>0.9.4-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.maven.enforcer</groupId>
+                        <artifactId>enforcer-api</artifactId>
+                        <version>${enforcer.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- Generate maven dependencies listing file -->
+            <plugin>
+                <groupId>org.apache.servicemix.tooling</groupId>
+                <artifactId>depends-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-depends-file</id>
+                        <goals>
+                            <goal>generate-depends-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                Ensure projects do not depend on deprecated internal classes
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jdeps-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jdkinternals</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                Define the version of the Build-Helper maven plugin.
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+
+            <!-- Analyze dependencies for usage within the project -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>analyze</id>
+                        <goals>
+                            <goal>analyze-only</goal>
+                        </goals>
+                        <configuration>
+                            <!--
+                                Don't break the build if we have unused dependencies.
+                                Since we cannot exclude the global Aspect libraries from
+                                breaking the build (they should be available as a compile-
+                                scope dependency), we can only provide a warning about
+                                unused dependencies.
+                             -->
+                            <failOnWarning>false</failOnWarning>
+
+                            <!-- Only deal with compile-scope dependencies -->
+                            <ignoreNonCompile>true</ignoreNonCompile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Produce an OSGi-compliant MANIFEST.MF file. -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Generate png images from Plantuml source files. -->
+            <plugin>
+                <groupId>com.github.jeluard</groupId>
+                <artifactId>plantuml-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-plantuml-diagrams</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+        <outputDirectory>${project.build.directory}/site</outputDirectory>
+
+        <plugins>
+
+            <!--
+                 Due to problems in the Maven 3 site plugin you must enter the configuration twice,
+                 once for the pluginManagement section and once for site reporting.
+            -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven-project-info-reports-plugin.version}</version>
+                <configuration>
+                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
+            </plugin>
+
+            <!--
+                Configure the javadoc plugin not to fail on standard HTML
+                constructs when building using JDK 8.
+
+                Typical standard constructs include empty tags, like: <p />
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <stylesheet>java</stylesheet>
+                    <groups>
+                        <group>
+                            <title>Nazgul Framework: Tools Packages</title>
+                            <packages>se.jguru.nazgul.tools.*</packages>
+                        </group>
+                        <group>
+                            <title>Nazgul Framework: Core Packages</title>
+                            <packages>se.jguru.nazgul.core.*</packages>
+                        </group>
+                        <group>
+                            <title>jGuru: Codestyle Packages</title>
+                            <packages>se.jguru.codestyle.*</packages>
+                        </group>
+                        <group>
+                            <title>jGuru: Shared Components Packages</title>
+                            <packages>se.jguru.oss.shared.*</packages>
+                        </group>
+                    </groups>
+                    <useStandardDocletOptions>true</useStandardDocletOptions>
+                    <charset>${project.build.sourceEncoding}</charset>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <docencoding>${project.build.sourceEncoding}</docencoding>
+                    <breakiterator>true</breakiterator>
+                    <version>true</version>
+                    <author>true</author>
+                    <keywords>true</keywords>
+                    <additionalOptions>
+                        <additionalOption>-Xdoclint:none</additionalOption>
+                    </additionalOptions>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+
+            <!--
+                 Due to problems in the Maven 3 site plugin you must enter the configuration twice,
+                 once for the pluginManagement section and once for the site, see
+                 http://jira.codehaus.org/browse/MSITE-516 and http://jira.codehaus.org/browse/MSITE-523
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${pmd.plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <id>pmd-reports</id>
+                        <reports>
+                            <report>pmd</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <excludes>
+                        <exclude>**/generated/**/*</exclude>
+                        <exclude>**/grammars/**/*</exclude>
+                    </excludes>
+                    <rulesets>
+                        <ruleset>${pmd.ruleset}</ruleset>
+                    </rulesets>
+                    <targetJdk>${jdk.version}</targetJdk>
+                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                </configuration>
+            </plugin>
+
+            <!--
+                 Due to problems in the Maven 3 site plugin you must enter the configuration twice,
+                 once for the pluginManagement section and once for the site, see
+                 http://jira.codehaus.org/browse/MSITE-516 and http://jira.codehaus.org/browse/MSITE-523
+
+                 Cannot use checkstyle reports until https://github.com/apache/maven-plugins/pull/88
+                 is merged into the maven-checkstyle-plugin codebase. (Or until we publish a stable-version
+                 clone with changed GroupID for internal use).
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.plugin.version}</version>
+                <configuration>
+                    <configLocation>${checkstyle.config.location}</configLocation>
+                    <suppressionsLocation>${checkstyle.suppressions.location}</suppressionsLocation>
+                    <failOnViolation>${breakOnFailure.checkstyle}</failOnViolation>
+                    <violationSeverity>${checkstyle.violationSeverity}</violationSeverity>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <id>checkstyle-report</id>
+                        <reports>
+                            <report>checkstyle</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <!--
+                 Due to problems in the Maven 3 site plugin you must enter the configuration twice,
+                 once for the pluginManagement section and once for the site, see
+                 http://jira.codehaus.org/browse/MSITE-516 and http://jira.codehaus.org/browse/MSITE-523
+            -->
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs.plugin.version}</version>
+                <configuration>
+                    <threshold>Low</threshold>
+                    <effort>Max</effort>
+                    <onlyAnalyze>${spotbugs.only.analyze}</onlyAnalyze>
+                    <includeFilterFile>${spotbugs.includeFilterFile}</includeFilterFile>
+                    <excludeFilterFile>${spotbugs.excludeFilterFile}</excludeFilterFile>
+                    <relaxed>false</relaxed>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>spotbugs</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openclover</groupId>
+                <artifactId>clover-maven-plugin</artifactId>
+                <configuration>
+                    <generateHistorical>true</generateHistorical>
+                    <generateHtml>true</generateHtml>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${versions-maven-plugin.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <!--
+    ################################################
+    # Section 4:  External systems
+    ################################################
+    -->
+
+    <!--
+        Define the Continuous Build server address.
+    -->
+    <ciManagement>
+        <system>TravisCI</system>
+        <url>https://travis-ci.org/lennartj/jguru-codestyle</url>
+    </ciManagement>
+
+    <!--
+        Define the issue management system.
+    -->
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/lennartj/jguru-codestyle/issues</url>
+    </issueManagement>
+
+    <!--
+        Define repository settings for Maven's deploy and release plugins.
+        Move parts to settings.xml, as per recommendation within Maven specs.
+    -->
+    <distributionManagement>
+        <repository>
+            <id>ossrh-staging</id>
+            <name>Sonatype OSS Nexus: Releases</name>
+            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>ossrh-snapshots</id>
+            <name>Sonatype OSS Nexus: Snapshots</name>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <site>
+            <id>github_site</id>
+            <name>GitHub Site for jGuru Codestyle</name>
+            <url>${site.top.url}/${path.in.reactor}</url>
+        </site>
+    </distributionManagement>
+
+    <!--
+        Define connections for Maven's VCS integration.
+    -->
+    <scm>
+        <connection>${scm.connection.url}</connection>
+        <developerConnection>${scm.devConnection.url}</developerConnection>
+        <url>${scm.url}</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <!--
+    ################################################
+    # Section 5:  Profiles
+    ################################################
+    -->
+    <profiles>
+        <!--
+            Release profile for Nazgul Reactors.
+        -->
+        <profile>
+            <id>jguru-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <updateReleaseInfo>true</updateReleaseInfo>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-jar-no-fork</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <failOnError>false</failOnError>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!--
+            Purpose:    Skip deploy step for dryRun
+        -->
+        <profile>
+            <id>release.dryRun</id>
+            <activation>
+                <property>
+                    <name>dryRun</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>${maven.release.plugin.version}</version>
+                        <configuration>
+                            <mavenExecutorId>forked-path</mavenExecutorId>
+                            <preparationGoals>-B clean install</preparationGoals>
+                            <localCheckout>true</localCheckout>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!--
+            Purpose:    Turn off the checks of the code quality plugins [spotbugs, checkstyle, pmd].
+        -->
+        <profile>
+            <id>skipVerifyCode</id>
+            <activation>
+                <property>
+                    <name>skipVerifyCode</name>
+                </property>
+            </activation>
+            <properties>
+                <skip.verify.code>true</skip.verify.code>
+            </properties>
+        </profile>
+    </profiles>
+</project>

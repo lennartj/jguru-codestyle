@@ -1,0 +1,16 @@
+<!--
+  ~ Copyright (c) jGuru Europe AB.
+  ~ All rights reserved.
+  -->
+<FindBugsFilter>
+    <Match>
+        <Package name="~jsp\.jsp.*"/>
+    </Match>
+    <Match>
+        <Class name="~.*"/>
+        <Not>
+            <Field type="com_cenqua_clover.*"/>
+        </Not>
+    </Match>
+</FindBugsFilter>
+

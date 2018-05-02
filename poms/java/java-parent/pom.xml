@@ -4,6 +4,7 @@
   ~ All rights reserved.
   -->
 
+<!--suppress MavenRedundantGroupId -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,20 +14,25 @@
     ################################################
     -->
     <parent>
-        <groupId>se.jguru.codestyle</groupId>
-        <artifactId>jguru-codestyle-reactor</artifactId>
+        <groupId>se.jguru.codestyle.poms.java</groupId>
+        <artifactId>jguru-codestyle-java-internal-parent</artifactId>
         <version>0.9.4-SNAPSHOT</version>
+        <relativePath>../java-internal-parent</relativePath>
     </parent>
 
-    <groupId>se.jguru.codestyle.poms</groupId>
-    <artifactId>jguru-codestyle-poms-reactor</artifactId>
+    <groupId>se.jguru.codestyle.poms.java</groupId>
+    <artifactId>jguru-codestyle-java-parent</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <url>${site.top.url}/${path.in.reactor}</url>
-    <description>jGuru Codestyle: POMs Reactor (${project.packaging}, version ${project.version})</description>
+    <description>jGuru Codestyle: Java Parent (${project.packaging}, version ${project.version})</description>
 
     <properties>
-        <path.in.reactor>poms</path.in.reactor>
+        <!--
+            Define the URL prefixes for Site Deployment and DistributionManagement.
+            These can be overridden in sub-reactors to tailor releases to other locations.
+        -->
+        <path.in.reactor>poms/java/java-parent</path.in.reactor>
 
         <!-- License plugin configuration parameters. -->
         <license.id>jguru_apl_v2</license.id>
@@ -39,10 +45,6 @@
     # Section 2:  Modules
     ################################################
     -->
-    <modules>
-        <module>kotlin</module>
-        <module>java</module>
-    </modules>
 
     <!--
     ################################################
@@ -64,7 +66,6 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <version>1.14</version>
                 <configuration>
-                    <encoding>${project.build.sourceEncoding}</encoding>
                     <descriptionTemplate>/codestyle/license/${license.id}/licenseDescriptionTemplate.ftl</descriptionTemplate>
                     <failOnMissingHeader>${breakOnFailure.license}</failOnMissingHeader>
                     <licenseName>${license.id}</licenseName>
@@ -74,6 +75,7 @@
                     <licenseFile>${project.build.directory}/LICENSE.TXT</licenseFile>
                     <roots>
                         <root>${project.basedir}/src/main</root>
+                        <root>${project.basedir}/src/test</root>
                         <root>${project.basedir}/src/site</root>
                     </roots>
                     <excludes>
@@ -99,17 +101,7 @@
                         <param>**/*.tgz</param>
                         <param>**/*.gz</param>
                     </excludes>
-                    <extraExtensions>
-                        <kt>java</kt>
-                    </extraExtensions>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>se.jguru.codestyle</groupId>
-                        <artifactId>jguru-codestyle</artifactId>
-                        <version>0.9.4-SNAPSHOT</version>
-                    </dependency>
-                </dependencies>
                 <executions>
                     <execution>
                         <id>check-file-header</id>
@@ -126,6 +118,13 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>se.jguru.codestyle</groupId>
+                        <artifactId>jguru-codestyle</artifactId>
+                        <version>0.9.4-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
@@ -143,7 +142,7 @@
     <distributionManagement>
         <site>
             <id>github_site</id>
-            <name>GitHub Site for jGuru Codestyle</name>
+            <name>GitHub Site for Nazgul Tools</name>
             <url>${site.top.url}/${path.in.reactor}</url>
         </site>
     </distributionManagement>
