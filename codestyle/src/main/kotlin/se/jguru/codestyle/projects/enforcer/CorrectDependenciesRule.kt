@@ -15,40 +15,26 @@ import se.jguru.codestyle.projects.ProjectType
  * Maven enforcement rule which ensures that Implementation [Artifact]s are not used as dependencies within
  * API, SPI or Model projects.
  *
+ * @param ignoredProjectTypes List containing [ProjectType]s for which this rule should be ignored.
+ * @param evaluateGroupIds List containing [Regex]ps which indicate which Maven GroupIDs should be included in this Rule
+ * @param dontEvaluateGroupIds List containing [Regex]ps which indicate which Maven GroupIDs should not be included
+ * (a.k.a. "ignored") in this Rule's evaluation.
+ * @param projectConverter A projectConverter method to convert each [MavenProject] to a [ProjectType].
+ * Defaults to `CommonProjectTypes#getProjectType`.
+ * @param artifactConverter A Maven [Artifact] to [ProjectType] converter function.
+ *
  * @author <a href="mailto:lj@jguru.se">Lennart J&ouml;relid</a>, jGuru Europe AB
  */
 class CorrectDependenciesRule(
-    /**
-     * List containing [ProjectType]s for which this rule should be ignored.
-     * Defaults to [IGNORED_PROJECT_TYPES] unless explicitly given.
-     */
+
     ignoredProjectTypes: List<ProjectType>?,
 
-    /**
-     * List containing [Regex]ps which indicate which Maven GroupIDs should be included in this Rule's evaluation.
-     * Defaults to [EVALUATE_GROUPIDS] unless explicitly given.
-     */
     evaluateGroupIds: List<String>?,
 
-    /**
-     * List containing [Regex]ps which indicate which Maven GroupIDs should not be included ("ignored") in this Rule's
-     * evaluation. Defaults to [IGNORE_GROUPIDS] unless explicitly given.
-     */
     dontEvaluateGroupIds: List<String>?,
 
-    /**
-     * A projectConverter method to convert each [MavenProject] to a [ProjectType].
-     * Defaults to `CommonProjectTypes#getProjectType`.
-     *
-     * @see CommonProjectTypes
-     */
     projectConverter: ((theProject: MavenProject) -> ProjectType)?,
 
-    /**
-     * A Maven [Artifact] to [ProjectType] converter function.
-     *
-     * @see CommonProjectTypes
-     */
     artifactConverter: ((theArtifact: Artifact) -> ProjectType)?) : AbstractNonCacheableEnforcerRule() {
 
     /**

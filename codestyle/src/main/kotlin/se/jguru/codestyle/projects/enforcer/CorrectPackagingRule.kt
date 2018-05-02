@@ -22,8 +22,8 @@ import java.util.TreeSet
  * implying that all source files should be located within or under a package identical
  * to the groupId of the project itself.
  *
- * @property enforcerLevel The level of enforcement within this Rule. Defaults to `EnforcerLevel.ERROR`.
- * @property packageExtractors The PackageExtractor implementations used to find packages from source code.
+ * @param enforcerLevel The level of enforcement within this Rule. Defaults to `EnforcerLevel.ERROR`.
+ * @param packageExtractors The PackageExtractor implementations used to find packages from source code.
  * Defaults to [DEFAULT_PACKAGE_EXTRACTORS].
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */

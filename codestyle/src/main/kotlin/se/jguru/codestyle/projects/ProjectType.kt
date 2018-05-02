@@ -62,27 +62,20 @@ interface ProjectType : Serializable {
 /**
  * Default ProjectType implementation which uses a [Regex] to determine if the groupID, artifactID
  * and packaging matches required presets.
+ *
+ * @param groupIdRegex The [Regex] to identify matching Aether GroupIDs for this [ProjectType]
+ * @param artifactIdRegex The [Regex] to identify matching Aether ArtifactIDs for this [ProjectType]
+ * @param packagingRegex The [Regex] to identify matching Aether packaging for this [ProjectType]
+ * @param acceptNullValues Indicates if received [null]s should be accepted or rejected.
  */
-open class DefaultProjectType(
+open class DefaultProjectType @JvmOverloads constructor(
 
-    /**
-     * The [Regex] to identify matching Aether GroupIDs for this [ProjectType]
-     */
     protected val groupIdRegex: Regex,
 
-    /**
-     * The [Regex] to identify matching Aether ArtifactIDs for this [ProjectType]
-     */
     protected val artifactIdRegex: Regex,
 
-    /**
-     * The [Regex] to identify matching Aether packaging for this [ProjectType]
-     */
     protected val packagingRegex: Regex,
 
-    /**
-     * Indicates if received [null]s should be accepted or rejected.
-     */
     protected val acceptNullValues: Boolean = false) : ProjectType {
 
     /**

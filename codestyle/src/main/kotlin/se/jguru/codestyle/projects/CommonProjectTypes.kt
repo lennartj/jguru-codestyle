@@ -12,6 +12,14 @@ import org.apache.maven.project.MavenProject
 /**
  * Commonly known and used ProjectTypes, collected within an enum.
  *
+ * @param artifactIdPattern The [java.util.regex.Pattern] which must match the artifactID of a Maven POM for this
+ * CommonProjectType to be valid.
+ * @param groupIdPattern The [java.util.regex.Pattern] which must match the groupID of a Maven POM for this
+ * CommonProjectType to be valid.
+ * @param packagingPattern The [java.util.regex.Pattern] which must match the packaging of a Maven POM for this
+ * CommonProjectType to be valid.
+ * @param acceptNullValues if true, this CommonProjectTypes value can accept null values within corresponding Maven POM
+ *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 enum class CommonProjectTypes(artifactIdPattern: String?,
