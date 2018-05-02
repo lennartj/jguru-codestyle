@@ -14,13 +14,13 @@
     ################################################
     -->
     <parent>
-        <groupId>se.jguru.codestyle.poms</groupId>
+        <groupId>se.jguru.codestyle.poms.kotlin</groupId>
         <artifactId>jguru-codestyle-kotlin-parent</artifactId>
         <version>0.9.4-SNAPSHOT</version>
         <relativePath>../kotlin-parent</relativePath>
     </parent>
 
-    <groupId>se.jguru.codestyle.poms</groupId>
+    <groupId>se.jguru.codestyle.poms.kotlin</groupId>
     <artifactId>jguru-codestyle-kotlin-api-parent</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
@@ -32,7 +32,7 @@
             Define the URL prefixes for Site Deployment and DistributionManagement.
             These can be overridden in sub-reactors to tailor releases to other locations.
         -->
-        <path.in.reactor>poms/kotlin-api-parent</path.in.reactor>
+        <path.in.reactor>poms/kotlin/kotlin-api-parent</path.in.reactor>
     </properties>
 
     <!--
@@ -114,7 +114,7 @@
     <distributionManagement>
         <site>
             <id>github_site</id>
-            <name>GitHub Site for Nazgul Tools</name>
+            <name>GitHub Site for jGuru Codestyle</name>
             <url>${site.top.url}/${path.in.reactor}</url>
         </site>
     </distributionManagement>

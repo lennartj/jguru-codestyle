@@ -11,13 +11,13 @@
     <!-- | Section 1:  Project information                -->
     <!-- +=============================================== -->
     <parent>
-        <groupId>se.jguru.codestyle.poms</groupId>
+        <groupId>se.jguru.codestyle.poms.kotlin</groupId>
         <artifactId>jguru-codestyle-kotlin-api-parent</artifactId>
         <version>0.9.4-SNAPSHOT</version>
         <relativePath>../kotlin-api-parent</relativePath>
     </parent>
 
-    <groupId>se.jguru.codestyle.poms</groupId>
+    <groupId>se.jguru.codestyle.poms.kotlin</groupId>
     <artifactId>jguru-codestyle-kotlin-war-parent</artifactId>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
@@ -29,7 +29,7 @@
         <resteasy.version>3.0.8.Final</resteasy.version>
         <undertow.version>1.0.15.Final</undertow.version>
 
-        <path.in.reactor>poms/jguru-codestyle-kotlin-war-parent</path.in.reactor>
+        <path.in.reactor>poms/kotlin/jguru-codestyle-kotlin-war-parent</path.in.reactor>
         <!--
             Don't break the build on coverage problems or pmd problems.
         -->

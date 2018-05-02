@@ -13,20 +13,20 @@
     ################################################
     -->
     <parent>
-        <groupId>se.jguru.codestyle</groupId>
-        <artifactId>jguru-codestyle-reactor</artifactId>
+        <groupId>se.jguru.codestyle.poms</groupId>
+        <artifactId>jguru-codestyle-poms-reactor</artifactId>
         <version>0.9.4-SNAPSHOT</version>
     </parent>
 
-    <groupId>se.jguru.codestyle.poms</groupId>
-    <artifactId>jguru-codestyle-poms-reactor</artifactId>
+    <groupId>se.jguru.codestyle.poms.java</groupId>
+    <artifactId>jguru-codestyle-poms-java-reactor</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <url>${site.top.url}/${path.in.reactor}</url>
-    <description>jGuru Codestyle: POMs Reactor (${project.packaging}, version ${project.version})</description>
+    <description>jGuru Codestyle: Java POMs Reactor (${project.packaging}, version ${project.version})</description>
 
     <properties>
-        <path.in.reactor>poms</path.in.reactor>
+        <path.in.reactor>poms/java</path.in.reactor>
 
         <!-- License plugin configuration parameters. -->
         <license.id>jguru_apl_v2</license.id>
@@ -40,8 +40,12 @@
     ################################################
     -->
     <modules>
-        <module>kotlin</module>
-        <!-- module>java</module -->
+        <module>java-internal-parent</module>
+        <module>java-parent</module>
+        <module>java-api-parent</module>
+        <module>java-model-parent</module>
+        <module>java-war-parent</module>
+        <module>java-reactor-parent</module>
     </modules>
 
     <!--

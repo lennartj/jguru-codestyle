@@ -4,7 +4,6 @@
   ~ All rights reserved.
   -->
 
-<!--suppress MavenRedundantGroupId -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -19,15 +18,20 @@
         <version>0.9.4-SNAPSHOT</version>
     </parent>
 
-    <groupId>se.jguru.codestyle.poms</groupId>
-    <artifactId>jguru-codestyle-kotlin-reactor-parent</artifactId>
+    <groupId>se.jguru.codestyle.poms.kotlin</groupId>
+    <artifactId>jguru-codestyle-poms-kotlin-reactor</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <url>${site.top.url}/${path.in.reactor}</url>
-    <description>jGuru Codestyle: Reactor Parent POM (${project.packaging}, version ${project.version})</description>
+    <description>jGuru Codestyle: Kotlin POMs Reactor (${project.packaging}, version ${project.version})</description>
 
     <properties>
-        <path.in.reactor>poms/kotlin-reactor-parent</path.in.reactor>
+        <path.in.reactor>poms/kotlin</path.in.reactor>
+
+        <!-- License plugin configuration parameters. -->
+        <license.id>jguru_apl_v2</license.id>
+        <license.licenseResolver>classpath://codestyle/license</license.licenseResolver>
+        <breakOnFailure.license>true</breakOnFailure.license>
     </properties>
 
     <!--
@@ -35,6 +39,15 @@
     # Section 2:  Modules
     ################################################
     -->
+    <modules>
+        <module>kotlin-internal-parent</module>
+        <module>kotlin-parent</module>
+        <module>kotlin-js-parent</module>
+        <module>kotlin-api-parent</module>
+        <module>kotlin-model-parent</module>
+        <module>kotlin-war-parent</module>
+        <module>kotlin-reactor-parent</module>
+    </modules>
 
     <!--
     ################################################
@@ -42,7 +55,6 @@
     ################################################
     -->
     <build>
-
         <plugins>
             <!--
                 The license plugin is quite inflexible about the format for the injected/detected file header
@@ -57,6 +69,7 @@
                 <artifactId>license-maven-plugin</artifactId>
                 <version>1.14</version>
                 <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <descriptionTemplate>/codestyle/license/${license.id}/licenseDescriptionTemplate.ftl</descriptionTemplate>
                     <failOnMissingHeader>${breakOnFailure.license}</failOnMissingHeader>
                     <licenseName>${license.id}</licenseName>
@@ -66,7 +79,6 @@
                     <licenseFile>${project.build.directory}/LICENSE.TXT</licenseFile>
                     <roots>
                         <root>${project.basedir}/src/main</root>
-                        <root>${project.basedir}/src/test</root>
                         <root>${project.basedir}/src/site</root>
                     </roots>
                     <excludes>
@@ -92,6 +104,9 @@
                         <param>**/*.tgz</param>
                         <param>**/*.gz</param>
                     </excludes>
+                    <extraExtensions>
+                        <kt>java</kt>
+                    </extraExtensions>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -133,7 +148,7 @@
     <distributionManagement>
         <site>
             <id>github_site</id>
-            <name>GitHub Site for Nazgul Tools</name>
+            <name>GitHub Site for jGuru Codestyle</name>
             <url>${site.top.url}/${path.in.reactor}</url>
         </site>
     </distributionManagement>
@@ -145,6 +160,6 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 </project>

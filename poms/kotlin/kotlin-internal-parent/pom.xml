@@ -19,7 +19,7 @@
         <version>9</version>
     </parent>
 
-    <groupId>se.jguru.codestyle.poms</groupId>
+    <groupId>se.jguru.codestyle.poms.kotlin</groupId>
     <artifactId>jguru-codestyle-kotlin-internal-parent</artifactId>
     <version>0.9.4-SNAPSHOT</version>
     <name>${project.artifactId}</name>
@@ -49,11 +49,11 @@
             These can be overridden in sub-reactors to tailor releases to other locations.
         -->
         <reactor.name>jguru-codestyle</reactor.name>
-        <path.in.reactor>poms/kotlin-internal-parent</path.in.reactor>
+        <path.in.reactor>poms/kotlin/kotlin-internal-parent</path.in.reactor>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.40</kotlin.version>
+        <kotlin.version>1.2.41</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
 
         <!--
@@ -104,7 +104,7 @@
         <maven-site-plugin.version>3.7</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
-        <versions-maven-plugin.version>2.1.4</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
 
         <!-- Standard test-scope properties -->
         <junit.version>4.12</junit.version>
@@ -281,7 +281,7 @@
                     Used: Only when called.
                 -->
                 <plugin>
-                    <groupId>de.lgohlke.mojo</groupId>
+                    <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
                     <version>${versions-maven-plugin.version}</version>
                 </plugin>
@@ -739,7 +739,7 @@
                 Used: Only when called.
             -->
             <plugin>
-                <groupId>de.lgohlke.mojo</groupId>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>${versions-maven-plugin.version}</version>
             </plugin>

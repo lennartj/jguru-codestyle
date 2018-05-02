@@ -87,7 +87,7 @@
         <maven-site-plugin.version>3.7</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
-        <versions-maven-plugin.version>2.1.4</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
     </properties>
 
     <developers>
@@ -181,7 +181,7 @@
                     Used: Only when called.
                 -->
                 <plugin>
-                    <groupId>de.lgohlke.mojo</groupId>
+                    <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
                     <version>${versions-maven-plugin.version}</version>
                 </plugin>
@@ -425,7 +425,7 @@
                 Used: Only when called.
             -->
             <plugin>
-                <groupId>de.lgohlke.mojo</groupId>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>${versions-maven-plugin.version}</version>
             </plugin>

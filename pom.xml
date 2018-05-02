@@ -94,7 +94,7 @@
         <wtp.version>2.0</wtp.version>
         <clean.plugin.version>3.0.0</clean.plugin.version>
         <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
-        <versions-maven-plugin.version>2.1.4</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.7</maven-site-plugin.version>
@@ -187,7 +187,7 @@
                     Used: Only when called.
                 -->
                 <plugin>
-                    <groupId>de.lgohlke.mojo</groupId>
+                    <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
                     <version>${versions-maven-plugin.version}</version>
                 </plugin>
@@ -434,7 +434,7 @@
                     Used: Only when called.
                 -->
             <plugin>
-                <groupId>de.lgohlke.mojo</groupId>
+                <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>${versions-maven-plugin.version}</version>
             </plugin>
