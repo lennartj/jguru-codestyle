@@ -8,7 +8,7 @@ development and delivery process. This is in part usability engineering for the 
 lot of experience in software development ... all in one repo.
 
 ### Current Build Status:
-[Travis CI Build](https://travis-ci.org/lennartj/jguru-codestyle.svg?branch=master)
+<img src="https://travis-ci.org/lennartj/jguru-codestyle.svg?branch=master" />
 
 ## What does the Codestyle Repository do?
 The Codestyle repository defines how to _build the build_. For kotlin projects, simply use the various parents as

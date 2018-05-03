@@ -43,13 +43,6 @@
         </license>
     </licenses>
 
-    <repositories>
-        <repository>
-            <id>jcenter</id>
-            <url>https://jcenter.bintray.com/</url>
-        </repository>
-    </repositories>
-
     <properties>
         <!--
             Define the URL prefixes for Site Deployment and DistributionManagement.
@@ -97,6 +90,7 @@
         <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
         <dependency.plugin.version>3.0.2</dependency.plugin.version>
         <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
+        <jaxb2-maven-plugin.version>2.3.1</jaxb2-maven-plugin.version>
 
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
@@ -574,6 +568,47 @@
                     <version>3.1.1</version>
                     <configuration>
                         <dotOutput>${project.build.directory}/classes/META-INF/jdeps</dotOutput>
+                    </configuration>
+                </plugin>
+
+                <!--
+                    Use the latest jaxb2-maven-plugin to provide XSD generation abilities.
+
+                    Why: To enable XML-to-Java and Java-to-XML code generation
+                    Used: in Model projects, as inserted.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>jaxb2-maven-plugin</artifactId>
+                    <version>${jaxb2-maven-plugin.version}</version>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/jaxb2/transformed/generated-schema</outputDirectory>
+                        <transformSchemas>
+                            <!--
+                                Each schema element defines:
+
+                                a) A <<namespace uri>> for one of your namespaces.
+                                   This namespace uri must be unique within the schemas element.
+
+                                b) A <<toPrefix>> that you want to use for the namespace.
+                                   Should not contain whitespace or exotic characters.
+                                   This yields a namespace definition on the form
+                                   <xs:schema ... xmlns:[toPrefix]="[uri]" ... />
+
+                                   (I.e: <xs:schema ... xmlns:some="http://some/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema"> )
+
+                                   ... and transforms relevant xml schema elements to use the provided namespace prefix:
+
+                                   <some:elementName ... />
+
+                                c) The desired <<toFile>> name of the generated XML schema definition file,
+                                   excluding the ".xsd" suffix (which will be added automatically).
+                            -->
+                            <transformSchema>
+                                <uri>http://www.jguru.se/nazgul/core</uri>
+                                <toFile>NazgulCore.xsd</toFile>
+                            </transformSchema>
+                        </transformSchemas>
                     </configuration>
                 </plugin>
 
