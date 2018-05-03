@@ -7,6 +7,10 @@ implemented set of best-pracises to start projects quickly - and scale those pro
 development and delivery process. This is in part usability engineering for the development process, and in part a 
 lot of experience in software development ... all in one repo.
 
+### Current Build Status:
+[Travis CI Build](https://travis-ci.org/lennartj/jguru-codestyle.svg?branch=master)
+
+## What does the Codestyle Repository do?
 The Codestyle repository defines how to _build the build_. For kotlin projects, simply use the various parents as
 parent within the projects within your other repositories. A typical repository structure is shown in the image below:
 
