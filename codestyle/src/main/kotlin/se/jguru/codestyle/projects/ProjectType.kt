@@ -45,9 +45,9 @@ interface ProjectType : Serializable {
     fun isCompliantPackaging(packaging: String?): Boolean
 
     /**
-     * Convenience implementation used to test whether or not a [MavenProject] is compliance with this [ProjectType].
-     * Override to provide extra mechanics for validation; it is recommended not to forget to invoke
-     * [isCompliantWith] as defined within the [ProjectType] interface.
+     * Convenience implementation used to test whether or not a [org.apache.maven.project.MavenProject] is
+     * compliant with this [ProjectType]. Override to provide extra mechanics for validation; it is
+     * recommended not to forget to invoke `isCompliantWith` as defined within the [ProjectType] interface.
      *
      * @param project The MavenProject to ascertain compliance for this ProjectType.
      */
@@ -105,10 +105,10 @@ open class DefaultProjectType @JvmOverloads constructor(
     }
 
     /**
-     * Default implementation validates that the received [groupID] matches the [groupIdRegex]
-     * or - if null - returns a value corresponding to the [acceptNullValues] constructor argument.
-     *
-     * @see ProjectType#isCompliantGroupID
+     * Default implementation validates that the received `groupID` matches the groupIdRegex
+     * or - if null - returns a value corresponding to the `acceptNullValues` constructor argument.
+     * 
+     * @see [ProjectType.isCompliantGroupID]
      */
     override fun isCompliantGroupID(groupID: String?): Boolean = when (groupID) {
         null -> acceptNullValues
@@ -116,10 +116,10 @@ open class DefaultProjectType @JvmOverloads constructor(
     }
 
     /**
-     * Default implementation validates that the received [packaging] matches the [packagingRegex]
-     * or - if null - returns a value corresponding to the [acceptNullValues] constructor argument.
+     * Default implementation validates that the received `packaging` matches the `packagingRegex`
+     * or - if null - returns a value corresponding to the `acceptNullValues` constructor argument.
      *
-     * @see ProjectType#isCompliantPackaging
+     * @see [ProjectType.isCompliantPackaging]
      */
     override fun isCompliantPackaging(packaging: String?): Boolean = when (packaging) {
         null -> acceptNullValues
@@ -128,6 +128,8 @@ open class DefaultProjectType @JvmOverloads constructor(
 
     /**
      * Packages a representation for this ProjectType, including its regular expressions.
+     *
+     * @return A human-readable debug string for this ProjectType.
      */
     override fun toString(): String {
         return "[ProjectType: ${javaClass.name}] - GroupIdRegex: ${groupIdRegex.pattern}, " +

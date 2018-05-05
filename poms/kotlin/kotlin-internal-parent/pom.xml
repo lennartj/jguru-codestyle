@@ -910,6 +910,13 @@
                                 <outputFormat>${dokka.outputFormat}</outputFormat>
                                 <jdkVersion>8</jdkVersion>
                             </configuration>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>org.sonatype.sisu</groupId>
+                                    <artifactId>sisu-guice</artifactId>
+                                    <version>4.2.0</version>
+                                </dependency>
+                            </dependencies>
                         </plugin>
                     </plugins>
                 </pluginManagement>

@@ -321,6 +321,18 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+
+                <!--
+                    Extracts dependency information from the build into a property file within the artifact.
+
+                    Why:  Plugin used to generate a META-INF/maven/dependencies.properties file within the artifact.
+                    Used: In all projects; generate-resources phase.
+                -->
+                <plugin>
+                    <groupId>org.apache.servicemix.tooling</groupId>
+                    <artifactId>depends-maven-plugin</artifactId>
+                    <version>1.4.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -506,6 +518,25 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!--
+                Extracts dependency information from the build into a property file within the artifact.
+
+                Why:  Plugin used to generate a META-INF/maven/dependencies.properties file within the artifact.
+                Used: In all projects; generate-resources phase.
+            -->
+            <plugin>
+                <groupId>org.apache.servicemix.tooling</groupId>
+                <artifactId>depends-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-depends-file</id>
+                        <goals>
+                            <goal>generate-depends-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -636,6 +667,13 @@
                                 <outputFormat>${dokka.outputFormat}</outputFormat>
                                 <jdkVersion>8</jdkVersion>
                             </configuration>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>org.sonatype.sisu</groupId>
+                                    <artifactId>sisu-guice</artifactId>
+                                    <version>4.2.0</version>
+                                </dependency>
+                            </dependencies>
                         </plugin>
                     </plugins>
                 </pluginManagement>
