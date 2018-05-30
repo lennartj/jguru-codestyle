@@ -5,7 +5,8 @@
   -->
 
 <!--suppress MavenRedundantGroupId -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -105,6 +106,7 @@
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
+        <dokka.version>0.9.17</dokka.version>
 
         <!-- Standard test-scope properties -->
         <junit.version>4.12</junit.version>
@@ -293,10 +295,9 @@
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.0.1</version>
                 </plugin>
-                
+
                 <!--
                     Use a working version of the Maven versions plugin.
-                    (TODO: Update the Codehaus versions plugin with the fine additions done by Lars.)
 
                     Why:  Workaround for https://jira.codehaus.org/browse/MVERSIONS-236
                     Used: Only when called.
@@ -349,7 +350,9 @@
                             <option>no-arg:annotation=se.jguru.codestyle.annotations.AddDefaultConstructor</option>
                             <option>spring:annotation=se.jguru.codestyle.annotations.UsesSpringFramework</option>
                             <option>all-open:annotation=se.jguru.codestyle.annotations.UseOpenMembers</option>
-                            <option>sam-with-receiver:annotation=se.jguru.codestyle.annotations.ReceiverIsThisInSingleAbstractMethod</option>
+                            <option>
+                                sam-with-receiver:annotation=se.jguru.codestyle.annotations.ReceiverIsThisInSingleAbstractMethod
+                            </option>
                             <!-- Call instance initializers in the synthetic constructor -->
                             <option>no-arg:invokeInitializers=true</option>
                         </pluginOptions>
@@ -375,6 +378,29 @@
                             <groupId>se.jguru.codestyle.annotations</groupId>
                             <artifactId>jguru-codestyle-annotations</artifactId>
                             <version>0.9.4-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Dokka Maven Plugin provides javadoc-a-like documentation for Kotlin classes.
+                    This plugin only works with JDK8, though, since it depends on the tools.jar
+                    for its execution.
+                -->
+                <plugin>
+                    <groupId>org.jetbrains.dokka</groupId>
+                    <artifactId>dokka-maven-plugin</artifactId>
+                    <version>${dokka.version}</version>
+                    <configuration>
+                        <outputDir>${project.reporting.outputDirectory}/dokka</outputDir>
+                        <outputFormat>${dokka.outputFormat}</outputFormat>
+                        <jdkVersion>8</jdkVersion>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.sonatype.sisu</groupId>
+                            <artifactId>sisu-guice</artifactId>
+                            <version>4.2.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -650,7 +676,7 @@
                         <id>default-deploy</id>
                         <phase>site-deploy</phase>
                         <goals>
-                            <goal />
+                            <goal/>
                         </goals>
                     </execution>
                 </executions>
@@ -725,6 +751,22 @@
                         <phase>process-classes</phase>
                         <goals>
                             <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                Dokka Maven Plugin provides javadoc-a-like documentation for Kotlin classes.
+            -->
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>dokka</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -869,81 +911,6 @@
 
         </profile>
 
-        <profile>
-            <id>jdk8</id>
-            <activation>
-                <jdk>8</jdk>
-            </activation>
-
-            <properties>
-
-                <!-- Include Dokka -->
-                <dokka.version>0.9.16</dokka.version>
-                <dokka.outputFormat>javadoc</dokka.outputFormat>
-            </properties>
-
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jetbrains.kotlin</groupId>
-                        <artifactId>kotlin-stdlib-jdk8</artifactId>
-                        <version>${kotlin.version}</version>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-
-            <build>
-                <pluginManagement>
-                    <plugins>
-
-                        <!--
-                            Dokka Maven Plugin provides javadoc-a-like documentation for Kotlin classes.
-                            This plugin only works with JDK8, though, since it depends on the tools.jar
-                            for its execution.
-                        -->
-                        <plugin>
-                            <groupId>org.jetbrains.dokka</groupId>
-                            <artifactId>dokka-maven-plugin</artifactId>
-                            <version>${dokka.version}</version>
-                            <configuration>
-                                <outputDir>${project.reporting.outputDirectory}/dokka</outputDir>
-                                <outputFormat>${dokka.outputFormat}</outputFormat>
-                                <jdkVersion>8</jdkVersion>
-                            </configuration>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>org.sonatype.sisu</groupId>
-                                    <artifactId>sisu-guice</artifactId>
-                                    <version>4.2.0</version>
-                                </dependency>
-                            </dependencies>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-
-                <plugins>
-
-                    <!--
-                        Dokka Maven Plugin provides javadoc-a-like documentation for Kotlin classes.
-                        This plugin only works with JDK8, though, since it depends on the tools.jar
-                        for its execution.
-                    -->
-                    <plugin>
-                        <groupId>org.jetbrains.dokka</groupId>
-                        <artifactId>dokka-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>pre-site</phase>
-                                <goals>
-                                    <goal>dokka</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <!--
             Release profile for Nazgul Reactors.
         -->
@@ -951,7 +918,7 @@
             <id>jguru-release</id>
             <build>
                 <plugins>
-                    
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -964,7 +931,7 @@
                             </execution>
                         </executions>
                     </plugin>
-                    
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
@@ -980,7 +947,7 @@
                             </execution>
                         </executions>
                     </plugin>
-                    
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -1002,7 +969,7 @@
                         <configuration>
                             <updateReleaseInfo>true</updateReleaseInfo>
                         </configuration>
-                        
+
                         <executions>
                             <execution>
                                 <id>deploy-to-repo</id>

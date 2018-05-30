@@ -83,7 +83,7 @@
         <osgiVersion>6.0.0</osgiVersion>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
-        <kotlin.version>1.2.40</kotlin.version>
+        <kotlin.version>1.2.41</kotlin.version>
 
         <!-- Diverse plugin versions -->
         <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>

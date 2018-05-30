@@ -52,7 +52,7 @@
         <path.in.reactor>annotations</path.in.reactor>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.40</kotlin.version>
+        <kotlin.version>1.2.41</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
         <kotlin.plugin>jpa</kotlin.plugin>
         
@@ -523,7 +523,7 @@
             <properties>
 
                 <!-- Include Dokka -->
-                <dokka.version>0.9.16</dokka.version>
+                <dokka.version>0.9.17</dokka.version>
                 <dokka.outputFormat>javadoc</dokka.outputFormat>
             </properties>
 
