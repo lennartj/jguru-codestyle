@@ -90,7 +90,7 @@
         <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
         <dependency.plugin.version>3.0.2</dependency.plugin.version>
         <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
-        <jaxb2-maven-plugin.version>2.3.1</jaxb2-maven-plugin.version>
+        <jaxb2-maven-plugin.version>2.4</jaxb2-maven-plugin.version>
 
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
@@ -621,7 +621,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.5.1</version>
                     <executions>
                         <execution>
                             <id>bundle-manifest</id>
