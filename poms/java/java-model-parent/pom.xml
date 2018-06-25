@@ -31,7 +31,7 @@
         <!-- Version number properties -->
         <nazgul-core.version>3.0.0</nazgul-core.version>
         <xmlunit.version>2.5.1</xmlunit.version>
-        <jaxb2.plugin.version>2.4</jaxb2.plugin.version>
+        <jaxb2.plugin.version>2.4.1</jaxb2.plugin.version>
     </properties>
 
     <!-- +=============================================== -->
@@ -129,6 +129,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <encoding>UTF-8</encoding>
                     <forkCount>2C</forkCount>
                     <argLine>${surefire.argLine}</argLine>
                     <systemPropertyVariables>
@@ -155,7 +156,7 @@
 
             <properties>
                 <jpa.provider.class>org.eclipse.persistence.jpa.PersistenceProvider</jpa.provider.class>
-                <surefire.argLine>-javaagent:${basedir}/target/eclipselink.jar -Dfile.encoding=UTF-8 -Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
+                <surefire.argLine>-javaagent:${basedir}/target/eclipselink.jar -Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
 
                 <!-- Eclipselink versions -->
                 <org.eclipse.persistence.osgi.version>2.2.0</org.eclipse.persistence.osgi.version>

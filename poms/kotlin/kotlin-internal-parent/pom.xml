@@ -81,7 +81,7 @@
         <!-- Commonly controlled version properties -->
         <aspectj.runtime.version>1.8.13</aspectj.runtime.version>
         <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
-        <jaxb2-maven-plugin.version>2.4</jaxb2-maven-plugin.version>
+        <jaxb2-maven-plugin.version>2.4.1</jaxb2-maven-plugin.version>
         <osgi.version>6.0.0</osgi.version>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
