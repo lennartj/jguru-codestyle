@@ -106,7 +106,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <encoding>UTF-8</encoding>
                     <systemPropertyVariables>
                         <jpa_provider_class>${jpa.provider.class}</jpa_provider_class>
                     </systemPropertyVariables>

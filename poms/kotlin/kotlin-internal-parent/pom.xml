@@ -97,8 +97,7 @@
 
         <!-- Surefire configuration parameters. -->
         <surefire.memconf>-Xmx1024m</surefire.memconf>
-        <surefire.encoding>-Dfile.encoding=${project.build.sourceEncoding}</surefire.encoding>
-        <surefire.argLine>${surefire.memconf} ${surefire.encoding}</surefire.argLine>
+        <surefire.argLine>${surefire.memconf}</surefire.argLine>
         <surefire.plugin.version>2.20.1</surefire.plugin.version>
 
         <!-- Site plugin properties -->
@@ -416,6 +415,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.0</version>
                     <configuration>
+                        <encoding>UTF-8</encoding>
                         <argLine>${surefire.argLine}</argLine>
                         <parallelOptimized>true</parallelOptimized>
                         <workingDirectory>${basedir}/target/FORK_DIRECTORY_${surefire.forkNumber}</workingDirectory>

@@ -129,7 +129,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <encoding>UTF-8</encoding>
                     <forkCount>2C</forkCount>
                     <argLine>${surefire.argLine}</argLine>
                     <systemPropertyVariables>
