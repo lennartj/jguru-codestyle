@@ -28,6 +28,11 @@
 
     <properties>
         <path.in.reactor>poms/java/java-reactor-parent</path.in.reactor>
+
+        <!-- License plugin configuration parameters. -->
+        <license.id>jguru_apl_v2</license.id>
+        <license.licenseResolver>classpath://codestyle/license</license.licenseResolver>
+        <breakOnFailure.license>true</breakOnFailure.license>
     </properties>
 
     <!--
