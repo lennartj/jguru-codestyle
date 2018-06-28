@@ -93,7 +93,7 @@
         <spotbugs.plugin.version>3.1.1</spotbugs.plugin.version>
         <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
-        <clean.plugin.version>2.6.1</clean.plugin.version>
+        <clean.plugin.version>3.0.0</clean.plugin.version>
 
         <!-- Surefire configuration parameters. -->
         <surefire.memconf>-Xmx1024m</surefire.memconf>
@@ -293,6 +293,45 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.0.1</version>
+                </plugin>
+
+                <!--
+                    Use the latest maven-assembly-plugin.
+
+                    Why:  Override the version in Maven's super pom.xml.
+                    Used: Assembly
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
+                <!--
+                    Dependency graph generation plugin
+                -->
+                <plugin>
+                    <groupId>com.github.ferstl</groupId>
+                    <artifactId>depgraph-maven-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/site/images</outputDirectory>
+                        <outputFileName>dependency_graph</outputFileName>
+                        <createImage>true</createImage>
+                        <dotExecutable>${path.to.dot}</dotExecutable>
+                        <showConflicts>true</showConflicts>
+                        <showGroupIds>true</showGroupIds>
+                        <showVersions>true</showVersions>
+                        <printStyleConfiguration>true</printStyleConfiguration>
+                        <customStyleConfiguration>classpath:codestyle/depgraph-config.json</customStyleConfiguration>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>0.9.4-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
 
                 <!--

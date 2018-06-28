@@ -84,6 +84,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
         <kotlin.version>1.2.50</kotlin.version>
+        <clean.plugin.version>3.0.0</clean.plugin.version>
 
         <!-- Diverse plugin versions -->
         <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
@@ -326,6 +327,45 @@
                 </plugin>
 
                 <!--
+                    Dependency graph generation plugin
+                -->
+                <plugin>
+                    <groupId>com.github.ferstl</groupId>
+                    <artifactId>depgraph-maven-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/site/images</outputDirectory>
+                        <outputFileName>dependency_graph</outputFileName>
+                        <createImage>true</createImage>
+                        <dotExecutable>${path.to.dot}</dotExecutable>
+                        <showConflicts>true</showConflicts>
+                        <showGroupIds>true</showGroupIds>
+                        <showVersions>true</showVersions>
+                        <printStyleConfiguration>true</printStyleConfiguration>
+                        <customStyleConfiguration>classpath:codestyle/depgraph-config.json</customStyleConfiguration>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>0.9.4-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Use the latest maven-assembly-plugin.
+
+                    Why:  Override the version in Maven's super pom.xml.
+                    Used: Assembly
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
+                <!--
                     Use the latest maven-clean-plugin.
 
                     Why:  Override the version in Maven's super pom.xml.
@@ -333,7 +373,7 @@
                 -->
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>${clean.plugin.version}</version>
                     <configuration>
                         <excludeDefaultDirectories>true</excludeDefaultDirectories>
                         <filesets>
@@ -1499,6 +1539,21 @@
                         <phase>process-classes</phase>
                         <goals>
                             <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Generate dependency graph -->
+            <plugin>
+                <groupId>com.github.ferstl</groupId>
+                <artifactId>depgraph-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-dependency-graph-image</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>graph</goal>
                         </goals>
                     </execution>
                 </executions>

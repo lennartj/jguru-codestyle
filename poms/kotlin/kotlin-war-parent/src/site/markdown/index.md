@@ -6,3 +6,9 @@ projects and restful WARs for backend usage.
 In addition to providing all facilities included in the jguru-codestyle-kotlin-api-parent, the 
 jguru-codestyle-kotlin-war-parent sets up required facilities to simplify running restful unit tests. 
 For this purpose, the Undertow web server is used.
+
+### Dependency Graph
+
+The dependency graph for this project is shown below:
+
+![Dependency Graph](./images/dependency_graph.png)

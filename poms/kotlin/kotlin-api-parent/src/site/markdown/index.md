@@ -7,3 +7,9 @@ for all packages within the project. Such a manifest assists in accessing classe
 resources from within the JAR if executing within a classloader-restricted runtime 
 environment such as OSGi. Moreover, the kotlin-api-parent generates a module-info file 
 compliant with Java 9 indicating that all packages/types defined in APIs should be public.
+
+### Dependency Graph
+
+The dependency graph for this project is shown below:
+
+![Dependency Graph](./images/dependency_graph.png)

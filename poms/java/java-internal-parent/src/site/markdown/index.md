@@ -67,3 +67,9 @@ which create artifacts, and non-leaf projects which create the build reactor by 
 
 **Reactor** poms define the build reactor, implying that they are parents for POMs which have
 POM packaging and defines modules.
+
+### Dependency Graph
+
+The dependency graph for this project is shown below:
+
+![Dependency Graph](./images/dependency_graph.png)

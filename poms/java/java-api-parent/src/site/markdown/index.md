@@ -32,3 +32,9 @@ All (or most) of the Module technology implementations require specific configur
 
 Moreover, the java-api-parent generates a module-info file 
 compliant with Java 9 indicating that all packages/types defined in APIs should be public.
+
+### Dependency Graph
+
+The dependency graph for this project is shown below:
+
+![Dependency Graph](./images/dependency_graph.png)

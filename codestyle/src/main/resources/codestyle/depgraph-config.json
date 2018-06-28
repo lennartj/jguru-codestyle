@@ -1,0 +1,63 @@
+{
+    "graph": {
+        "rankdir": "LR"
+    },
+    "default-node": {
+        "type": "box",
+        "style": "filled",
+        "default-font": {
+            "size": 14,
+            "name": "Helvetica"
+        },
+        "group-id-font": {
+            "size": 10
+        },
+        "version-font": {
+            "size": 10
+        },
+        "scope-font": {
+            "size": 10
+        },
+        "type-font": {
+            "size": 10
+        },
+        "classifier-font": {
+            "size": 10
+        }
+    },
+    "default-edge": {
+        "font": {
+            "size": 10,
+            "name": "Helvetica"
+        }
+    },
+    "edge-resolution-styles": {
+        "omitted-for-duplicate": {
+            "style": "dotted"
+        },
+        "omitted-for-conflict": {
+            "style": "dashed",
+            "color": "red",
+            "font": {
+                "color": "red"
+            }
+        }
+    },
+    "node-styles": {
+        ",,test": {
+            "type": "box",
+            "style": "filled",
+            "fill-color": "darkseagreen1"
+        },
+        ",,compile": {
+            "type": "box",
+            "style": "filled",
+            "fill-color": "lightyellow"
+        },
+        ",,provided": {
+            "type": "box",
+            "style": "filled",
+            "fill-color": "lightblue1"
+        }
+    }
+}
