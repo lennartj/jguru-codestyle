@@ -35,7 +35,7 @@
         <path.in.reactor>poms/kotlin/kotlin-model-parent</path.in.reactor>
 
         <!-- Version definitions -->
-        <hsqldb.version>2.4.0</hsqldb.version>
+        <hsqldb.version>2.4.1</hsqldb.version>
     </properties>
 
     <!--
