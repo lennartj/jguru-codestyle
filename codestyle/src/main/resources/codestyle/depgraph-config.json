@@ -47,17 +47,78 @@
         ",,test": {
             "type": "box",
             "style": "filled",
-            "fill-color": "darkseagreen1"
+            "fill-color": "darkseagreen1",
+            "group-id-font": {
+                "size": 10
+            },
+            "version-font": {
+                "size": 10
+            },
+            "scope-font": {
+                "size": 10
+            },
+            "type-font": {
+                "size": 10
+            },
+            "classifier-font": {
+                "size": 10
+            }
         },
         ",,compile": {
             "type": "box",
             "style": "filled",
-            "fill-color": "lightyellow"
+            "fill-color": "lightyellow",
+            "group-id-font": {
+                "size": 10
+            },
+            "version-font": {
+                "size": 10
+            },
+            "scope-font": {
+                "size": 10
+            },
+            "type-font": {
+                "size": 10
+            },
+            "classifier-font": {
+                "size": 10
+            }
         },
         ",,provided": {
             "type": "box",
             "style": "filled",
-            "fill-color": "lightblue1"
+            "fill-color": "lightblue1",
+            "group-id-font": {
+                "size": 10
+            },
+            "version-font": {
+                "size": 10
+            },
+            "scope-font": {
+                "size": 10
+            },
+            "type-font": {
+                "size": 10
+            },
+            "classifier-font": {
+                "size": 10
+            }
+        }
+    },
+    "edge-scope-styles" : {
+        "test" : {
+            "font": {
+                "size": 10,
+                "name": "Helvetica"
+            },
+            "color" : "darkseagreen4"
+        },
+        "provided" : {
+            "font": {
+                "size": 10,
+                "name": "Helvetica"
+            },
+            "color" : "lightblue4"
         }
     }
 }

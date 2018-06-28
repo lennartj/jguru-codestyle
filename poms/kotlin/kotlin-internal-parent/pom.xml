@@ -86,6 +86,8 @@
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
         <xmlunit.version>2.5.1</xmlunit.version>
+        <depgraph-maven-plugin.version>3.1.0</depgraph-maven-plugin.version>
+        <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
 
         <!-- Code style properties -->
         <pmd.plugin.version>3.8</pmd.plugin.version>
@@ -313,7 +315,7 @@
                 <plugin>
                     <groupId>com.github.ferstl</groupId>
                     <artifactId>depgraph-maven-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>${depgraph-maven-plugin.version}</version>
                     <configuration>
                         <outputDirectory>${project.build.directory}/site/images</outputDirectory>
                         <outputFileName>dependency_graph</outputFileName>
@@ -322,7 +324,7 @@
                         <showConflicts>true</showConflicts>
                         <showGroupIds>true</showGroupIds>
                         <showVersions>true</showVersions>
-                        <printStyleConfiguration>true</printStyleConfiguration>
+                        <printStyleConfiguration>${depgraph.printStyleConfiguration}</printStyleConfiguration>
                         <customStyleConfiguration>classpath:codestyle/depgraph-config.json</customStyleConfiguration>
                     </configuration>
                     <dependencies>
