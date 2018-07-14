@@ -100,7 +100,7 @@
         <maven-site-plugin.version>3.7</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.9</wagon-modules.version>
-        <kotlin.version>1.2.50</kotlin.version>
+        <kotlin.version>1.2.51</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
     </properties>
 
@@ -534,6 +534,18 @@
                         <configuration>
                             <updateReleaseInfo>true</updateReleaseInfo>
                         </configuration>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>deploy-to-repo</id>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
 
                     <plugin>

@@ -40,6 +40,7 @@
     ################################################
     -->
     <modules>
+        <module>kotlin-bom</module>
         <module>kotlin-internal-parent</module>
         <module>kotlin-parent</module>
         <module>kotlin-js-parent</module>

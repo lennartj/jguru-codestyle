@@ -5,7 +5,8 @@
   ~ All rights reserved.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -17,7 +18,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>se.jguru.codestyle.annotations</groupId>
@@ -52,10 +53,10 @@
         <path.in.reactor>annotations</path.in.reactor>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.50</kotlin.version>
+        <kotlin.version>1.2.51</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
         <kotlin.plugin>jpa</kotlin.plugin>
-        
+
         <!--
             Define URL prefixes used in the various URL settings of the POM.
         -->
@@ -193,7 +194,7 @@
                         <keywords>true</keywords>
                     </configuration>
                 </plugin>
-                
+
                 <!--
                     Use a working version of the Maven versions plugin.
                     (TODO: Update the Codehaus versions plugin with the fine additions done by Lars.)
@@ -297,7 +298,7 @@
                         <id>default-deploy</id>
                         <phase>site-deploy</phase>
                         <goals>
-                            <goal />
+                            <goal/>
                         </goals>
                     </execution>
                 </executions>
@@ -630,6 +631,18 @@
                         <configuration>
                             <updateReleaseInfo>true</updateReleaseInfo>
                         </configuration>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>deploy-to-repo</id>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>

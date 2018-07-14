@@ -53,6 +53,11 @@ The CommonProjectType values are:
         same component. May have test-scope dependencies on test and proof-of-concept projects.</td>
     </tr>
     <tr>
+        <td>BILL_OF_MATERIALS</td>
+        <td>Bill-of-Materials project, of type pom, defining only DependencyManagement entries, and no Dependencies. 
+                    May not contain module definitions. Should only be used in <em>import</em> scope.</td>
+    </tr>
+    <tr>
         <td>TEST</td>
         <td>Test artifact helper project, implementing libraries facilitating testing within other projects. No 
         dependency rules.</td>
@@ -66,6 +71,12 @@ The CommonProjectType values are:
         <td>STANDALONE_APPLICATION</td>
         <td>Standalone application project defining runnable Java applications. 
         Injections of implementation projects are permitted here.</td>
+    </tr>
+    <tr>
+        <td>MICROSERVICE</td>
+        <td>(Micro)Service project defining runnable Java applications, identical 
+        in use to <em>STANDALONE_APPLICATION</em>. Injections of implementation 
+        projects are permitted here.</td>
     </tr>
     <tr>
         <td>INTEGRATION_TEST</td>

@@ -83,7 +83,7 @@
         <osgiVersion>6.0.0</osgiVersion>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
-        <kotlin.version>1.2.50</kotlin.version>
+        <kotlin.version>1.2.51</kotlin.version>
         <clean.plugin.version>3.0.0</clean.plugin.version>
 
         <!-- Diverse plugin versions -->
@@ -252,15 +252,15 @@
                 <version>3.7</version>
             </dependency>
 
+            <!--
+                Kotlin dependencies
+            -->
             <dependency>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-stdlib-jdk8</artifactId>
-                <version>${kotlin.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-reflect</artifactId>
-                <version>${kotlin.version}</version>
+                <groupId>se.jguru.codestyle.poms.kotlin</groupId>
+                <artifactId>jguru-codestyle-kotlin-bom</artifactId>
+                <version>0.9.4-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!--

@@ -39,6 +39,12 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
     PARENT(".*-parent$", null, "pom", false),
 
     /**
+     * Bill-of-Materials project, of type pom, defining DependencyManagement entries.
+     * May not contain module definitions.
+     */
+    BILL_OF_MATERIALS(".*-bom$", null, "pom", false),
+
+    /**
      * Pom project, defining assemblies and/or aggregation projects. May not contain module definitions.
      */
     ASSEMBLY(".*-assembly$", null, "pom"),
@@ -58,6 +64,12 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
      * Injections of implementation projects are permitted here.
      */
     JEE_APPLICATION(null, null, "war|ear|ejb", false),
+
+    /**
+     * (Micro)Service project defining runnable Java applications.
+     * Injections of implementation projects are permitted here.
+     */
+    MICROSERVICE(".*-service$", ".*\\.service$", "bundle|jar", false),
 
     /**
      * Standalone application project defining runnable Java applications.
@@ -220,17 +232,17 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
             val toReturn = matches[0]
             when (toReturn) {
 
-                PARENT, ASSEMBLY ->
+                CommonProjectTypes.PARENT, CommonProjectTypes.ASSEMBLY ->
 
                     // This project should not contain modules.
                     if (project.modules != null && !project.modules.isEmpty()) {
-                        throw IllegalArgumentException("${CommonProjectTypes.PARENT.name} projects may not contain " +
+                        throw IllegalArgumentException("${toReturn.name} projects may not contain " +
                             "module definitions. (Modules are reserved for reactor projects).")
                     }
 
-                REACTOR -> {
+                CommonProjectTypes.REACTOR, CommonProjectTypes.BILL_OF_MATERIALS -> {
 
-                    val errorText = "${CommonProjectTypes.REACTOR.name} projects may not contain " +
+                    val errorText = "${toReturn.name} projects may not contain " +
                         "dependency [incl. Management] definitions. (Dependencies should be defined " +
                         "within parent projects)."
 

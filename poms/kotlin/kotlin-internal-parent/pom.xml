@@ -54,7 +54,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.50</kotlin.version>
+        <kotlin.version>1.2.51</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
 
         <!--
@@ -176,9 +176,11 @@
                 Kotlin dependencies
             -->
             <dependency>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-reflect</artifactId>
-                <version>${kotlin.version}</version>
+                <groupId>se.jguru.codestyle.poms.kotlin</groupId>
+                <artifactId>jguru-codestyle-kotlin-bom</artifactId>
+                <version>0.9.4-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!--
@@ -525,6 +527,12 @@
                     <configuration>
                         <updateReleaseInfo>true</updateReleaseInfo>
                     </configuration>
+                    <executions>
+                        <execution>
+                            <id>default-deploy</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!--
@@ -1012,6 +1020,10 @@
                         </configuration>
 
                         <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>none</phase>
+                            </execution>
                             <execution>
                                 <id>deploy-to-repo</id>
                                 <goals>

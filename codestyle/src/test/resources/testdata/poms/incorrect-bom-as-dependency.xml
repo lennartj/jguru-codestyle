@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) jGuru Europe AB.
+  ~ All rights reserved.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+    ################################################
+    # Section 1:  Project information
+    ################################################
+    -->
+    <parent>
+        <groupId>se.jguru.nazgul.tools.poms</groupId>
+        <artifactId>nazgul-tools-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../../poms/tools-parent</relativePath>
+    </parent>
+
+    <groupId>se.jguru.foo.aspect</groupId>
+    <artifactId>jguru-foo-aspect</artifactId>
+    <version>1.0.0</version>
+    <packaging>bundle</packaging>
+    <name>${project.groupId}.${project.artifactId}</name>
+
+    <!--
+    ################################################
+    # Section 2:  Dependencies
+    ################################################
+    -->
+    <dependencies>
+
+        <!--
+            Internal dependencies
+        -->
+        <dependency>
+            <groupId>se.jguru.nazgul.tools.validation.api</groupId>
+            <artifactId>nazgul-tools-validation-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!--
+            Incorrect-but-ignored: BOM as a dependency. (Should be used only within dependencyManagement).
+            However, excluded from validation due to its groupID.
+        -->
+        <dependency>
+            <groupId>com.nowhere.foo.something</groupId>
+            <artifactId>something-bom</artifactId>
+            <version>1.0.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+        <!--
+            Incorrect: BOM as a dependency. (Should be used only within dependencyManagement).
+        -->
+        <dependency>
+            <groupId>se.jguru.foo.something</groupId>
+            <artifactId>something-bom</artifactId>
+            <version>1.0.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+    </dependencies>
+</project>

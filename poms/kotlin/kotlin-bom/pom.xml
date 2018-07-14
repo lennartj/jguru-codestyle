@@ -1,12 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-
 <!--
   ~ Copyright (c) jGuru Europe AB.
   ~ All rights reserved.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--suppress MavenRedundantGroupId -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -18,16 +17,15 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
-        <relativePath/>
     </parent>
 
-    <groupId>se.jguru.codestyle</groupId>
-    <artifactId>jguru-codestyle</artifactId>
+    <groupId>se.jguru.codestyle.poms.kotlin</groupId>
+    <artifactId>jguru-codestyle-kotlin-bom</artifactId>
     <version>0.9.4-SNAPSHOT</version>
     <name>${project.artifactId}</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
-    <description>jGuru Codestyle: Definitions (JAR, version ${project.version})</description>
+    <description>jGuru Codestyle: Kotlin Bill-of-Materials (${project.packaging}, version ${project.version})</description>
     <inceptionYear>2018</inceptionYear>
 
     <organization>
@@ -44,54 +42,19 @@
         </license>
     </licenses>
 
-    <properties>
-        <!--
-            Define the URL prefixes for Site Deployment and DistributionManagement.
-            These can be overridden in sub-reactors to tailor releases to other locations.
-        -->
-        <reactor.name>jguru-codestyle</reactor.name>
-        <path.in.reactor>codestyle</path.in.reactor>
-
-        <!-- Kotlin constants -->
-        <kotlin.version>1.2.51</kotlin.version>
-        <kotlin.jvm.target>1.8</kotlin.jvm.target>
-        <kotlin.plugin>jpa</kotlin.plugin>
-
-        <!--
-            Define URL prefixes used in the various URL settings of the POM.
-        -->
-        <github.global.server>nazgul_github</github.global.server>
-        <git.repo.owner>lennartj</git.repo.owner>
-        <git.repo.url.prefix>https://github.com/${git.repo.owner}</git.repo.url.prefix>
-        <git.scm.url.prefix>scm:git:ssh://git@github.com/${git.repo.owner}</git.scm.url.prefix>
-        <site.url.prefix>http://${git.repo.owner}.github.io</site.url.prefix>
-        <site.top.url>${site.url.prefix}/${reactor.name}/Documentation/${project.version}</site.top.url>
-
-        <scm.connection.url>scm:git:${git.repo.url.prefix}/${reactor.name}.git</scm.connection.url>
-        <scm.devConnection.url>${git.scm.url.prefix}/${reactor.name}.git</scm.devConnection.url>
-        <distroManagement.url>${site.top.url}/${path.in.reactor}</distroManagement.url>
-        <scm.url>${git.repo.url.prefix}/${reactor.name}.git</scm.url>
-        <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
-
-        <maven.version>3.0</maven.version>
-        <enforcer.version>3.0.0-M1</enforcer.version>
-        <jdk.version>1.8</jdk.version>
-
-        <!-- Code style properties -->
-        <pmd.plugin.version>3.8</pmd.plugin.version>
-        <clover.plugin.version>4.2.1</clover.plugin.version>
-        <spotbugs.plugin.version>3.1.1</spotbugs.plugin.version>
-        <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
-        <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
-        <clean.plugin.version>2.6.1</clean.plugin.version>
-        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-
-        <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.7</maven-site-plugin.version>
-        <doxia-modules.version>1.8</doxia-modules.version>
-        <wagon-modules.version>2.10</wagon-modules.version>
-        <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
-    </properties>
+    <developers>
+        <developer>
+            <id>lj</id>
+            <name>Lennart Jörelid</name>
+            <email>lj@jguru.se</email>
+            <roles>
+                <role>Committer</role>
+            </roles>
+            <organization>jGuru Europe AB</organization>
+            <organizationUrl>http://www.jguru.se</organizationUrl>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
 
     <repositories>
         <repository>
@@ -114,87 +77,242 @@
         </pluginRepository>
     </pluginRepositories>
 
-    <developers>
-        <developer>
-            <id>lj</id>
-            <name>Lennart Jörelid</name>
-            <email>lj@jguru.se</email>
-            <roles>
-                <role>Committer</role>
-            </roles>
-            <organization>jGuru Europe AB</organization>
-            <organizationUrl>http://www.jguru.se</organizationUrl>
-            <timezone>+1</timezone>
-        </developer>
-    </developers>
+    <properties>
+        <!--
+            Define the URL prefixes for Site Deployment and DistributionManagement.
+            These can be overridden in sub-reactors to tailor releases to other locations.
+        -->
+        <reactor.name>jguru-codestyle</reactor.name>
+        <path.in.reactor>poms/kotlin/kotlin-bom</path.in.reactor>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Kotlin constants -->
+        <kotlin.version>1.2.51</kotlin.version>
+        <kotlin.jvm.target>1.8</kotlin.jvm.target>
+
+        <!--
+            Define URL prefixes used in the various URL settings of the POM.
+        -->
+        <github.global.server>nazgul_github</github.global.server>
+        <git.repo.owner>lennartj</git.repo.owner>
+        <git.repo.url.prefix>https://github.com/${git.repo.owner}</git.repo.url.prefix>
+        <git.scm.url.prefix>scm:git:ssh://git@github.com/${git.repo.owner}</git.scm.url.prefix>
+        <site.url.prefix>http://${git.repo.owner}.github.io</site.url.prefix>
+        <site.top.url>${site.url.prefix}/${reactor.name}/Documentation/${project.version}</site.top.url>
+
+        <scm.connection.url>scm:git:${git.repo.url.prefix}/${reactor.name}.git</scm.connection.url>
+        <scm.devConnection.url>${git.scm.url.prefix}/${reactor.name}.git</scm.devConnection.url>
+        <distroManagement.url>${site.top.url}/${path.in.reactor}</distroManagement.url>
+        <scm.url>${git.repo.url.prefix}/${reactor.name}.git</scm.url>
+        <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
+
+        <maven.version>3.0</maven.version>
+        <jdk.version>1.8</jdk.version>
+        <validation-api.version>1.1.0.Final</validation-api.version>
+        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+
+        <!-- Site plugin properties -->
+        <maven-site-plugin.version>3.7</maven-site-plugin.version>
+        <doxia-modules.version>1.8</doxia-modules.version>
+        <wagon-modules.version>2.10</wagon-modules.version>
+        <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
+        <dokka.version>0.9.17</dokka.version>
+
+        <!-- Standard test-scope properties -->
+        <junit.version>4.12</junit.version>
+        <cdi-unit.version>4.0.1</cdi-unit.version>
+    </properties>
 
     <!--
     ################################################
     # Section 2:  Dependency (management) settings
     ################################################
     -->
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.maven.enforcer</groupId>
-            <artifactId>enforcer-api</artifactId>
-            <version>${enforcer.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-core</artifactId>
-            <version>${maven.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-artifact</artifactId>
-            <version>${maven.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-plugin-api</artifactId>
-            <version>${maven.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-container-default</artifactId>
-            <scope>provided</scope>
-            <version>1.7.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven.shared</groupId>
-            <artifactId>maven-plugin-testing-harness</artifactId>
-            <version>1.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-reflect</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+
+            <!--
+                Runtime and standard library
+            -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-runtime</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-jdk8</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-jre8</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-jdk7</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-jre7</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-osgi-bundle</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+
+            <!--
+                Scripting
+            -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-scripting-jvm</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-scripting-jvm-host</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-scripting-misc</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-scripting-util</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+
+            <!--
+                Annotations
+            -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-annotations-jvm</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-annotation-processing-runtime</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-annotation-processing-embeddable</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+
+            <!--
+                Gradle integration
+            -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-gradle-plugin-api</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-gradle-plugin</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-annotation-processing-gradle</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+
+            <!--
+                Maven integration
+            -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-build-common</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-source-sections-compiler-plugin</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-allopen</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-noarg</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-sam-with-receiver</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
+            </dependency>
+
+            <!--
+                Unit testing
+            -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-test-testng</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-test-junit</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-test-junit5</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-test-common</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-test-annotations-common</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-test-js</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+            
+        </dependencies>
+    </dependencyManagement>
 
     <!--
     ################################################
@@ -202,8 +320,6 @@
     ################################################
     -->
     <build>
-        <sourceDirectory>src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>src/test/kotlin</testSourceDirectory>
 
         <pluginManagement>
             <plugins>
@@ -218,6 +334,47 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.0.1</version>
+                </plugin>
+
+                <!--
+                    Configure the javadoc plugin not to fail on standard HTML
+                    constructs when building using JDK 8.
+                    Typical standard constructs include empty tags, like: <p />
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <failOnError>false</failOnError>
+                        <stylesheet>java</stylesheet>
+                        <groups>
+                            <group>
+                                <title>jGuru Codestyle</title>
+                                <packages>se.jguru.codestyle.*</packages>
+                            </group>
+                            <group>
+                                <title>Nazgul Framework: Tools Packages</title>
+                                <packages>se.jguru.nazgul.tools.*</packages>
+                            </group>
+                            <group>
+                                <title>Nazgul Framework: Core Packages</title>
+                                <packages>se.jguru.nazgul.core.*</packages>
+                            </group>
+                            <group>
+                                <title>Nazgul Framework: Test Artifact Packages</title>
+                                <packages>se.jguru.nazgul.test.*</packages>
+                            </group>
+                        </groups>
+                        <useStandardDocletOptions>true</useStandardDocletOptions>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                        <docencoding>${project.build.sourceEncoding}</docencoding>
+                        <charset>${project.build.sourceEncoding}</charset>
+                        <breakiterator>true</breakiterator>
+                        <version>true</version>
+                        <author>true</author>
+                        <keywords>true</keywords>
+                    </configuration>
                 </plugin>
 
                 <!--
@@ -253,25 +410,27 @@
                 </plugin>
 
                 <!--
-                    Ensure that the kotlin-maven-plugin uses the standard src/main/kotlin
-                    and src/test/kotlin directories.
+                    Configures the release plugin to use a custom release profile.
 
-                    Why:  Ensures standard placement for Kotlin sources.
-                    Used: Standard lifecycle, mvn compile / test-compile.
+                    Why:  Release artifacts
+                    Used: Normal lifecycle, release goal
                 -->
                 <plugin>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <artifactId>kotlin-maven-plugin</artifactId>
-                    <version>${kotlin.version}</version>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.3</version>
                     <configuration>
-                        <plugin>${kotlin.plugin}</plugin>
-                        <jvmTarget>${jdk.version}</jvmTarget>
+                        <arguments>-Pjguru-release</arguments>
+                        <mavenExecutorId>forked-path</mavenExecutorId>
+                        <useReleaseProfile>false</useReleaseProfile>
+                        <tagNameFormat>${reactor.name}-@{project.version}</tagNameFormat>
+                        <goals>deploy</goals>
                     </configuration>
                     <dependencies>
                         <dependency>
-                            <groupId>org.jetbrains.kotlin</groupId>
-                            <artifactId>kotlin-maven-noarg</artifactId>
-                            <version>${kotlin.version}</version>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-providers-git</artifactId>
+                            <version>1.9.4</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -296,119 +455,10 @@
                         </execution>
                     </executions>
                 </plugin>
-
-                <!--
-                    Configures the release plugin to use a custom release profile.
-
-                    Why:  Release artifacts
-                    Used: Normal lifecycle, release goal
-                -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
-                    <configuration combine.self="override">
-                        <arguments>-Pjguru-release</arguments>
-                        <mavenExecutorId>forked-path</mavenExecutorId>
-                        <useReleaseProfile>false</useReleaseProfile>
-                        <tagNameFormat>${reactor.name}-@{project.version}</tagNameFormat>
-                        <goals>deploy</goals>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.apache.maven.scm</groupId>
-                            <artifactId>maven-scm-providers-git</artifactId>
-                            <version>1.9.4</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-
-                <!--
-                    Extracts dependency information from the build into a property file within the artifact.
-
-                    Why:  Plugin used to generate a META-INF/maven/dependencies.properties file within the artifact.
-                    Used: In all projects; generate-resources phase.
-                -->
-                <plugin>
-                    <groupId>org.apache.servicemix.tooling</groupId>
-                    <artifactId>depends-maven-plugin</artifactId>
-                    <version>1.4.0</version>
-                </plugin>
             </plugins>
         </pluginManagement>
 
         <plugins>
-
-            <!--
-                 Ensure that the kotlin-maven-plugin uses the standard src/main/kotlin
-                 and src/test/kotlin directories.
-
-                 Why:  Ensures standard placement for Kotlin sources.
-                 Used: Standard lifecycle, mvn compile / test-compile.
-             -->
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jvmTarget>${kotlin.jvm.target}</jvmTarget>
-                </configuration>
-            </plugin>
-
-            <!--
-                Ensure that the compiler plugin ignores the Java directories.
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <executions>
-                    <!--
-                        Replacing default-compile as it is treated specially by maven
-                     -->
-                    <execution>
-                        <id>default-compile</id>
-                        <phase>none</phase>
-                    </execution>
-                    <!--
-                        Replacing default-testCompile as it is treated specially by maven
-                     -->
-                    <execution>
-                        <id>default-testCompile</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>java-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>java-test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!--
                 Configures the site plugin. Its use is further documented in the site documentation itself.
 
@@ -422,7 +472,6 @@
                 <executions>
                     <execution>
                         <id>attach-descriptor</id>
-                        <phase>package</phase>
                         <goals>
                             <goal>attach-descriptor</goal>
                         </goals>
@@ -431,7 +480,7 @@
                         <id>default-deploy</id>
                         <phase>site-deploy</phase>
                         <goals>
-                            <goal/>
+                            <goal />
                         </goals>
                     </execution>
                 </executions>
@@ -466,7 +515,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>bundle-manifest</id>
@@ -489,7 +538,6 @@
                         <_provider-policy><![CDATA[$<range;[===,=+)>]]></_provider-policy>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Embed-Directory>lib</Embed-Directory>
-                        <Export-Package>{local-packages}</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>
@@ -500,7 +548,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>${enforcer.version}</version>
+                <version>1.4.1</version>
                 <executions>
                     <execution>
                         <id>enforce-imports</id>
@@ -530,6 +578,7 @@
             <plugin>
                 <groupId>org.apache.servicemix.tooling</groupId>
                 <artifactId>depends-maven-plugin</artifactId>
+                <version>1.4.0</version>
                 <executions>
                     <execution>
                         <id>generate-depends-file</id>
@@ -553,6 +602,40 @@
                 <configuration>
                     <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <stylesheet>java</stylesheet>
+                    <groups>
+                        <group>
+                            <title>jGuru Codestyle</title>
+                            <packages>se.jguru.codestyle.*</packages>
+                        </group>
+                        <group>
+                            <title>Nazgul Framework: Tools Packages</title>
+                            <packages>se.jguru.nazgul.tools.*</packages>
+                        </group>
+                        <group>
+                            <title>Nazgul Framework: Core Packages</title>
+                            <packages>se.jguru.nazgul.core.*</packages>
+                        </group>
+                        <group>
+                            <title>Nazgul Framework: Test Artifact Packages</title>
+                            <packages>se.jguru.nazgul.test.*</packages>
+                        </group>
+                    </groups>
+                    <useStandardDocletOptions>true</useStandardDocletOptions>
+                    <charset>${project.build.sourceEncoding}</charset>
+                    <breakiterator>true</breakiterator>
+                    <version>true</version>
+                    <author>true</author>
+                    <keywords>true</keywords>
                 </configuration>
             </plugin>
 
@@ -669,13 +752,6 @@
                                 <outputFormat>${dokka.outputFormat}</outputFormat>
                                 <jdkVersion>8</jdkVersion>
                             </configuration>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>org.sonatype.sisu</groupId>
-                                    <artifactId>sisu-guice</artifactId>
-                                    <version>4.2.0</version>
-                                </dependency>
-                            </dependencies>
                         </plugin>
                     </plugins>
                 </pluginManagement>
@@ -693,17 +769,9 @@
                         <version>${dokka.version}</version>
                         <executions>
                             <execution>
-                                <id>CreateJavaDocForSite</id>
                                 <phase>pre-site</phase>
                                 <goals>
-                                    <goal>javadoc</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>IncludeJavaDocJarInRelease</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>javadocJar</goal>
+                                    <goal>dokka</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -714,34 +782,12 @@
         </profile>
 
         <!--
-            Release profile for jGuru (Nazgul-component-style) reactors.
+            Release profile for Nazgul Reactors.
         -->
         <profile>
             <id>jguru-release</id>
             <build>
-
                 <plugins>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <version>${maven-deploy-plugin.version}</version>
-                        <configuration>
-                            <updateReleaseInfo>true</updateReleaseInfo>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>default-deploy</id>
-                                <phase>none</phase>
-                            </execution>
-                            <execution>
-                                <id>deploy-to-repo</id>
-                                <goals>
-                                    <goal>deploy</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -751,6 +797,20 @@
                                 <id>default-jar-no-fork</id>
                                 <goals>
                                     <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -770,6 +830,13 @@
                         </executions>
                     </plugin>
 
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <configuration>
+                            <updateReleaseInfo>true</updateReleaseInfo>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
