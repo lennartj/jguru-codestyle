@@ -87,7 +87,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.51</kotlin.version>
+        <kotlin.version>1.2.60</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
 
         <!--
@@ -112,15 +112,17 @@
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.7</maven-site-plugin.version>
+        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
         <dokka.version>0.9.17</dokka.version>
+        <depgraph-maven-plugin.version>3.2.1</depgraph-maven-plugin.version>
+        <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
 
         <!-- Standard test-scope properties -->
         <junit.version>4.12</junit.version>
-        <cdi-unit.version>4.0.1</cdi-unit.version>
+        <cdi-unit.version>4.0.2</cdi-unit.version>
     </properties>
 
     <!--
@@ -195,7 +197,7 @@
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-scripting-util</artifactId>
+                <artifactId>kotlin-script-util</artifactId>
                 <version>${kotlin.version}</version>
             </dependency>
 
@@ -455,6 +457,33 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <!--
+                    Dependency graph generation plugin
+                -->
+                <plugin>
+                    <groupId>com.github.ferstl</groupId>
+                    <artifactId>depgraph-maven-plugin</artifactId>
+                    <version>${depgraph-maven-plugin.version}</version>
+                    <configuration>
+                        <outputDirectory>${project.build.directory}/site/images</outputDirectory>
+                        <outputFileName>dependency_graph</outputFileName>
+                        <createImage>true</createImage>
+                        <dotExecutable>${path.to.dot}</dotExecutable>
+                        <showConflicts>true</showConflicts>
+                        <showGroupIds>true</showGroupIds>
+                        <showVersions>true</showVersions>
+                        <printStyleConfiguration>${depgraph.printStyleConfiguration}</printStyleConfiguration>
+                        <customStyleConfiguration>classpath:codestyle/depgraph-config.json</customStyleConfiguration>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
+                            <version>0.9.4-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -584,6 +613,21 @@
                         <id>generate-depends-file</id>
                         <goals>
                             <goal>generate-depends-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Generate dependency graph -->
+            <plugin>
+                <groupId>com.github.ferstl</groupId>
+                <artifactId>depgraph-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-dependency-graph-image</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>graph</goal>
                         </goals>
                     </execution>
                 </executions>

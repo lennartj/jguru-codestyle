@@ -30,7 +30,7 @@
 
         <!-- Version number properties -->
         <nazgul-core.version>3.0.0</nazgul-core.version>
-        <xmlunit.version>2.5.1</xmlunit.version>
+        <xmlunit.version>2.6.0</xmlunit.version>
         <jaxb2.plugin.version>2.3.1</jaxb2.plugin.version>
 
         <!-- Version definitions -->

@@ -45,7 +45,7 @@
 
         <!-- Plugin versions -->
         <maven-jdeps-plugin.version>3.1.1</maven-jdeps-plugin.version>
-
+        
         <!-- License plugin configuration parameters. -->
         <license.id>jguru_apl_v2</license.id>
         <license.licenseResolver>classpath://codestyle/license</license.licenseResolver>

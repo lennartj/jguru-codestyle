@@ -54,7 +54,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.51</kotlin.version>
+        <kotlin.version>1.2.60</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
 
         <!--
@@ -85,14 +85,14 @@
         <osgi.version>6.0.0</osgi.version>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
-        <xmlunit.version>2.5.1</xmlunit.version>
-        <depgraph-maven-plugin.version>3.1.0</depgraph-maven-plugin.version>
+        <xmlunit.version>2.6.0</xmlunit.version>
+        <depgraph-maven-plugin.version>3.2.1</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
 
         <!-- Code style properties -->
         <pmd.plugin.version>3.8</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
-        <spotbugs.plugin.version>3.1.1</spotbugs.plugin.version>
+        <spotbugs.plugin.version>3.1.2</spotbugs.plugin.version>
         <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>3.0.0</clean.plugin.version>
@@ -103,7 +103,7 @@
         <surefire.plugin.version>2.20.1</surefire.plugin.version>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.7</maven-site-plugin.version>
+        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
@@ -111,7 +111,7 @@
 
         <!-- Standard test-scope properties -->
         <junit.version>4.12</junit.version>
-        <cdi-unit.version>4.0.1</cdi-unit.version>
+        <cdi-unit.version>4.0.2</cdi-unit.version>
     </properties>
 
     <repositories>
@@ -308,7 +308,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                 </plugin>
 
                 <!--
@@ -816,6 +816,21 @@
                         <phase>pre-site</phase>
                         <goals>
                             <goal>dokka</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Generate dependency graph -->
+            <plugin>
+                <groupId>com.github.ferstl</groupId>
+                <artifactId>depgraph-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-dependency-graph-image</id>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>graph</goal>
                         </goals>
                     </execution>
                 </executions>
