@@ -332,33 +332,6 @@
     ################################################
     -->
     <profiles>
-        <profile>
-            <id>use-cdi-validation</id>
-            <activation>
-                <property>
-                    <name>!validation</name>
-                </property>
-            </activation>
-
-            <properties />
-
-            <dependencies>
-                <dependency>
-                    <groupId>se.jguru.nazgul.tools.validation.api</groupId>
-                    <artifactId>nazgul-tools-validation-api</artifactId>
-                    <version>${nazgul-tools.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>javax.validation</groupId>
-                    <artifactId>validation-api</artifactId>
-                </dependency>
-                <!-- dependency>
-                    <groupId>javax</groupId>
-                    <artifactId>javaee-api</artifactId>
-                </dependency -->
-            </dependencies>
-        </profile>
-
         <!--
             Includes static AspectJ Weaving into bytecode, wherever Validatable classes are encountered.
             Defines the property of the

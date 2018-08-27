@@ -18,6 +18,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
+        <relativePath/>
     </parent>
 
     <groupId>se.jguru.codestyle.poms.java</groupId>
@@ -48,7 +49,7 @@
             Define the URL prefixes for Site Deployment and DistributionManagement.
             These can be overridden in sub-reactors to tailor releases to other locations.
         -->
-        <reactor.name>jguru_codestyle</reactor.name>
+        <reactor.name>jguru-codestyle</reactor.name>
         <path.in.reactor>poms/java/java-internal-parent</path.in.reactor>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -83,7 +84,7 @@
         <osgiVersion>6.0.0</osgiVersion>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
-        <kotlin.version>1.2.60</kotlin.version>
+        <kotlin.version>1.2.61</kotlin.version>
         <clean.plugin.version>3.0.0</clean.plugin.version>
 
         <!-- Diverse plugin versions -->
@@ -1547,7 +1548,7 @@
             </plugin>
 
             <!-- Generate dependency graph -->
-            <!-- plugin>
+            <plugin>
                 <groupId>com.github.ferstl</groupId>
                 <artifactId>depgraph-maven-plugin</artifactId>
                 <executions>
@@ -1559,7 +1560,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin -->
+            </plugin>
 
             <!-- Generate png images from Plantuml source files. -->
             <plugin>
