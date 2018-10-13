@@ -38,13 +38,10 @@
         <nazgul-tools.version>6.0.3</nazgul-tools.version>
         <nazgul-core.version>3.0.0</nazgul-core.version>
 
-        <enforcer.version>3.0.0-M1</enforcer.version>
+        <enforcer.version>3.0.0-M2</enforcer.version>
         <enforcer.includedGroupIdPatterns>^se\\.jguru\\..*</enforcer.includedGroupIdPatterns>
         <enforcer.excludedGroupIdPatterns>^se\\.jguru\\..*\\.generated\\..*,^se\\.jguru\\.codestyle\\..*</enforcer.excludedGroupIdPatterns>
         <breakOnFailure.enforcer>true</breakOnFailure.enforcer>
-
-        <!-- Plugin versions -->
-        <maven-jdeps-plugin.version>3.1.1</maven-jdeps-plugin.version>
         
         <!-- License plugin configuration parameters. -->
         <license.id>jguru_apl_v2</license.id>
@@ -139,21 +136,6 @@
                             <version>0.9.4-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
-                </plugin>
-
-                <!--
-                    Define the jdeps plugin version.
-
-                    Why:  Plugin used to validate projects for illegal Java9 code references.
-                    Used: As included in [sub]projects.
-                -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jdeps-plugin</artifactId>
-                    <version>${maven-jdeps-plugin.version}</version>
-                    <configuration>
-                        <dotOutput>${project.build.directory}/classes/META-INF/jdeps</dotOutput>
-                    </configuration>
                 </plugin>
 
                 <!-- Enforce not importing incorrect projects. -->
@@ -261,21 +243,6 @@
                         <id>enforce-imports</id>
                         <goals>
                             <goal>enforce</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!--
-                Ensure projects do not depend on deprecated internal classes
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jdeps-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jdkinternals</goal>
                         </goals>
                     </execution>
                 </executions>

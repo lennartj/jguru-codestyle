@@ -60,6 +60,7 @@
         <artifact.distribution.directory>${project.build.outputDirectory}</artifact.distribution.directory>
         <check.plugins.phase>package</check.plugins.phase>
         <jdk.version>1.8</jdk.version>
+        <javaee-api.version>8.0</javaee-api.version>
 
         <!--
             Define URL prefixes used in the various URL settings of the POM.
@@ -84,7 +85,7 @@
         <osgiVersion>6.0.0</osgiVersion>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
-        <kotlin.version>1.2.61</kotlin.version>
+        <kotlin.version>1.2.71</kotlin.version>
         <clean.plugin.version>3.0.0</clean.plugin.version>
 
         <!-- Diverse plugin versions -->
@@ -101,7 +102,7 @@
         <skip.verify.code>false</skip.verify.code>
 
         <!-- Enforcer configuration parameters -->
-        <enforcer.version>3.0.0-M1</enforcer.version>
+        <enforcer.version>3.0.0-M2</enforcer.version>
         <enforcer.includedGroupIdPatterns>^se\\.jguru\\..*</enforcer.includedGroupIdPatterns>
         <enforcer.excludedGroupIdPatterns>^se\\.jguru\\..*\\.generated\\..*,^se\\.jguru\\.codestyle\\..*</enforcer.excludedGroupIdPatterns>
 
@@ -215,7 +216,7 @@
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
-                <version>7.0</version>
+                <version>${javaee-api.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -595,21 +596,6 @@
 
                             </pluginExecutions>
                         </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
-
-                <!--
-                    Define the jdeps plugin version.
-
-                    Why:  Plugin used to validate projects for illegal Java9 code references.
-                    Used: As included in [sub]projects.
-                -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jdeps-plugin</artifactId>
-                    <version>3.1.1</version>
-                    <configuration>
-                        <dotOutput>${project.build.directory}/classes/META-INF/jdeps</dotOutput>
                     </configuration>
                 </plugin>
 
@@ -1482,21 +1468,6 @@
             </plugin>
 
             <!--
-                Ensure projects do not depend on deprecated internal classes
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jdeps-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jdkinternals</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!--
                 Define the version of the Build-Helper maven plugin.
             -->
             <plugin>
@@ -1813,6 +1784,99 @@
     ################################################
     -->
     <profiles>
+        <profile>
+            <id>jdk9</id>
+            <activation>
+                <jdk>[9,11)</jdk>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <compilerArgs>
+                                <arg>--add-modules=java.xml.bind</arg>
+                            </compilerArgs>
+                            <!-- without forking compilation happens in the
+                                same process, so no arguments are applied -->
+                            <fork>true</fork>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <argLine>
+                                --add-modules java.xml.bind
+                                --illegal-access=deny
+                            </argLine>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <argLine>
+                                --add-modules java.xml.bind
+                                --illegal-access=deny
+                            </argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>jdk11</id>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+
+            <properties>
+                <jaxb-api.version>2.3.1</jaxb-api.version>
+            </properties>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>javax.xml.bind</groupId>
+                        <artifactId>jaxb-api</artifactId>
+                        <version>${jaxb-api.version}</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <!--
+                                without forking compilation happens in the
+                                same process, so no arguments are applied
+                             -->
+                            <fork>true</fork>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <argLine>--illegal-access=deny</argLine>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <argLine>--illegal-access=deny</argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
         <!--
             Release profile for Nazgul Reactors.
         -->

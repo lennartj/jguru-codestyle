@@ -87,7 +87,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.61</kotlin.version>
+        <kotlin.version>1.2.71</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
 
         <!--
@@ -577,7 +577,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
+                <version>3.0.0-M2</version>
                 <executions>
                     <execution>
                         <id>enforce-imports</id>

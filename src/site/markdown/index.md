@@ -14,7 +14,7 @@ are currently few and far between. Also, most build-style plugins are currently 
 The intended structure and responsibilities of projects/artifacts within repositories could/should be ordered as 
 illustrated in the image below:
 
-![Repository Dependencies](images/plantuml/repo_structure.png "Repository Dependency Structure")
+![Repository Dependencies](images/repo_structure.png "Repository Dependency Structure")
 
 ### Reactor Parts
 

@@ -42,6 +42,6 @@ The jGuru Codestyle provides fully OSGi-compliant projects, where model, API and
 packages as public, whereas the implementation projects hide all their classes
 (i.e. having completely private packages).
 
-This implies that [Nazgul Software Component ("NSC")](software_components.html) modularity can be enforced in all
-modern JEE servers as well as within OSGi runtimes; the latter case enabling hot-redeployment of services to achieve
-near-100% uptime for a running server.
+This implies that Nazgul Software Component ("NSC") modularity can be enforced in all
+Java SE microservices, EE4J servers as well as within OSGi runtimes; the latter case 
+enabling hot-redeployment of services to achieve near-100% uptime for a running server.

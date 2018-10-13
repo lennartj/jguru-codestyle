@@ -53,7 +53,7 @@
         <path.in.reactor>annotations</path.in.reactor>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.61</kotlin.version>
+        <kotlin.version>1.2.71</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
         <kotlin.plugin>jpa</kotlin.plugin>
 
@@ -367,7 +367,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
+                <version>3.0.0-M2</version>
                 <executions>
                     <execution>
                         <id>enforce-imports</id>
