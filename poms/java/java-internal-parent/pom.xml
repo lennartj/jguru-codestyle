@@ -89,7 +89,7 @@
 
         <!-- Diverse plugin versions -->
         <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
-        <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <dependency.plugin.version>3.1.0</dependency.plugin.version>
         <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
         <jaxb2-maven-plugin.version>2.4</jaxb2-maven-plugin.version>
