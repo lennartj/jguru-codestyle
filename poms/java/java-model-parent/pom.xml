@@ -161,8 +161,8 @@
                 <surefire.argLine>-javaagent:${basedir}/target/eclipselink.jar -Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
 
                 <!-- Eclipselink versions -->
-                <org.eclipse.persistence.osgi.version>2.2.0</org.eclipse.persistence.osgi.version>
-                <org.eclipse.persistence.version>2.7.1</org.eclipse.persistence.version>
+                <org.eclipse.persistence.osgi.version>2.2.1</org.eclipse.persistence.osgi.version>
+                <org.eclipse.persistence.version>2.7.3</org.eclipse.persistence.version>
             </properties>
 
             <dependencyManagement>
@@ -221,7 +221,7 @@
                                         <artifactItem>
                                             <groupId>org.eclipse.persistence</groupId>
                                             <artifactId>eclipselink</artifactId>
-                                            <version>${eclipselink.version}</version>
+                                            <version>${org.eclipse.persistence.version}</version>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
                                             <destFileName>eclipselink.jar</destFileName>
                                         </artifactItem>
