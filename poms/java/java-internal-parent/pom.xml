@@ -1293,21 +1293,6 @@
 
         <plugins>
 
-            <!-- Attach a source jar -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- Check codestyle, part 1: Checkstyle -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
