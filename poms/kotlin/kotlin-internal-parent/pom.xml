@@ -104,6 +104,9 @@
         <surefire.argLine>${surefire.memconf}</surefire.argLine>
         <surefire.plugin.version>2.20.1</surefire.plugin.version>
 
+        <!-- OWASP configuration parameters. -->
+        <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
+
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
@@ -581,6 +584,30 @@
                     </configuration>
                 </plugin>
 
+                <!--
+                    Perform a shallow security analysis check on dependencies.
+
+                    Why: To avoid using the most obvious compromised dependencies.
+                    Used: in every project, as inserted.
+                -->
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>4.0.0</version>
+                    <configuration>
+                        <suppressionFiles>
+                            <suppressionFile>${owasp.suppressionFile}</suppressionFile>
+                        </suppressionFiles>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>se.jguru.codestyle.annotations</groupId>
+                            <artifactId>jguru-codestyle-annotations</artifactId>
+                            <version>0.9.5-SNAPSHOT</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -840,6 +867,19 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Analyze dependencies for trivial security flaws -->
+            <!-- plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin -->
         </plugins>
     </build>
 
