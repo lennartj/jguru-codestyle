@@ -931,7 +931,6 @@
             </plugin>
 
             <!--
-
                 Use a working version of the Maven versions plugin.
 
                 Why:  Workaround for https://jira.codehaus.org/browse/MVERSIONS-236
@@ -942,6 +941,25 @@
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>${versions-maven-plugin.version}</version>
             </plugin>
+
+            <!--
+                Supply an aggregate report of the OWASP dependency check.
+
+                Why:  Incitament to upgrade problematic dependencies.
+                Used: Maven site
+            -->
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
         </plugins>
     </reporting>
 
