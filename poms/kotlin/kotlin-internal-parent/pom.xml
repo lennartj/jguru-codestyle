@@ -54,7 +54,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.2.71</kotlin.version>
+        <kotlin.version>1.3.20</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
 
         <!--
@@ -88,7 +88,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
         <xmlunit.version>2.6.0</xmlunit.version>
-        <depgraph-maven-plugin.version>3.2.1</depgraph-maven-plugin.version>
+        <depgraph-maven-plugin.version>3.3.0</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
 
         <!-- Code style properties -->
@@ -97,12 +97,12 @@
         <spotbugs.plugin.version>3.1.2</spotbugs.plugin.version>
         <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
-        <clean.plugin.version>3.0.0</clean.plugin.version>
+        <clean.plugin.version>3.1.0</clean.plugin.version>
 
         <!-- Surefire configuration parameters. -->
         <surefire.memconf>-Xmx1024m</surefire.memconf>
         <surefire.argLine>${surefire.memconf}</surefire.argLine>
-        <surefire.plugin.version>2.20.1</surefire.plugin.version>
+        <surefire.plugin.version>2.22.1</surefire.plugin.version>
 
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
@@ -298,6 +298,28 @@
             <plugins>
 
                 <!--
+                    Use the latest maven-clean-plugin.
+
+                    Why:  Override the version in Maven's super pom.xml.
+                    Used: Clean lifecycle
+                -->
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${clean.plugin.version}</version>
+                    <configuration>
+                        <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                        <filesets>
+                            <fileset>
+                                <directory>${project.build.directory}</directory>
+                                <excludes>
+                                    <exclude>generated-resources/eclipse/**</exclude>
+                                </excludes>
+                            </fileset>
+                        </filesets>
+                    </configuration>
+                </plugin>
+
+                <!--
                     Up the version of the source plugin.
 
                     Why:  Use a newer source plugin version.
@@ -483,7 +505,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>3.5.1</version>
+                    <version>4.1.0</version>
                     <configuration>
                         <supportedProjectTypes>
                             <supportedProjectType>ejb</supportedProjectType>
@@ -590,10 +612,10 @@
                     Why: To avoid using the most obvious compromised dependencies.
                     Used: in every project, as inserted.
                 -->
-                <plugin>
+                <!-- plugin>
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
-                    <version>4.0.0</version>
+                    <version>4.0.2</version>
                     <configuration>
                         <suppressionFiles>
                             <suppressionFile>${owasp.suppressionFile}</suppressionFile>
@@ -606,7 +628,7 @@
                             <version>0.9.5-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
-                </plugin>
+                </plugin -->
 
             </plugins>
         </pluginManagement>
@@ -848,6 +870,7 @@
                         <phase>pre-site</phase>
                         <goals>
                             <goal>dokka</goal>
+                            <goal>javadoc</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -1047,10 +1070,20 @@
                     </plugin>
 
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>3.0.0-M6</version>
                         <configuration>
-                            <argLine>--illegal-access=deny</argLine>
+                            <includesFile>*/it/*</includesFile>
                         </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
