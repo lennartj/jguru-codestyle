@@ -612,7 +612,7 @@
                     Why: To avoid using the most obvious compromised dependencies.
                     Used: in every project, as inserted.
                 -->
-                <!-- plugin>
+                <plugin>
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
                     <version>4.0.2</version>
@@ -623,12 +623,12 @@
                     </configuration>
                     <dependencies>
                         <dependency>
-                            <groupId>se.jguru.codestyle.annotations</groupId>
-                            <artifactId>jguru-codestyle-annotations</artifactId>
+                            <groupId>se.jguru.codestyle</groupId>
+                            <artifactId>jguru-codestyle</artifactId>
                             <version>0.9.5-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
-                </plugin -->
+                </plugin>
 
             </plugins>
         </pluginManagement>
@@ -892,7 +892,7 @@
             </plugin>
 
             <!-- Analyze dependencies for trivial security flaws -->
-            <!-- plugin>
+            <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
                 <executions>
@@ -902,7 +902,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin -->
+            </plugin>
         </plugins>
     </build>
 
