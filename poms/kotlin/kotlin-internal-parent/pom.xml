@@ -108,6 +108,7 @@
 
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
+        <owasp.failOnError>false</owasp.failOnError>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
@@ -624,6 +625,7 @@
                         <suppressionFiles>
                             <suppressionFile>${owasp.suppressionFile}</suppressionFile>
                         </suppressionFiles>
+                        <failOnError>${owasp.failOnError}</failOnError>
                     </configuration>
                     <dependencies>
                         <dependency>
