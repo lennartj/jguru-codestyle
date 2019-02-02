@@ -138,6 +138,33 @@
                     </dependencies>
                 </plugin>
 
+                <!--
+                    Configure JAR plugin.
+
+                    Why:  Assigns some manifest data within JARs. Reads bundle-generated manifest.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                            <manifestEntries>
+                                <name>${project.name}</name>
+                                <description>${project.description}</description>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+
                 <!-- Enforce not importing incorrect projects. -->
                 <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>

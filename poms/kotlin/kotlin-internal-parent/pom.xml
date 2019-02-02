@@ -56,6 +56,8 @@
         <!-- Kotlin constants -->
         <kotlin.version>1.3.20</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
+        <kotlin.compiler.languageVersion>1.3</kotlin.compiler.languageVersion>
+        <kotlin.compiler.apiVersion>1.3</kotlin.compiler.apiVersion>
 
         <!--
             Define URL prefixes used in the various URL settings of the POM.
@@ -181,9 +183,9 @@
                 Kotlin dependencies
             -->
             <dependency>
-                <groupId>se.jguru.codestyle.poms.kotlin</groupId>
-                <artifactId>jguru-codestyle-kotlin-bom</artifactId>
-                <version>0.9.5-SNAPSHOT</version>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-bom</artifactId>
+                <version>${kotlin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -428,6 +430,8 @@
                             <!-- Call instance initializers in the synthetic constructor -->
                             <option>no-arg:invokeInitializers=true</option>
                         </pluginOptions>
+                        <languageVersion>${kotlin.compiler.languageVersion}</languageVersion>
+                        <apiVersion>${kotlin.compiler.apiVersion}</apiVersion>
                         <jvmTarget>${jdk.version}</jvmTarget>
                     </configuration>
                     <dependencies>
