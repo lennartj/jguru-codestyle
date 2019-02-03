@@ -21,7 +21,7 @@
 
     <groupId>se.jguru.codestyle.poms.kotlin</groupId>
     <artifactId>jguru-codestyle-kotlin-bom</artifactId>
-    <version>0.9.5</version>
+    <version>0.9.6-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
@@ -480,7 +480,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>0.9.5</version>
+                            <version>0.9.6-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -755,7 +755,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>jguru-codestyle-0.9.5</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <!--

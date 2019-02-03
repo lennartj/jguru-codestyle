@@ -16,7 +16,7 @@
     <parent>
         <groupId>se.jguru.codestyle.poms.java</groupId>
         <artifactId>jguru-codestyle-poms-java-reactor</artifactId>
-        <version>0.9.5</version>
+        <version>0.9.6-SNAPSHOT</version>
     </parent>
 
     <groupId>se.jguru.codestyle.poms.java</groupId>
@@ -102,7 +102,7 @@
                     <dependency>
                         <groupId>se.jguru.codestyle</groupId>
                         <artifactId>jguru-codestyle</artifactId>
-                        <version>0.9.5</version>
+                        <version>0.9.6-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -150,6 +150,6 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>jguru-codestyle-0.9.5</tag>
+        <tag>HEAD</tag>
     </scm>
 </project>
