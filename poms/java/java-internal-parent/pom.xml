@@ -260,9 +260,9 @@
                 Kotlin dependencies
             -->
             <dependency>
-                <groupId>se.jguru.codestyle.poms.kotlin</groupId>
-                <artifactId>jguru-codestyle-kotlin-bom</artifactId>
-                <version>0.9.6-SNAPSHOT</version>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-bom</artifactId>
+                <version>${kotlin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
