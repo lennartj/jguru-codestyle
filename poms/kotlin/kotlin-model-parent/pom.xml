@@ -132,8 +132,8 @@
                 <surefire.argLine>-javaagent:${basedir}/target/eclipselink.jar -Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
 
                 <!-- Eclipselink versions -->
-                <org.eclipse.persistence.osgi.version>2.2.1</org.eclipse.persistence.osgi.version>
-                <org.eclipse.persistence.version>2.7.3</org.eclipse.persistence.version>
+                <jakarta.persistence.version>2.2.2</jakarta.persistence.version>
+                <org.eclipse.persistence.version>2.7.4</org.eclipse.persistence.version>
                 <hibernate.validator.version>6.0.7.Final</hibernate.validator.version>
             </properties>
 
@@ -141,8 +141,8 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.eclipse.persistence</groupId>
-                        <artifactId>javax.persistence</artifactId>
-                        <version>${org.eclipse.persistence.osgi.version}</version>
+                        <artifactId>jakarta.persistence</artifactId>
+                        <version>${jakarta.persistence.version}</version>
                         <scope>provided</scope>
                     </dependency>
                     <dependency>
@@ -162,11 +162,6 @@
             <dependencies>
 
                 <!-- Standard, persistence-API-related dependencies -->
-                <dependency>
-                    <groupId>org.eclipse.persistence</groupId>
-                    <artifactId>javax.persistence</artifactId>
-                    <scope>provided</scope>
-                </dependency>
                 <dependency>
                     <groupId>org.eclipse.persistence</groupId>
                     <artifactId>eclipselink</artifactId>
@@ -233,7 +228,7 @@
             </activation>
 
             <properties>
-                <openjpa.version>2.4.0</openjpa.version>
+                <openjpa.version>3.0.0</openjpa.version>
                 <openjpa.includes>se/jguru/nazgul/**/*.class</openjpa.includes>
                 <openjpa.excludes>se/jguru/nazgul/core/xmlbinding/spi/jaxb/transport/EntityWrapper.class</openjpa.excludes>
                 <openjpa.persistenceXmlPath>weaving/openjpa/v2/${project.artifactId}-persistence.xml</openjpa.persistenceXmlPath>
@@ -244,11 +239,11 @@
             </properties>
 
             <dependencies>
-                <dependency>
+                <!-- cdependency>
                     <groupId>org.apache.geronimo.specs</groupId>
                     <artifactId>geronimo-jpa_2.0_spec</artifactId>
                     <scope>provided</scope>
-                </dependency>
+                </dependency -->
                 <dependency>
                     <groupId>org.apache.openjpa</groupId>
                     <artifactId>openjpa</artifactId>
@@ -330,13 +325,6 @@
                             </execution>
                         </executions>
                     </plugin>
-
-                    <!--
-                    <plugin>
-                        <groupId>org.apache.openjpa</groupId>
-                        <artifactId>openjpa-maven-plugin</artifactId>
-                    </plugin>
-                    -->
                 </plugins>
             </build>
         </profile>
