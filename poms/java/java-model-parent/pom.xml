@@ -189,11 +189,34 @@
                 </dependencies>
             </dependencyManagement>
             <dependencies>
+
+                <!-- Standard, persistence-API-related dependencies -->
+                <dependency>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>jakarta.persistence</artifactId>
+                    <version>${jakarta.persistence.version}</version>
+                    <scope>provided</scope>
+                </dependency>
                 <dependency>
                     <groupId>org.eclipse.persistence</groupId>
                     <artifactId>eclipselink</artifactId>
                     <scope>provided</scope>
                 </dependency>
+
+                <!-- Test-scope dependencies -->
+                <dependency>
+                    <groupId>org.xmlunit</groupId>
+                    <artifactId>xmlunit-matchers</artifactId>
+                    <version>${xmlunit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.xmlunit</groupId>
+                    <artifactId>xmlunit-core</artifactId>
+                    <version>${xmlunit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                
             </dependencies>
 
             <build>
