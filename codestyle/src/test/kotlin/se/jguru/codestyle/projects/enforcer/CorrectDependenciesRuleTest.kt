@@ -25,7 +25,7 @@ class CorrectDependenciesRuleTest {
     }
 
     @Test
-    fun validateExceptionOnBomImportedInDependencyScope() {
+    fun validateExceptionMessageForBomImportedInDependencyScope() {
 
         // Assemble
         val project = MavenTestUtils.readPom("testdata/poms/incorrect-bom-as-dependency.xml")
@@ -38,7 +38,7 @@ class CorrectDependenciesRuleTest {
             unitUnderTest.performValidation(project, mockHelper)
 
             Assert.fail("CorrectPackagingRule should yield an exception for projects not " +
-                    "complying with packaging rules.")
+                "complying with packaging rules.")
 
         } catch (e: RuleFailureException) {
 
@@ -46,8 +46,8 @@ class CorrectDependenciesRuleTest {
 
             // Validate that the message contains the correct failure reason.
             Assert.assertTrue(
-                    message.contains("Don't use CommonProjectType.BILL_OF_MATERIALS dependencies in Dependency " +
-                            "block. (Use only as DependencyManagement import-scoped dependencies)."))
+                message.contains("Don't use CommonProjectType.BILL_OF_MATERIALS dependencies in Dependency " +
+                    "block. (Use only as DependencyManagement import-scoped dependencies)."))
         }
     }
 }

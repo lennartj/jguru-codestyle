@@ -62,4 +62,16 @@ class PermittedProjectTypeRuleTest {
         // Act & Assert
         unitUnderTest.execute(mockHelper)
     }
+
+    @Test(expected = EnforcerRuleException::class)
+    fun validateExceptionOnBillOfMaterialsPomWithDependencies() {
+
+        // Assemble
+        val project = MavenTestUtils.readPom("testdata/poms/incorrect-bom-has-dependencies.xml")
+        val mockHelper = MockEnforcerRuleHelper(project)
+        val unitUnderTest = PermittedProjectTypeRule()
+
+        // Act & Assert
+        unitUnderTest.execute(mockHelper)
+    }
 }

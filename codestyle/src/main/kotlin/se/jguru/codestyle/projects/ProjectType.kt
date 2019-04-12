@@ -18,44 +18,64 @@ import java.io.Serializable
 interface ProjectType : Serializable {
 
     /**
-     * Checks if the provided artifactID complies with the naming standard
-     * for this ProjectType.
+     * @return an identifier unique to this ProjectType.
+     */
+    fun getIdentifier(): String = this::class.java.simpleName
+
+    /**
+     * Checks if the provided artifactID complies with the standard for this ProjectType.
      *
      * @param artifactID The artifactID which should be checked for compliance.
-     * @return `true` if the provided artifactID was compliant with the naming rules for this ProjectType.
+     * @return `null` if the supplied artifactID value was compliant with this ProjectType's requirements,
+     * and a reason message for non-compliance if not.
      */
-    fun isCompliantArtifactID(artifactID: String?): Boolean
+    fun artifactIDNonComplianceMessage(artifactID: String?): String?
 
     /**
      * Checks if the provided groupID complies with the naming standard
      * for this ProjectType.
      *
      * @param groupID The groupID which should be checked for compliance.
-     * @return `true` if the provided groupID was compliant with the naming rules for this ProjectType.
+     * @return `null` if the supplied groupID value was compliant with this ProjectType's requirements,
+     * and a reason message for non-compliance if not.
      */
-    fun isCompliantGroupID(groupID: String?): Boolean
+    fun groupIDNonComplianceMessage(groupID: String?): String?
 
     /**
-     * Checks if the provided packaging complies with the standard/requirements
-     * of this ProjectType.
+     * Checks if the provided packaging complies with the standard/requirements of this ProjectType.
      *
      * @param packaging The packaging which should be checked for compliance.
-     * @return `true` if the provided packaging was compliant with the rules for this ProjectType.
+     * @return @return `null` if the supplied packaging value was compliant with this ProjectType's
+     * requirements, and a reason message for non-compliance if not.
      */
-    fun isCompliantPackaging(packaging: String?): Boolean
+    fun packagingNonComplianceMessage(packaging: String?): String?
+
+    /**
+     * Checks if the provided MavenProject complies with the standard/requirements of this ProjectType.
+     *
+     * @param project The MavenProject which should be checked for compliance.
+     * @return `null` if the supplied MavenProject's internal structure was compliant with this ProjectType's
+     * requirements, and a reason message for non-compliance if not.
+     */
+    fun internalStructureNonComplianceMessage(project: MavenProject?): String?
 
     /**
      * Convenience implementation used to test whether or not a [org.apache.maven.project.MavenProject] is
-     * compliant with this [ProjectType]. Override to provide extra mechanics for validation; it is
-     * recommended not to forget to invoke `isCompliantWith` as defined within the [ProjectType] interface.
+     * compliant with this [ProjectType]. Override to provide extra mechanics for validation.
      *
      * @param project The MavenProject to ascertain compliance for this ProjectType.
      */
-    fun isCompliantWith(project: MavenProject): Boolean {
+    fun getComplianceStatus(project: MavenProject): ComplianceStatusHolder {
 
-        return isCompliantGroupID(project.groupId) &&
-            isCompliantArtifactID(project.artifactId) &&
-            isCompliantPackaging(project.packaging)
+        val toReturn = ComplianceStatusHolder()
+
+        toReturn.groupComplianceFailure = groupIDNonComplianceMessage(project.groupId)
+        toReturn.artifactComplianceFailure = artifactIDNonComplianceMessage(project.artifactId)
+        toReturn.packagingComplianceFailure = packagingNonComplianceMessage(project.packaging)
+        toReturn.internalStructureComplianceFailure = internalStructureNonComplianceMessage(project)
+
+        // All Done
+        return toReturn
     }
 }
 
@@ -67,6 +87,7 @@ interface ProjectType : Serializable {
  * @param artifactIdRegex The [Regex] to identify matching Aether ArtifactIDs for this [ProjectType]
  * @param packagingRegex The [Regex] to identify matching Aether packaging for this [ProjectType]
  * @param acceptNullValues Indicates if received [null]s should be accepted or rejected.
+ * @param id an optional ID to assign to this DefaultProjectType.
  */
 open class DefaultProjectType @JvmOverloads constructor(
 
@@ -76,7 +97,11 @@ open class DefaultProjectType @JvmOverloads constructor(
 
     protected val packagingRegex: Regex,
 
-    protected val acceptNullValues: Boolean = false) : ProjectType {
+    protected val acceptNullValues: Boolean = false,
+
+    private val id: String? = null,
+
+    protected val structureChecker: (MavenProject) -> String?) : ProjectType {
 
     /**
      * Convenience constructor using the pure String [Pattern]s instead of the full [Regex] objects.
@@ -87,43 +112,88 @@ open class DefaultProjectType @JvmOverloads constructor(
     constructor(groupIdPattern: String? = null,
                 artifactIdPattern: String? = null,
                 packagingPattern: String? = null,
-                acceptNullValues: Boolean = false) : this(
+                acceptNullValues: Boolean = false,
+                id: String? = null,
+                structureChecker: (MavenProject) -> String? = { null }) : this(
         getDefaultRegexFor(groupIdPattern),
         getDefaultRegexFor(artifactIdPattern),
         getDefaultRegexFor(packagingPattern),
-        acceptNullValues)
+        acceptNullValues,
+        id,
+        structureChecker)
 
     /**
      * Default implementation validates that the received [artifactID] matches the [artifactIdRegex]
-     * or - if null - returns a value corresponding to the [acceptNullValues] constructor argument.
+     * or - if a null artifactID is given - returns a value corresponding to the [acceptNullValues]
+     * constructor argument.
      *
      * @see ProjectType#isCompliantArtifactID
      */
-    override fun isCompliantArtifactID(artifactID: String?): Boolean = when (artifactID) {
-        null -> acceptNullValues
-        else -> artifactIdRegex.matches(artifactID)
+    override fun artifactIDNonComplianceMessage(artifactID: String?): String? = when (artifactID) {
+
+        null -> when (acceptNullValues) {
+            true -> null
+            else -> "Got null artifactID. Expected: non-null."
+        }
+
+        else -> when (artifactIdRegex.matches(artifactID)) {
+            true -> null
+            else -> "Incorrect artifactId [$artifactID]. Expected: matching pattern [$artifactIdRegex]."
+        }
     }
 
     /**
      * Default implementation validates that the received `groupID` matches the groupIdRegex
      * or - if null - returns a value corresponding to the `acceptNullValues` constructor argument.
-     * 
-     * @see [ProjectType.isCompliantGroupID]
+     *
+     * @see [ProjectType.groupIDNonComplianceMessage]
      */
-    override fun isCompliantGroupID(groupID: String?): Boolean = when (groupID) {
-        null -> acceptNullValues
-        else -> groupIdRegex.matches(groupID)
+    override fun groupIDNonComplianceMessage(groupID: String?): String? = when (groupID) {
+
+        null -> when (acceptNullValues) {
+            true -> null
+            else -> "Got null groupID. Expected: non-null."
+        }
+
+        else -> when (groupIdRegex.matches(groupID)) {
+            true -> null
+            else -> "Incorrect GroupId [$groupID]. Expected: matching pattern [$groupIdRegex]."
+        }
     }
 
     /**
      * Default implementation validates that the received `packaging` matches the `packagingRegex`
      * or - if null - returns a value corresponding to the `acceptNullValues` constructor argument.
      *
-     * @see [ProjectType.isCompliantPackaging]
+     * @see [ProjectType.packagingNonComplianceMessage]
      */
-    override fun isCompliantPackaging(packaging: String?): Boolean = when (packaging) {
-        null -> acceptNullValues
-        else -> packagingRegex.matches(packaging)
+    override fun packagingNonComplianceMessage(packaging: String?): String? = when (packaging) {
+
+        null -> when (acceptNullValues) {
+            true -> null
+            else -> "Got null packaging. Expected: non-null."
+        }
+
+        else -> when (packagingRegex.matches(packaging)) {
+            true -> null
+            else -> "Incorrect packaging [$packaging]. Expected: matching pattern [$packagingRegex]."
+        }
+    }
+
+    /**
+     * Default implementation validates that the received `project` matches the criteria of the structureChecker
+     * lambda or - if null - returns a value corresponding to the `acceptNullValues` constructor argument.
+     *
+     * @see [ProjectType.packagingNonComplianceMessage]
+     */
+    override fun internalStructureNonComplianceMessage(project: MavenProject?): String? = when (project) {
+
+        null -> when (acceptNullValues) {
+            true -> null
+            else -> "Got null MavenProject. Expected: non-null."
+        }
+
+        else -> structureChecker.invoke(project)
     }
 
     /**
@@ -164,6 +234,11 @@ open class DefaultProjectType @JvmOverloads constructor(
         result = 31 * result + packagingRegex.hashCode()
         result = 31 * result + acceptNullValues.hashCode()
         return result
+    }
+
+    override fun getIdentifier(): String = when (id != null) {
+        true -> id
+        else -> this::class.java.simpleName
     }
 
     companion object {

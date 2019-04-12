@@ -63,7 +63,7 @@ class CorrectPackagingRule @JvmOverloads constructor(
 
         // Retrieve the groupId of this project
         val groupId = project.groupId
-        if (groupId == null || groupId == "") {
+        if (groupId.isNullOrEmpty()) {
 
             // Don't accept empty groupIds
             throw RuleFailureException(

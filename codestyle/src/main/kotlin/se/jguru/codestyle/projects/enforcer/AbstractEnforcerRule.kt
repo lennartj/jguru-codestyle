@@ -78,8 +78,9 @@ abstract class AbstractEnforcerRule @JvmOverloads constructor(
                 + "\n# Structure rule failure:"
                 + "\n# " + getShortRuleDescription()
                 + "\n# "
-                + "\n# Message: " + e.getLocalizedMessage()
-                + "\n# " + "\n# Offending project [" + project.groupId + ":"
+                + "\n# Message: " + e.localizedMessage.replace("\n ", "\n# ")
+                + "\n# "
+                + "\n# Offending project [" + project.groupId + ":"
                 + project.artifactId + ":" + project.version + "]" + "\n#")
 
             val art = e.offendingArtifact

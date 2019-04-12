@@ -10,8 +10,9 @@ import org.apache.maven.artifact.DefaultArtifact
 import org.apache.maven.artifact.handler.DefaultArtifactHandler
 import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
-import se.jguru.codestyle.projects.CommonProjectTypes
+import se.jguru.codestyle.projects.CommonProjectType
 import se.jguru.codestyle.projects.ProjectType
+import java.lang.IllegalStateException
 
 /**
  * Maven enforcement rule which ensures that Implementation [Artifact]s are not used as dependencies within
@@ -27,50 +28,20 @@ import se.jguru.codestyle.projects.ProjectType
  *
  * @author <a href="mailto:lj@jguru.se">Lennart J&ouml;relid</a>, jGuru Europe AB
  */
-class CorrectDependenciesRule(
+class CorrectDependenciesRule @JvmOverloads constructor(
 
-    ignoredProjectTypes: List<ProjectType>?,
+    val ignoredProjectTypes: List<ProjectType> = DEFAULT_IGNORED_PROJECT_TYPES,
 
-    evaluateGroupIds: List<String>?,
+    val evaluateGroupIds: List<String> = listOf("^se\\.jguru\\..*"),
 
-    dontEvaluateGroupIds: List<String>?,
+    val dontEvaluateGroupIds: List<String> = listOf("^se\\.jguru\\..*\\.generated\\..*", "^se\\.jguru\\.codestyle\\..*"),
 
-    projectConverter: ((theProject: MavenProject) -> ProjectType)?,
+    val projectConverter: ((theProject: MavenProject) -> ProjectType) = { CommonProjectType.getProjectType(it) },
 
-    artifactConverter: ((theArtifact: Artifact) -> ProjectType)?) : AbstractNonCacheableEnforcerRule() {
+    val artifactConverter: ((theArtifact: Artifact) -> ProjectType) = { CommonProjectType.getProjectType(it) }
+) : AbstractNonCacheableEnforcerRule() {
 
-    /**
-     * Default constructor using default values for all arguments.
-     */
-    constructor() : this(null, null, null, null, null)
-
-    // Internal state
-    private val ignoredProjectTypes: List<ProjectType> = ignoredProjectTypes ?: listOf(
-        CommonProjectTypes.JEE_APPLICATION,
-        CommonProjectTypes.PARENT,
-        CommonProjectTypes.ASSEMBLY,
-        CommonProjectTypes.REACTOR,
-        CommonProjectTypes.PROOF_OF_CONCEPT,
-        CommonProjectTypes.EXAMPLE,
-        CommonProjectTypes.TEST,
-        CommonProjectTypes.JAVA_AGENT,
-        CommonProjectTypes.STANDALONE_APPLICATION)
-
-    /**
-     * List containing [Regex]ps which indicate which Maven GroupIDs should be included in this Rule's evaluation.
-     * Defaults to [EVALUATE_GROUPIDS] unless explicitly given.
-     */
-    private var evaluateGroupIds: List<String> = evaluateGroupIds ?: listOf("^se\\.jguru\\..*")
-    private var dontEvaluateGroupIds: List<String> = dontEvaluateGroupIds
-        ?: listOf("^se\\.jguru\\..*\\.generated\\..*", "^se\\.jguru\\.codestyle\\..*")
-
-    private var projectConverter: (theProject: MavenProject) -> ProjectType = projectConverter
-        ?: { CommonProjectTypes.getProjectType(it) }
-
-    private var artifactConverter: (theArtifact: Artifact) -> ProjectType = artifactConverter
-        ?: { CommonProjectTypes.getProjectType(it) }
-
-    private fun getEvaluationPatterns(): List<Regex> = evaluateGroupIds.map { Regex(it) }
+    fun getEvaluationPatterns(): List<Regex> = evaluateGroupIds.map { Regex(it) }
     private fun getIgnoreEvaluationPatterns(): List<Regex> = dontEvaluateGroupIds.map { Regex(it) }
 
     override fun getShortRuleDescription(): String = "Incorrect Dependency found within project."
@@ -78,7 +49,12 @@ class CorrectDependenciesRule(
     override fun performValidation(project: MavenProject, helper: EnforcerRuleHelper) {
 
         // Acquire the ProjectType, and don't evaluate for ignored ProjectTypes.
-        val projectType = projectConverter.invoke(project)
+        val projectType: ProjectType
+        try {
+            projectType = projectConverter.invoke(project)
+        } catch (e: IllegalStateException) {
+            throw RuleFailureException(e.message ?: "Unknown")
+        }
         if (projectType in ignoredProjectTypes) {
             return
         }
@@ -130,27 +106,45 @@ class CorrectDependenciesRule(
                 val artifactProjectType = artifactConverter(current)
                 val prefix = "Don't use $artifactProjectType dependencies "
 
-                if (artifactProjectType === CommonProjectTypes.IMPLEMENTATION) {
+                if (artifactProjectType === CommonProjectType.IMPLEMENTATION) {
                     throw RuleFailureException(prefix + "outside of application projects.",
                         offendingArtifact = current)
                 }
 
-                if (artifactProjectType === CommonProjectTypes.TEST) {
+                if (artifactProjectType === CommonProjectType.TEST) {
                     throw RuleFailureException(prefix + "in compile scope for non-test artifacts.",
                         offendingArtifact = current)
                 }
 
-                if (artifactProjectType === CommonProjectTypes.JEE_APPLICATION
-                    || artifactProjectType === CommonProjectTypes.PROOF_OF_CONCEPT) {
+                if (artifactProjectType === CommonProjectType.JEE_APPLICATION
+                    || artifactProjectType === CommonProjectType.PROOF_OF_CONCEPT) {
                     throw RuleFailureException(prefix + "in bundles.",
                         offendingArtifact = current)
                 }
 
-                if (artifactProjectType === CommonProjectTypes.BILL_OF_MATERIALS) {
+                if (artifactProjectType === CommonProjectType.BILL_OF_MATERIALS) {
                     throw RuleFailureException(prefix + "in Dependency block. (Use only as DependencyManagement " +
                         "import-scoped dependencies).")
                 }
             }
         }
+    }
+
+    companion object {
+
+        /**
+         * Default ignored project types.
+         */
+        @JvmStatic
+        val DEFAULT_IGNORED_PROJECT_TYPES = listOf(
+            CommonProjectType.JEE_APPLICATION,
+            CommonProjectType.PARENT,
+            CommonProjectType.ASSEMBLY,
+            CommonProjectType.REACTOR,
+            CommonProjectType.PROOF_OF_CONCEPT,
+            CommonProjectType.EXAMPLE,
+            CommonProjectType.TEST,
+            CommonProjectType.JAVA_AGENT,
+            CommonProjectType.STANDALONE_APPLICATION)
     }
 }

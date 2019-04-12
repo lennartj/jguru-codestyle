@@ -22,13 +22,13 @@ class ProjectTypeTest {
         val acceptNoneProjectType = DefaultProjectType(acceptNullValues = false)
 
         // Act & Assert
-        Assert.assertTrue(acceptAllProjectType.isCompliantArtifactID(null))
-        Assert.assertTrue(acceptAllProjectType.isCompliantGroupID(null))
-        Assert.assertTrue(acceptAllProjectType.isCompliantPackaging(null))
+        Assert.assertNull(acceptAllProjectType.artifactIDNonComplianceMessage(null))
+        Assert.assertNull(acceptAllProjectType.groupIDNonComplianceMessage(null))
+        Assert.assertNull(acceptAllProjectType.packagingNonComplianceMessage(null))
 
-        Assert.assertFalse(acceptNoneProjectType.isCompliantArtifactID(null))
-        Assert.assertFalse(acceptNoneProjectType.isCompliantGroupID(null))
-        Assert.assertFalse(acceptNoneProjectType.isCompliantPackaging(null))
+        Assert.assertNotNull(acceptNoneProjectType.artifactIDNonComplianceMessage(null))
+        Assert.assertNotNull(acceptNoneProjectType.groupIDNonComplianceMessage(null))
+        Assert.assertNotNull(acceptNoneProjectType.packagingNonComplianceMessage(null))
     }
 
     @Test
@@ -38,17 +38,23 @@ class ProjectTypeTest {
         val apiProjectType = DefaultProjectType(".*-api$", ".*\\.api$", "bundle|jar")
 
         // Act & Assert
-        Assert.assertTrue(apiProjectType.isCompliantArtifactID("foo.api"))
-        Assert.assertFalse(apiProjectType.isCompliantArtifactID("foo.api.bah"))
-        Assert.assertFalse(apiProjectType.isCompliantArtifactID(null))
+        Assert.assertNull(apiProjectType.artifactIDNonComplianceMessage("foo.api"))
+        Assert.assertNotNull(apiProjectType.artifactIDNonComplianceMessage("foo.api.bah"))
+        Assert.assertNotNull(apiProjectType.artifactIDNonComplianceMessage(null))
 
-        Assert.assertTrue(apiProjectType.isCompliantGroupID("foo-api"))
-        Assert.assertFalse(apiProjectType.isCompliantGroupID("foo-api-bah"))
-        Assert.assertFalse(apiProjectType.isCompliantGroupID(null))
+        Assert.assertNull(apiProjectType.groupIDNonComplianceMessage("foo-api"))
+        Assert.assertNotNull(apiProjectType.groupIDNonComplianceMessage("foo-api-bah"))
+        Assert.assertNotNull(apiProjectType.groupIDNonComplianceMessage(null))
 
-        Assert.assertTrue(apiProjectType.isCompliantPackaging("bundle"))
-        Assert.assertTrue(apiProjectType.isCompliantPackaging("jar"))
-        Assert.assertFalse(apiProjectType.isCompliantPackaging("war"))
-        Assert.assertFalse(apiProjectType.isCompliantPackaging(null))
+        Assert.assertNull(apiProjectType.packagingNonComplianceMessage("bundle"))
+        Assert.assertNull(apiProjectType.packagingNonComplianceMessage("jar"))
+        Assert.assertNotNull(apiProjectType.packagingNonComplianceMessage("war"))
+        Assert.assertNotNull(apiProjectType.packagingNonComplianceMessage(null))
+    }
+
+    fun validateApplicationPattern() {
+
+        // Assemble
+        val eeApplicationProject = CommonProjectType.JEE_APPLICATION
     }
 }

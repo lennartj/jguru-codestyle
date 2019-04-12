@@ -22,10 +22,11 @@ import org.apache.maven.project.MavenProject
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-enum class CommonProjectTypes(artifactIdPattern: String?,
-                              groupIdPattern: String?,
-                              packagingPattern: String?,
-                              acceptNullValues: Boolean = true) : ProjectType {
+enum class CommonProjectType(artifactIdPattern: String?,
+                             groupIdPattern: String?,
+                             packagingPattern: String?,
+                             acceptNullValues: Boolean = true,
+                             structureChecker: (MavenProject) -> String? = { null }) : ProjectType {
 
     /**
      * Reactor project, of type pom. May not contain anything except module definitions.
@@ -149,15 +150,33 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
         groupIdPattern,
         artifactIdPattern,
         packagingPattern,
-        acceptNullValues)
+        acceptNullValues,
+        name,
+        structureChecker)
 
-    override fun isCompliantArtifactID(artifactID: String?): Boolean = delegate.isCompliantArtifactID(artifactID)
+    constructor(artifactIdPattern: String?,
+                groupIdPattern: String?,
+                packagingPattern: String?,
+                acceptNullValues: Boolean = true) : this(artifactIdPattern,
+        groupIdPattern,
+        packagingPattern,
+        acceptNullValues,
+        { null })
 
-    override fun isCompliantGroupID(groupID: String?): Boolean = delegate.isCompliantGroupID(groupID)
+    override fun artifactIDNonComplianceMessage(artifactID: String?): String? =
+        delegate.artifactIDNonComplianceMessage(artifactID)
 
-    override fun isCompliantPackaging(packaging: String?): Boolean = delegate.isCompliantPackaging(packaging)
+    override fun groupIDNonComplianceMessage(groupID: String?): String? = delegate.groupIDNonComplianceMessage(groupID)
+
+    override fun packagingNonComplianceMessage(packaging: String?): String? =
+        delegate.packagingNonComplianceMessage(packaging)
+
+    override fun internalStructureNonComplianceMessage(project: MavenProject?): String? =
+        delegate.internalStructureNonComplianceMessage(project)
 
     override fun toString(): String = "CommonProjectType.$name"
+
+    override fun getIdentifier(): String = name
 
     companion object {
 
@@ -166,19 +185,19 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
          * IllegalArgumentException holding an exception message if a ProjectType could not be
          * found for the provided [Artifact].
          *
-         * @param anArtifact The Maven Artifact for which a [CommonProjectTypes] object should be retrieved.
+         * @param anArtifact The Maven Artifact for which a [CommonProjectType] object should be retrieved.
          * @return The [ProjectType] corresponding to the given [Artifact].
-         * @throws IllegalArgumentException if [anArtifact] did not match any [CommonProjectTypes]
+         * @throws IllegalArgumentException if [anArtifact] did not match any [CommonProjectType]
          */
         @Throws(IllegalArgumentException::class)
-        fun getProjectType(anArtifact: Artifact): CommonProjectTypes {
+        fun getProjectType(anArtifact: Artifact): CommonProjectType {
 
-            val matches = CommonProjectTypes
+            val matches = CommonProjectType
                 .values()
                 .filter {
-                    it.isCompliantArtifactID(anArtifact.artifactId) &&
-                        it.isCompliantGroupID(anArtifact.groupId) &&
-                        it.isCompliantPackaging(anArtifact.type)
+                    it.artifactIDNonComplianceMessage(anArtifact.artifactId) == null &&
+                        it.groupIDNonComplianceMessage(anArtifact.groupId) == null &&
+                        it.packagingNonComplianceMessage(anArtifact.type) == null
                 }
 
             val errorPrefix = "Incorrect Artifact type definition for [${anArtifact.groupId} :: " +
@@ -207,14 +226,15 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
          * The exception message holds
          */
         @Throws(IllegalArgumentException::class)
-        fun getProjectType(project: MavenProject): CommonProjectTypes {
+        fun getProjectType(project: MavenProject): CommonProjectType {
 
-            val matches = CommonProjectTypes
+            val matches = CommonProjectType
                 .values()
                 .filter {
-                    it.isCompliantArtifactID(project.artifactId) &&
-                        it.isCompliantGroupID(project.groupId) &&
-                        it.isCompliantPackaging(project.packaging)
+                    it.artifactIDNonComplianceMessage(project.artifactId) == null &&
+                        it.groupIDNonComplianceMessage(project.groupId) == null &&
+                        it.packagingNonComplianceMessage(project.packaging) == null &&
+                        it.internalStructureNonComplianceMessage(project) == null
                 }
 
             val errorPrefix = "Incorrect project type definition for [${project.groupId} " +
@@ -228,11 +248,13 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
                 throw IllegalArgumentException("$errorPrefix Matching several project types ($matches).")
             }
 
+            fun containsElements(depList: List<Dependency>?): Boolean = depList != null && !depList.isEmpty()
+
             // Validate the internal requirements for the two different pom projects.
             val toReturn = matches[0]
             when (toReturn) {
 
-                CommonProjectTypes.PARENT, CommonProjectTypes.ASSEMBLY ->
+                CommonProjectType.PARENT, CommonProjectType.ASSEMBLY ->
 
                     // This project should not contain modules.
                     if (project.modules != null && !project.modules.isEmpty()) {
@@ -240,15 +262,24 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
                             "module definitions. (Modules are reserved for reactor projects).")
                     }
 
-                CommonProjectTypes.REACTOR, CommonProjectTypes.BILL_OF_MATERIALS -> {
+                CommonProjectType.BILL_OF_MATERIALS -> {
+
+                    val errorText = "${toReturn.name} projects may not contain dependency definitions. " +
+                        "(Bill-of-Material projects should only contain DependencyManagement definitions)."
+
+                    // This project should not contain Dependency definitions.
+                    if (containsElements(project.dependencies)) {
+                        throw IllegalArgumentException(errorText)
+                    }
+                }
+
+                CommonProjectType.REACTOR -> {
 
                     val errorText = "${toReturn.name} projects may not contain " +
                         "dependency [incl. Management] definitions. (Dependencies should be defined " +
                         "within parent projects)."
 
-                    fun containsElements(depList: List<Dependency>?): Boolean = depList != null && !depList.isEmpty()
-
-                    // This project not contain Dependency definitions.
+                    // This project should not contain Dependency definitions.
                     if (containsElements(project.dependencies)) {
                         throw IllegalArgumentException(errorText)
                     }
@@ -273,37 +304,58 @@ enum class CommonProjectTypes(artifactIdPattern: String?,
     }
 
     /**
-     * Special handling to separate PARENT, REACTOR and ASSEMBLY pom types.
+     * Special handling to separate BILL_OF_MATERIALS, PARENT, REACTOR and ASSEMBLY pom types.
+     *
+     * @param project A Maven Project to validate for compliance with this [ProjectType].
+     *
+     * @return A [ComplianceStatusHolder] containing information about compliance status or causes
+     * to lack of such compliance.
      */
-    override fun isCompliantWith(project: MavenProject): Boolean {
+    override fun getComplianceStatus(project: MavenProject): ComplianceStatusHolder {
 
         // First, check standard compliance.
-        val standardCompliance = super.isCompliantWith(project)
+        val standardCompliance = super.getComplianceStatus(project)
+
+        fun containsElements(depList: List<Dependency>?): Boolean = depList != null && !depList.isEmpty()
 
         // All Done.
-        return standardCompliance && when (this) {
+        return when (standardCompliance.isCompliant) {
+            false -> standardCompliance
+            else -> when (this) {
 
-            REACTOR -> {
+                BILL_OF_MATERIALS -> {
 
-                fun containsElements(depList: List<Dependency>?): Boolean = depList != null && !depList.isEmpty()
+                    when (containsElements(project.dependencies)) {
+                        true -> ComplianceStatusHolder(internalStructureComplianceFailure = "BILL_OF_MATERIALS " +
+                            "projects should not contain Dependency definitions - only " +
+                            "DependencyManagement definitions.")
+                        false -> ComplianceStatusHolder.OK
+                    }
+                }
 
-                // This project not contain Dependency definitions.
-                val hasNoDependencies = !containsElements(project.dependencies)
+                REACTOR -> {
 
-                // This kind of project should not contain DependencyManagement definitions.
-                val dependencyManagement = project.dependencyManagement
-                val hasNoManagementDependencies = dependencyManagement == null
-                    || !containsElements(dependencyManagement.dependencies)
+                    val hasDependencies = containsElements(project.dependencies)
+                    val hasDependencyManagementEntries = containsElements(project.dependencyManagement.dependencies)
 
-                // All Done.
-                hasNoDependencies && hasNoManagementDependencies
+                    when (hasDependencies || hasDependencyManagementEntries) {
+                        true -> ComplianceStatusHolder(internalStructureComplianceFailure = "REACTOR " +
+                            "projects should not contain Dependency or DependencyManagement - only Modules")
+                        else -> ComplianceStatusHolder.OK
+                    }
+                }
+
+                PARENT, ASSEMBLY -> {
+
+                    // This project should not contain modules.
+                    when (project.modules.isNullOrEmpty()) {
+                        true -> ComplianceStatusHolder.OK
+                        else -> ComplianceStatusHolder(internalStructureComplianceFailure = "$name projects " +
+                            "should not contain Modules (Child Projects)")
+                    }
+                }
+                else -> ComplianceStatusHolder.OK
             }
-            PARENT, ASSEMBLY -> {
-
-                // This project should not contain modules.
-                project.modules.isEmpty()
-            }
-            else -> true
         }
     }
 }
