@@ -263,7 +263,7 @@
             </activation>
 
             <properties>
-                <hibernate.version>5.3.7.Final</hibernate.version>
+                <hibernate.version>5.4.2.Final</hibernate.version>
                 <surefire.argLine>-Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
             </properties>
 
