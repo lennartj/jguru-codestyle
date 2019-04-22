@@ -134,7 +134,7 @@
                 <!-- Eclipselink versions -->
                 <jakarta.persistence.version>2.2.2</jakarta.persistence.version>
                 <org.eclipse.persistence.version>2.7.4</org.eclipse.persistence.version>
-                <hibernate.validator.version>6.0.7.Final</hibernate.validator.version>
+                <hibernate.validator.version>6.0.16.Final</hibernate.validator.version>
             </properties>
 
             <dependencyManagement>
@@ -241,13 +241,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-java8</artifactId>
-                        <version>${hibernate.version}</version>
-                        <scope>provided</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.hibernate</groupId>
-                        <artifactId>hibernate-entitymanager</artifactId>
+                        <artifactId>hibernate-core</artifactId>
                         <version>${hibernate.version}</version>
                         <scope>provided</scope>
                     </dependency>
@@ -263,11 +257,7 @@
             <dependencies>
                 <dependency>
                     <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-java8</artifactId>
-                </dependency>
-                <dependency>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-entitymanager</artifactId>
+                    <artifactId>hibernate-core</artifactId>
                 </dependency>
                 <dependency>
                     <groupId>org.hibernate</groupId>
@@ -295,7 +285,7 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>org.hibernate</groupId>
-                                            <artifactId>hibernate-entitymanager</artifactId>
+                                            <artifactId>hibernate-core</artifactId>
                                             <version>${hibernate.version}</version>
                                             <outputDirectory>${project.build.directory}</outputDirectory>
                                             <destFileName>hibernate-em.jar</destFileName>
