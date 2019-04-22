@@ -8,6 +8,7 @@ package se.jguru.codestyle.projects
 import org.apache.maven.artifact.Artifact
 import org.apache.maven.model.Dependency
 import org.apache.maven.project.MavenProject
+import java.lang.Exception
 
 /**
  * Commonly known and used ProjectTypes, collected within an enum.
@@ -43,7 +44,34 @@ enum class CommonProjectType(artifactIdPattern: String?,
      * Bill-of-Materials project, of type pom, defining DependencyManagement entries.
      * May not contain module definitions.
      */
-    BILL_OF_MATERIALS(".*-bom$", null, "pom", false),
+    BILL_OF_MATERIALS(".*-bom$", null, "pom", false, {
+
+        val containsNoModules = it.modules.isNullOrEmpty()
+        val parentProject = try {
+            it.parent
+        } catch(e : Exception) {
+            null
+        }
+        
+        // Find the immediate dependencies of this project.
+        val parentDependencies = when (parentProject == null) {
+            true -> mutableSetOf<Dependency>()
+            else -> parentProject.dependencies
+        }
+        val onlyOwnDependencies = it.dependencies.filter { ownDependency ->
+            parentDependencies.firstOrNull { parentDependency ->
+                ProjectType.DEPENDENCY_COMPARATOR.compare(parentDependency, ownDependency) == 0
+            } == null
+        }
+
+        // All Done.
+        when(containsNoModules && onlyOwnDependencies.isNullOrEmpty()) {
+            true -> null
+            else -> "BILL_OF_MATERIALS " +
+                "projects should not contain Dependency definitions - only " +
+                "DependencyManagement definitions. (Found: $onlyOwnDependencies)."
+        }
+    }),
 
     /**
      * Pom project, defining assemblies and/or aggregation projects. May not contain module definitions.
@@ -267,8 +295,8 @@ enum class CommonProjectType(artifactIdPattern: String?,
                     val errorText = "${toReturn.name} projects may not contain dependency definitions. " +
                         "(Bill-of-Material projects should only contain DependencyManagement definitions)."
 
-                    // This project should not contain Dependency definitions.
-                    if (containsElements(project.dependencies)) {
+                    // This project should not contain Own Dependency definitions.
+                    if (!CommonProjectType.BILL_OF_MATERIALS.getComplianceStatus(project).isCompliant) {
                         throw IllegalArgumentException(errorText)
                     }
                 }
@@ -293,8 +321,11 @@ enum class CommonProjectType(artifactIdPattern: String?,
 
                 else -> {
 
-                    // Do nothing:
-                    // No action should be taken for other project types.
+                    // Fallback to standard compliance handling.
+                    val complianceStatus = toReturn.getComplianceStatus(project)
+                    if(!complianceStatus.isCompliant) {
+                        throw IllegalArgumentException(complianceStatus.toString())
+                    }
                 }
             }
 
@@ -325,10 +356,22 @@ enum class CommonProjectType(artifactIdPattern: String?,
 
                 BILL_OF_MATERIALS -> {
 
-                    when (containsElements(project.dependencies)) {
+                    // Find the immediate dependencies of this project.
+                    val parentDependencies = when (project.parent == null) {
+                        true -> mutableSetOf<Dependency>()
+                        else -> project.parent.dependencies
+                    }
+
+                    val onlyOwnDependencies = project.dependencies.filter { ownDependency ->
+                        parentDependencies.firstOrNull {
+                            ProjectType.DEPENDENCY_COMPARATOR.compare(it, ownDependency) == 0
+                        } == null
+                    }
+
+                    when (containsElements(onlyOwnDependencies)) {
                         true -> ComplianceStatusHolder(internalStructureComplianceFailure = "BILL_OF_MATERIALS " +
                             "projects should not contain Dependency definitions - only " +
-                            "DependencyManagement definitions.")
+                            "DependencyManagement definitions. (Found: $onlyOwnDependencies).")
                         false -> ComplianceStatusHolder.OK
                     }
                 }

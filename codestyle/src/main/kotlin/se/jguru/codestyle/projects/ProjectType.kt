@@ -5,6 +5,8 @@
 
 package se.jguru.codestyle.projects
 
+import org.apache.maven.artifact.Artifact
+import org.apache.maven.model.Dependency
 import org.apache.maven.project.MavenProject
 import java.io.Serializable
 
@@ -76,6 +78,44 @@ interface ProjectType : Serializable {
 
         // All Done
         return toReturn
+    }
+
+    companion object {
+        
+        private fun representation(groupId: String?,
+                                   artifactId: String?,
+                                   version: String?,
+                                   type: String?,
+                                   classifier: String?): String {
+
+            fun safeGet(aString: String?): String = aString ?: ""
+
+            return safeGet(groupId) + ":" +
+                safeGet(artifactId) + ":" +
+                safeGet(version) + ":" +
+                safeGet(type) + when (classifier) {
+                null -> ""
+                else -> ":${safeGet(classifier)}"
+            }
+        }
+
+        /**
+         * Compares two Artifacts by their string representation.
+         */
+        @JvmStatic
+        val ARTIFACT_COMPARATOR: Comparator<Artifact> = Comparator { l, r ->
+            representation(l.groupId, l.artifactId, l.version, l.type, l.classifier)
+                .compareTo(representation(r.groupId, r.artifactId, r.version, r.type, r.classifier))
+        }
+
+        /**
+         * Compares two Dependencies by their string representation.
+         */
+        @JvmStatic
+        val DEPENDENCY_COMPARATOR: Comparator<Dependency> = Comparator { l, r ->
+            representation(l.groupId, l.artifactId, l.version, l.type, l.classifier)
+                .compareTo(representation(r.groupId, r.artifactId, r.version, r.type, r.classifier))
+        }
     }
 }
 

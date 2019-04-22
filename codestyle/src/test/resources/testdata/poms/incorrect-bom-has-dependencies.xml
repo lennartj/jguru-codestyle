@@ -13,12 +13,12 @@
     # Section 1:  Project information
     ################################################
     -->
-    <parent>
+    <!-- parent>
         <groupId>se.jguru.nazgul.tools.poms</groupId>
         <artifactId>nazgul-tools-parent</artifactId>
         <version>1.0.0</version>
         <relativePath>../../poms/tools-parent</relativePath>
-    </parent>
+    </parent -->
 
     <groupId>se.jguru.foo.whatever</groupId>
     <artifactId>jguru-foo-bom</artifactId>
