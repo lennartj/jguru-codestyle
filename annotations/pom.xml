@@ -52,7 +52,7 @@
         <path.in.reactor>annotations</path.in.reactor>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.3.30</kotlin.version>
+        <kotlin.version>1.3.31</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
         <kotlin.plugin>jpa</kotlin.plugin>
 
