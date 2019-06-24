@@ -79,20 +79,20 @@
         <!-- Version number properties -->
         <maven.version>3.3.1</maven.version>
         <openjpa.version>2.4.0</openjpa.version>
-        <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
-        <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
+        <maven.release.plugin.version>2.5.3-jahia1</maven.release.plugin.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <osgiVersion>6.0.0</osgiVersion>
-        <slf4j.version>1.7.25</slf4j.version>
-        <logback.version>1.2.3</logback.version>
-        <kotlin.version>1.3.31</kotlin.version>
+        <slf4j.version>2.0.0-alpha0</slf4j.version>
+        <logback.version>1.3.0-alpha4</logback.version>
+        <kotlin.version>1.3.40</kotlin.version>
         <clean.plugin.version>3.1.0</clean.plugin.version>
 
         <!-- Diverse plugin versions -->
-        <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
+        <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
         <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
         <dependency.plugin.version>3.1.0</dependency.plugin.version>
-        <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
-        <jaxb2-maven-plugin.version>2.4</jaxb2-maven-plugin.version>
+        <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
+        <jaxb2-maven-plugin.version>2.3.1</jaxb2-maven-plugin.version>
         <depgraph-maven-plugin.version>3.3.0</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
 
@@ -110,22 +110,22 @@
         <clover.plugin.required.percentage>80%</clover.plugin.required.percentage>
 
         <!-- AspectJ Properties -->
-        <aspectj.runtime.version>1.8.13</aspectj.runtime.version>
+        <aspectj.runtime.version>1.9.4</aspectj.runtime.version>
         <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
 
         <!-- Checkstyle configuration parameters. -->
-        <checkstyle.plugin.version>3.0.0</checkstyle.plugin.version>
+        <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
         <checkstyle.config.location>codestyle/checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions.location>codestyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
         <checkstyle.violationSeverity>error</checkstyle.violationSeverity>
         <checkstyle.excludes>**/generated/**/*,**/grammars/**/*</checkstyle.excludes>
 
         <!-- PMD configuration parameters. -->
-        <pmd.plugin.version>3.11.0</pmd.plugin.version>
+        <pmd.plugin.version>3.12.0</pmd.plugin.version>
         <pmd.ruleset>/codestyle/pmd-rules.xml</pmd.ruleset>
 
         <!-- Spotbugs configuration parameters. -->
-        <spotbugs.plugin.version>3.1.11</spotbugs.plugin.version>
+        <spotbugs.plugin.version>3.1.12</spotbugs.plugin.version>
         <spotbugs.only.analyze>se.jguru.*</spotbugs.only.analyze>
         <spotbugs.includeFilterFile>codestyle/spotbugs.xml</spotbugs.includeFilterFile>
         <spotbugs.excludeFilterFile>codestyle/spotbugs-excludes.xml</spotbugs.excludeFilterFile>
@@ -1300,7 +1300,7 @@
                 <plugin>
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
-                    <version>4.0.0</version>
+                    <version>5.0.0</version>
                     <configuration>
                         <suppressionFiles>
                             <suppressionFile>${owasp.suppressionFile}</suppressionFile>
