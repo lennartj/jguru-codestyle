@@ -116,6 +116,7 @@
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
         <dokka.version>0.9.18</dokka.version>
+        <scm.provider.version>1.11.2</scm.provider.version>
 
         <!-- Standard test-scope properties -->
         <junit.version>4.12</junit.version>
@@ -840,8 +841,13 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-providers-git</artifactId>
-                        <version>1.9.4</version>
+                        <artifactId>maven-scm-provider-gitexe</artifactId>
+                        <version>${scm.provider.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-api</artifactId>
+                        <version>${scm.provider.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
