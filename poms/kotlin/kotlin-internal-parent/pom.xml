@@ -117,6 +117,7 @@
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
         <dokka.version>0.9.18</dokka.version>
         <scm.provider.version>1.11.2</scm.provider.version>
+        <dokka.outputFormat>javadoc</dokka.outputFormat>
 
         <!-- Standard test-scope properties -->
         <junit.version>4.12</junit.version>
