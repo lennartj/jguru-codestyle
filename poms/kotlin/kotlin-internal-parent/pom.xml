@@ -429,19 +429,13 @@
                         <pluginOptions>
                             <option>no-arg:annotation=se.jguru.codestyle.annotations.AddDefaultConstructor</option>
                             <option>spring:annotation=se.jguru.codestyle.annotations.UsesSpringFramework</option>
-                            <!-- option>all-open:annotation=se.jguru.codestyle.annotations.UseOpenMembers</option -->
-                            <option>
-                                sam-with-receiver:annotation=se.jguru.codestyle.annotations.ReceiverIsThisInSingleAbstractMethod
-                            </option>
+                            <option>sam-with-receiver:annotation=se.jguru.codestyle.annotations.ReceiverIsThisInSingleAbstractMethod</option>
                             <!-- Call instance initializers in the synthetic constructor -->
                             <option>no-arg:invokeInitializers=true</option>
                         </pluginOptions>
                         <languageVersion>${kotlin.compiler.languageVersion}</languageVersion>
                         <apiVersion>${kotlin.compiler.apiVersion}</apiVersion>
                         <jvmTarget>${jdk.version}</jvmTarget>
-                        <args>
-                            <arg>-parameters</arg>
-                        </args>
                     </configuration>
                     <dependencies>
                         <dependency>
