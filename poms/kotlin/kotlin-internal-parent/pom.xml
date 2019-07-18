@@ -5,7 +5,8 @@
   -->
 
 <!--suppress MavenRedundantGroupId -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -17,7 +18,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>se.jguru.codestyle.poms.kotlin</groupId>
@@ -76,7 +77,7 @@
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
         <maven.version>3.0</maven.version>
-        <jdk.version>1.8</jdk.version>
+        <jdk.version>11</jdk.version>
         <javaee-api.version>8.0.1</javaee-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
@@ -85,7 +86,7 @@
         <aspectj.runtime.version>1.9.4</aspectj.runtime.version>
         <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
-        <jaxb2-maven-plugin.version>2.3.1</jaxb2-maven-plugin.version>
+        <jaxb2-maven-plugin.version>2.5.0</jaxb2-maven-plugin.version>
         <osgi.version>6.0.0</osgi.version>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
@@ -438,6 +439,9 @@
                         <languageVersion>${kotlin.compiler.languageVersion}</languageVersion>
                         <apiVersion>${kotlin.compiler.apiVersion}</apiVersion>
                         <jvmTarget>${jdk.version}</jvmTarget>
+                        <args>
+                            <arg>-parameters</arg>
+                        </args>
                     </configuration>
                     <dependencies>
                         <dependency>
@@ -789,7 +793,7 @@
                         <id>default-deploy</id>
                         <phase>site-deploy</phase>
                         <goals>
-                            <goal />
+                            <goal/>
                         </goals>
                     </execution>
                 </executions>
