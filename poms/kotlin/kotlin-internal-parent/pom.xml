@@ -77,7 +77,7 @@
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
         <maven.version>3.0</maven.version>
-        <jdk.version>11</jdk.version>
+        <jdk.version>1.8</jdk.version>
         <javaee-api.version>8.0.1</javaee-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
@@ -95,9 +95,10 @@
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
 
         <!-- Code style properties -->
+        <dependency.plugin.version>3.1.1</dependency.plugin.version>
         <pmd.plugin.version>3.12.0</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
-        <spotbugs.plugin.version>3.1.11</spotbugs.plugin.version>
+        <spotbugs.plugin.version>3.1.12</spotbugs.plugin.version>
         <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>3.1.0</clean.plugin.version>
@@ -474,6 +475,8 @@
                         <outputDir>${project.reporting.outputDirectory}/dokka</outputDir>
                         <outputFormat>${dokka.outputFormat}</outputFormat>
                         <jdkVersion>8</jdkVersion>
+                        <noStdlibLink>true</noStdlibLink>
+                        <noJdkLink>true</noJdkLink>
                     </configuration>
                     <dependencies>
                         <dependency>
