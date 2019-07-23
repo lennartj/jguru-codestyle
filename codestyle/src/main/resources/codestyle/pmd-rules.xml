@@ -11,43 +11,54 @@
 
     <description>Nazgul Tools PMD rules</description>
 
-    <rule ref="category/java/basic.xml"/>
-    <rule ref="category/java/unusedcode.xml"/>
+    <!--
+        Some best practises, including code style
+    -->
+    <rule ref="category/java/bestpractices.xml/PreserveStackTrace">
+        <priority>3</priority>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/UnusedFormalParameter">
+        <priority>3</priority>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod">
+        <priority>3</priority>
+    </rule>
+    <rule ref="category/java/codestyle.xml/UnnecessaryLocalBeforeReturn">
+        <priority>3</priority>
+    </rule>
 
     <!--
-        Class design checks.
+        Error prone constructs.
     -->
     <rule ref="category/java/errorprone.xml/CloseResource">
         <priority>3</priority>
     </rule>
-    <rule ref="category/java/design.xml/ConstructorCallsOverridableMethod">
+    <rule ref="category/java/errorprone.xml/ConstructorCallsOverridableMethod">
         <priority>3</priority>
     </rule>
-    <rule ref="category/java/design.xml/EqualsNull">
+    <rule ref="category/java/errorprone.xml/EqualsNull">
         <priority>2</priority>
     </rule>
+    <rule ref="category/java/errorprone.xml/IdempotentOperations">
+        <priority>2</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/InstantiationToGetClass">
+        <priority>3</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/MissingStaticMethodInNonInstantiatableClass">
+        <priority>2</priority>
+    </rule>
+
+    <!--
+        (Class) Design antipatterns.
+    -->
     <rule ref="category/java/design.xml/FinalFieldCouldBeStatic">
         <priority>2</priority>
-    </rule>
-    <rule ref="category/java/design.xml/IdempotentOperations">
-        <priority>2</priority>
-    </rule>
-    <rule ref="category/java/design.xml/InstantiationToGetClass">
-        <priority>3</priority>
-    </rule>
-    <rule ref="category/java/design.xml/MissingStaticMethodInNonInstantiatableClass">
-        <priority>2</priority>
-    </rule>
-    <rule ref="category/java/design.xml/PreserveStackTrace">
-        <priority>3</priority>
     </rule>
     <rule ref="category/java/design.xml/SingularField">
         <priority>4</priority>
     </rule>
     <rule ref="category/java/design.xml/SimplifyConditional">
-        <priority>3</priority>
-    </rule>
-    <rule ref="category/java/design.xml/UnnecessaryLocalBeforeReturn">
         <priority>3</priority>
     </rule>
 </ruleset>
