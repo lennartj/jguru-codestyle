@@ -15,7 +15,7 @@
     <parent>
         <groupId>se.jguru.codestyle</groupId>
         <artifactId>jguru-codestyle-reactor</artifactId>
-        <version>0.9.8-SNAPSHOT</version>
+        <version>0.9.8</version>
     </parent>
 
     <groupId>se.jguru.codestyle.poms</groupId>
@@ -107,7 +107,7 @@
                     <dependency>
                         <groupId>se.jguru.codestyle</groupId>
                         <artifactId>jguru-codestyle</artifactId>
-                        <version>0.9.8-SNAPSHOT</version>
+                        <version>0.9.8</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -155,6 +155,6 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>jguru-codestyle-0.9.8</tag>
     </scm>
 </project>
