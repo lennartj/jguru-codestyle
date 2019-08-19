@@ -858,6 +858,7 @@
                         <showWarnings>true</showWarnings>
                         <showDeprecation>true</showDeprecation>
                         <encoding>${project.build.sourceEncoding}</encoding>
+                        <parameters>true</parameters>
                         <compilerArgs>
                             <arg>-parameters</arg>
                         </compilerArgs>
