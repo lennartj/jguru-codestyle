@@ -5,7 +5,8 @@
   -->
 
 <!--suppress MavenRedundantGroupId -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -17,7 +18,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>se.jguru.codestyle.poms.kotlin</groupId>
@@ -92,6 +93,7 @@
         <xmlunit.version>2.6.3</xmlunit.version>
         <depgraph-maven-plugin.version>3.3.0</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
+        <jandex.plugin.version>1.0.6</jandex.plugin.version>
 
         <!-- Code style properties -->
         <dependency.plugin.version>3.1.1</dependency.plugin.version>
@@ -302,6 +304,18 @@
 
         <pluginManagement>
             <plugins>
+
+                <!--
+                    Creates a Jandex index.
+
+                    Why:  Create additional metadata, and be Quarkus compliant.
+                    Used: Default lifecycle, mvn process-classes.
+                -->
+                <plugin>
+                    <groupId>org.jboss.jandex</groupId>
+                    <artifactId>jandex-maven-plugin</artifactId>
+                    <version>${jandex.plugin.version}</version>
+                </plugin>
 
                 <!--
                     Use the latest maven-clean-plugin.
@@ -675,6 +689,25 @@
             </plugin>
 
             <!--
+                Creates a Jandex index.
+
+                Why:  Create additional metadata, and be Quarkus compliant.
+                Used: Default lifecycle, mvn process-classes.
+            -->
+            <plugin>
+                <groupId>org.jboss.jandex</groupId>
+                <artifactId>jandex-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>make-index</id>
+                        <goals>
+                            <goal>jandex</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
                 Ensure that the compiler plugin ignores the Java directories.
             -->
             <plugin>
@@ -789,7 +822,7 @@
                         <id>default-deploy</id>
                         <phase>site-deploy</phase>
                         <goals>
-                            <goal />
+                            <goal/>
                         </goals>
                     </execution>
                 </executions>

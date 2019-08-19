@@ -349,6 +349,26 @@
         <plugins>
 
             <!--
+                Creates a Jandex index.
+
+                Why:  Create additional metadata, and be Quarkus compliant.
+                Used: Default lifecycle, mvn process-classes.
+            -->
+            <plugin>
+                <groupId>org.jboss.jandex</groupId>
+                <artifactId>jandex-maven-plugin</artifactId>
+                <version>1.0.6</version>
+                <executions>
+                    <execution>
+                        <id>make-index</id>
+                        <goals>
+                            <goal>jandex</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
                  Ensure that the kotlin-maven-plugin uses the standard src/main/kotlin
                  and src/test/kotlin directories.
 

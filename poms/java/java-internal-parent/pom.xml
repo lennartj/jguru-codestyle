@@ -96,6 +96,7 @@
         <jaxb2-maven-plugin.version>2.5.0</jaxb2-maven-plugin.version>
         <depgraph-maven-plugin.version>3.3.0</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
+        <jandex.plugin.version>1.0.6</jandex.plugin.version>
 
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
@@ -291,6 +292,18 @@
     <build>
         <pluginManagement>
             <plugins>
+
+                <!--
+                    Creates a Jandex index.
+
+                    Why:  Create additional metadata, and be Quarkus compliant.
+                    Used: Default lifecycle, mvn process-classes.
+                -->
+                <plugin>
+                    <groupId>org.jboss.jandex</groupId>
+                    <artifactId>jandex-maven-plugin</artifactId>
+                    <version>${jandex.plugin.version}</version>
+                </plugin>
 
                 <!--
                     Provides Plantuml integration into site deployments.
@@ -1420,6 +1433,20 @@
                         <goals>
                             <goal>update-file-header</goal>
                             <goal>update-project-license</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Create a Jandex index. -->
+            <plugin>
+                <groupId>org.jboss.jandex</groupId>
+                <artifactId>jandex-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>make-index</id>
+                        <goals>
+                            <goal>jandex</goal>
                         </goals>
                     </execution>
                 </executions>
