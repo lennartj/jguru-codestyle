@@ -86,6 +86,7 @@
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>2.6.1</clean.plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+        <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <scm.provider.version>1.11.2</scm.provider.version>
 
         <!-- Site plugin properties -->
@@ -330,6 +331,45 @@
                             <version>${scm.provider.version}</version>
                         </dependency>
                     </dependencies>
+                </plugin>
+
+                <!--
+                    Defines the deploy mechanics for Maven Release.
+
+                    Why:  Plugin used to deploy to (remote) repositories.
+                    Used: In all projects; generate-resources phase.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${maven-deploy-plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>${scm.provider.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-api</artifactId>
+                            <version>${scm.provider.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!--
+                    Defines the mechanics for Maven artifact installation.
+
+                    Why:  Plugin used to copy artifacts into the local M2 repository.
+                    Used: In all projects; install phase.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
+                    <configuration>
+                        <createChecksum>true</createChecksum>
+                    </configuration>
                 </plugin>
 
                 <!--
