@@ -443,7 +443,9 @@
                         <pluginOptions>
                             <option>no-arg:annotation=se.jguru.codestyle.annotations.AddDefaultConstructor</option>
                             <option>spring:annotation=se.jguru.codestyle.annotations.UsesSpringFramework</option>
-                            <option>sam-with-receiver:annotation=se.jguru.codestyle.annotations.ReceiverIsThisInSingleAbstractMethod</option>
+                            <option>
+                                sam-with-receiver:annotation=se.jguru.codestyle.annotations.ReceiverIsThisInSingleAbstractMethod
+                            </option>
                             <!-- Call instance initializers in the synthetic constructor -->
                             <option>no-arg:invokeInitializers=true</option>
                         </pluginOptions>
@@ -689,12 +691,12 @@
             </plugin>
 
             <!--
-                Creates a Jandex index.
+                Template to create a Jandex index.
 
                 Why:  Create additional metadata, and be Quarkus compliant.
                 Used: Default lifecycle, mvn process-classes.
             -->
-            <plugin>
+            <!-- plugin>
                 <groupId>org.jboss.jandex</groupId>
                 <artifactId>jandex-maven-plugin</artifactId>
                 <executions>
@@ -705,7 +707,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin -->
 
             <!--
                 Ensure that the compiler plugin ignores the Java directories.

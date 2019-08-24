@@ -1439,8 +1439,8 @@
                 </executions>
             </plugin>
 
-            <!-- Create a Jandex index. -->
-            <plugin>
+            <!-- Template to create a Jandex index "manually". -->
+            <!-- plugin>
                 <groupId>org.jboss.jandex</groupId>
                 <artifactId>jandex-maven-plugin</artifactId>
                 <executions>
@@ -1451,7 +1451,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin -->
 
             <!-- Compile the code -->
             <plugin>
