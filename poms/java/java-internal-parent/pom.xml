@@ -77,7 +77,7 @@
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
         <!-- Version number properties -->
-        <maven.version>3.3.1</maven.version>
+        <maven.version>3.6.1</maven.version>
         <openjpa.version>2.4.0</openjpa.version>
         <maven.release.plugin.version>2.5.3-jahia1</maven.release.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>

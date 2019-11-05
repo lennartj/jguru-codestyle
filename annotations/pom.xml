@@ -75,7 +75,7 @@
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
 
-        <maven.version>3.0</maven.version>
+        <maven.version>3.6.1</maven.version>
         <jandex.version>2.0.5.Final</jandex.version>
         <jdk.version>1.8</jdk.version>
 
@@ -605,7 +605,7 @@
             <properties>
 
                 <!-- Include Dokka -->
-                <dokka.version>0.9.18</dokka.version>
+                <dokka.version>0.10.0</dokka.version>
                 <dokka.outputFormat>javadoc</dokka.outputFormat>
             </properties>
 

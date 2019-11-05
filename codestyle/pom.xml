@@ -728,7 +728,7 @@
             <properties>
 
                 <!-- Include Dokka -->
-                <dokka.version>0.9.18</dokka.version>
+                <dokka.version>0.10.0</dokka.version>
                 <dokka.outputFormat>javadoc</dokka.outputFormat>
             </properties>
 

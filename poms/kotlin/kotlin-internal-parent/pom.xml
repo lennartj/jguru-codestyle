@@ -75,7 +75,7 @@
         <scm.url>${git.repo.url.prefix}/${reactor.name}.git</scm.url>
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
-        <maven.version>3.0</maven.version>
+        <maven.version>3.6.1</maven.version>
         <jdk.version>1.8</jdk.version>
         <javaee-api.version>8.0.1</javaee-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
@@ -119,7 +119,7 @@
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
-        <dokka.version>0.9.18</dokka.version>
+        <dokka.version>0.10.0</dokka.version>
         <scm.provider.version>1.11.2</scm.provider.version>
         <dokka.outputFormat>javadoc</dokka.outputFormat>
 
