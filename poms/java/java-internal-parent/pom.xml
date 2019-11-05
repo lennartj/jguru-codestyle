@@ -133,7 +133,7 @@
         <pmd.ruleset>/codestyle/pmd-rules.xml</pmd.ruleset>
 
         <!-- Spotbugs configuration parameters. -->
-        <spotbugs.plugin.version>3.1.12</spotbugs.plugin.version>
+        <spotbugs.plugin.version>3.1.12.2</spotbugs.plugin.version>
         <spotbugs.only.analyze>se.jguru.*</spotbugs.only.analyze>
         <spotbugs.includeFilterFile>codestyle/spotbugs.xml</spotbugs.includeFilterFile>
         <spotbugs.excludeFilterFile>codestyle/spotbugs-excludes.xml</spotbugs.excludeFilterFile>

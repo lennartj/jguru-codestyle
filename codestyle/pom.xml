@@ -82,7 +82,7 @@
         <jandex-maven-plugin.version>1.0.6</jandex-maven-plugin.version>
         <pmd.plugin.version>3.12.0</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
-        <spotbugs.plugin.version>3.1.12</spotbugs.plugin.version>
+        <spotbugs.plugin.version>3.1.12.2</spotbugs.plugin.version>
         <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>2.6.1</clean.plugin.version>
