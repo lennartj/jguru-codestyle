@@ -97,6 +97,7 @@
         <jandex.version>2.0.5.Final</jandex.version>
 
         <!-- Code style properties -->
+        <maven-bundle-plugin.version>4.2.1</maven-bundle-plugin.version>
         <dependency.plugin.version>3.1.1</dependency.plugin.version>
         <pmd.plugin.version>3.12.0</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
@@ -113,15 +114,17 @@
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
         <owasp.failOnError>false</owasp.failOnError>
+        <owasp-dependency-check.version>5.2.2</owasp-dependency-check.version>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+        <maven-site-plugin.version>3.8.2</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
         <dokka.version>0.10.0</dokka.version>
         <scm.provider.version>1.11.2</scm.provider.version>
         <dokka.outputFormat>javadoc</dokka.outputFormat>
+        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
 
         <!-- Standard test-scope properties -->
         <junit.version>4.12</junit.version>
@@ -305,6 +308,32 @@
 
         <pluginManagement>
             <plugins>
+
+                <!--
+                    Configures the WAR plugin to properly use the generated OSGi-compliant manifest.
+
+                    Why:  Assigns some manifest data within the WARs in WAR projects. Reads bundle-generated manifest.
+                    Used: Standard lifecycle, mvn package.
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.2.3</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                            <manifestEntries>
+                                <name>${project.name}</name>
+                                <description>${project.description}</description>
+                                <groupId>${project.groupId}</groupId>
+                                <artifactId>${project.artifactId}</artifactId>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
 
                 <!--
                     Creates a Jandex index.
@@ -530,7 +559,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>4.2.0</version>
+                    <version>${maven-bundle-plugin.version}</version>
                     <configuration>
                         <supportedProjectTypes>
                             <supportedProjectType>ejb</supportedProjectType>
@@ -652,7 +681,7 @@
                 <plugin>
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
-                    <version>5.0.0</version>
+                    <version>${owasp-dependency-check.version}</version>
                     <configuration>
                         <suppressionFiles>
                             <suppressionFile>${owasp.suppressionFile}</suppressionFile>
@@ -907,7 +936,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
+                <version>${maven-release-plugin.version}</version>
                 <configuration>
                     <arguments>-Pjguru-release</arguments>
                     <mavenExecutorId>forked-path</mavenExecutorId>

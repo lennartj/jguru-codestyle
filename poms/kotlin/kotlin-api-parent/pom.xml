@@ -33,6 +33,7 @@
             These can be overridden in sub-reactors to tailor releases to other locations.
         -->
         <path.in.reactor>poms/kotlin/kotlin-api-parent</path.in.reactor>
+        <maven-bundle-plugin.version>4.2.1</maven-bundle-plugin.version>
     </properties>
 
     <!--
@@ -59,7 +60,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>4.2.0</version>
+                    <version>${maven-bundle-plugin.version}</version>
                     <executions>
                         <execution>
                             <id>bundle-manifest</id>

@@ -87,7 +87,7 @@
         <clean.plugin.version>2.6.1</clean.plugin.version>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+        <maven-site-plugin.version>3.8.2</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
@@ -413,7 +413,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>4.2.0</version>
+                <version>4.2.1</version>
                 <executions>
                     <execution>
                         <id>bundle-manifest</id>
