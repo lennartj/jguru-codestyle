@@ -114,7 +114,7 @@
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
         <owasp.failOnError>false</owasp.failOnError>
-        <owasp-dependency-check.version>5.2.2</owasp-dependency-check.version>
+        <owasp-dependency-check.version>5.2.4</owasp-dependency-check.version>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.8.2</maven-site-plugin.version>

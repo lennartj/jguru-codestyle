@@ -132,9 +132,9 @@
                 <surefire.argLine>-javaagent:${basedir}/target/eclipselink.jar -Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
 
                 <!-- Eclipselink versions -->
-                <jakarta.persistence.version>2.2.2</jakarta.persistence.version>
-                <org.eclipse.persistence.version>2.7.4</org.eclipse.persistence.version>
-                <hibernate.validator.version>6.0.16.Final</hibernate.validator.version>
+                <jakarta.persistence.version>2.2.3</jakarta.persistence.version>
+                <org.eclipse.persistence.version>2.7.5</org.eclipse.persistence.version>
+                <hibernate.validator.version>6.1.0.Final</hibernate.validator.version>
             </properties>
 
             <dependencyManagement>
