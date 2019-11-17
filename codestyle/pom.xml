@@ -690,7 +690,7 @@
         <repository>
             <id>ossrh-staging</id>
             <name>Sonatype OSS Nexus: Releases</name>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
         <snapshotRepository>
             <id>ossrh-snapshots</id>
