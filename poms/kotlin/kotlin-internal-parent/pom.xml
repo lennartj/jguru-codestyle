@@ -1113,7 +1113,7 @@
         <snapshotRepository>
             <id>ossrh-snapshots</id>
             <name>Sonatype OSS Nexus: Snapshots</name>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <site>
             <id>github_site</id>
