@@ -52,7 +52,7 @@
         <path.in.reactor>annotations</path.in.reactor>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.3.60</kotlin.version>
+        <kotlin.version>1.3.61</kotlin.version>
         <kotlin.jvm.target>1.8</kotlin.jvm.target>
         <kotlin.plugin>jpa</kotlin.plugin>
 
@@ -63,7 +63,7 @@
         <git.repo.owner>lennartj</git.repo.owner>
         <git.repo.url.prefix>https://github.com/${git.repo.owner}</git.repo.url.prefix>
         <git.scm.url.prefix>scm:git:ssh://git@github.com/${git.repo.owner}</git.scm.url.prefix>
-        <site.url.prefix>https://${git.repo.owner}.github.io</site.url.prefix>
+        <site.url.prefix>http://${git.repo.owner}.github.io</site.url.prefix>
         <site.top.url>${site.url.prefix}/${reactor.name}/Documentation/${project.version}</site.top.url>
 
         <scm.connection.url>scm:git:${git.repo.url.prefix}/${reactor.name}.git</scm.connection.url>
@@ -334,7 +334,7 @@
             <plugin>
                 <groupId>org.jboss.jandex</groupId>
                 <artifactId>jandex-maven-plugin</artifactId>
-                <version>1.0.6</version>
+                <version>1.0.7</version>
                 <executions>
                     <execution>
                         <id>make-index</id>
@@ -447,7 +447,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
+                <version>3.0.0-M3</version>
                 <executions>
                     <execution>
                         <id>enforce-imports</id>

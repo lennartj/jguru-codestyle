@@ -38,7 +38,7 @@
         <nazgul-tools.version>6.0.3</nazgul-tools.version>
         <nazgul-core.version>3.0.0</nazgul-core.version>
 
-        <enforcer.version>3.0.0-M2</enforcer.version>
+        <enforcer.version>3.0.0-M3</enforcer.version>
         <enforcer.includedGroupIdPatterns>^se\\.jguru\\..*</enforcer.includedGroupIdPatterns>
         <enforcer.excludedGroupIdPatterns>^se\\.jguru\\..*\\.generated\\..*,^se\\.jguru\\.codestyle\\..*</enforcer.excludedGroupIdPatterns>
         <breakOnFailure.enforcer>true</breakOnFailure.enforcer>
