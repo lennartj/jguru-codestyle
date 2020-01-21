@@ -32,13 +32,13 @@
 
     <organization>
         <name>jGuru Europe AB</name>
-        <url>http://www.jguru.se/</url>
+        <url>https://www.jguru.se/</url>
     </organization>
 
     <licenses>
         <license>
             <name>jGuru Europe Corporate Source License, based on The Apache Software License, Version 2.0</name>
-            <url>http://www.jguru.se/licenses/jguruCorporateSourceLicense-2.0.txt</url>
+            <url>https://www.jguru.se/licenses/jguruCorporateSourceLicense-2.0.txt</url>
             <distribution>repo</distribution>
             <comments>A business-friendly OSS license</comments>
         </license>
@@ -66,7 +66,7 @@
         <git.repo.owner>lennartj</git.repo.owner>
         <git.repo.url.prefix>https://github.com/${git.repo.owner}</git.repo.url.prefix>
         <git.scm.url.prefix>scm:git:ssh://git@github.com/${git.repo.owner}</git.scm.url.prefix>
-        <site.url.prefix>http://${git.repo.owner}.github.io</site.url.prefix>
+        <site.url.prefix>https://${git.repo.owner}.github.io</site.url.prefix>
         <site.top.url>${site.url.prefix}/${reactor.name}/Documentation/${project.version}</site.top.url>
 
         <scm.connection.url>scm:git:${git.repo.url.prefix}/${reactor.name}.git</scm.connection.url>
@@ -134,7 +134,7 @@
     <repositories>
         <repository>
             <id>jcenter</id>
-            <url>http://jcenter.bintray.com</url>
+            <url>https://jcenter.bintray.com</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -148,7 +148,7 @@
         <pluginRepository>
             <id>jcenter</id>
             <name>jcenter</name>
-            <url>http://jcenter.bintray.com</url>
+            <url>https://jcenter.bintray.com</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -161,7 +161,7 @@
                 <role>Committer</role>
             </roles>
             <organization>jGuru Europe AB</organization>
-            <organizationUrl>http://www.jguru.se</organizationUrl>
+            <organizationUrl>https://www.jguru.se</organizationUrl>
             <timezone>+1</timezone>
         </developer>
     </developers>
@@ -665,7 +665,7 @@
                                    excluding the ".xsd" suffix (which will be added automatically).
                             -->
                             <transformSchema>
-                                <uri>http://www.jguru.se/nazgul/core</uri>
+                                <uri>https://www.jguru.se/nazgul/core</uri>
                                 <toFile>NazgulCore.xsd</toFile>
                             </transformSchema>
                         </transformSchemas>
