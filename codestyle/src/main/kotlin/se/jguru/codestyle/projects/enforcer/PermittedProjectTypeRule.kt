@@ -9,6 +9,7 @@ import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
 import se.jguru.codestyle.projects.CommonProjectType
 import se.jguru.codestyle.projects.ComplianceStatusHolder
+import se.jguru.codestyle.projects.DefaultProjectType.Companion.getDefaultRegexFor
 import se.jguru.codestyle.projects.ProjectType
 import java.util.TreeMap
 
@@ -16,22 +17,32 @@ import java.util.TreeMap
  * Enforcer rule to validate ProjectType compliance, to harmonize the pom structure in terms
  * of groupId, artifactId, packaging and (rudimentary) content checks.
  *
+ * @param dontEvaluateGroupIds Ignore any dependencies whose groupIDs match any of the patterns supplied
  * @param permittedProjectTypes A List containing the ProjectTypes permitted.
  * Defaults to `CommonProjectTypes.values().asList()`.
+ *
  * @see ProjectType
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-class PermittedProjectTypeRule @JvmOverloads constructor(
-    val permittedProjectTypes: List<ProjectType> = CommonProjectType.values().asList())
-    : AbstractNonCacheableEnforcerRule() {
+class PermittedProjectTypeRule(
+
+    @SuppressWarnings("WeakerAccess")
+    val dontEvaluateGroupIds: List<Regex>,
+
+    @SuppressWarnings("WeakerAccess")
+    val permittedProjectTypes: List<ProjectType>
+) : AbstractNonCacheableEnforcerRule() {
+
+    constructor() : this(mutableListOf(), CommonProjectType.values().asList())
+
+    constructor(dontEvaluateGroupIdPatterns: List<String>) : this(
+        dontEvaluateGroupIdPatterns.map { getDefaultRegexFor(it) }.toList(),
+        CommonProjectType.values().asList())
 
     // Internal state
     private val partialDescription = permittedProjectTypes
         .mapIndexed { index, current -> "\n[$index/${permittedProjectTypes.size}]: $current" }
         .reduce { l, r -> l + r }
-
-    private fun prettyPrint(project: MavenProject): String =
-        "GAV [${project.groupId}:${project.artifactId}:${project.packaging}]"
 
     /**
      * Supplies the short rule description for this MavenEnforcerRule.
@@ -49,11 +60,12 @@ class PermittedProjectTypeRule @JvmOverloads constructor(
     override fun performValidation(project: MavenProject, helper: EnforcerRuleHelper) {
 
         // Does any of the supplied project types match?
-        val firstMatchingProjectType = permittedProjectTypes.firstOrNull { it.getComplianceStatus(project).isCompliant }
+        val firstMatchingProjectType = permittedProjectTypes
+            .firstOrNull { it.getComplianceStatus(project, dontEvaluateGroupIds).isCompliant }
 
         if (firstMatchingProjectType == null) {
 
-            // Emit failure message for the ProjectTypes "closest" to the one
+            // Emit failure message for the ProjectTypes "closest" to this one
             val projectFailureDistanceMap = TreeMap<Int, MutableList<Pair<ComplianceStatusHolder, ProjectType>>>()
             permittedProjectTypes.forEach { pt ->
 
@@ -81,13 +93,27 @@ class PermittedProjectTypeRule @JvmOverloads constructor(
         } else if (helper.log.isDebugEnabled) {
 
             helper.log.debug("Found matching ProjectType [$firstMatchingProjectType] " +
-                "for project ${prettyPrint(project)}")
+                                 "for project ${prettyPrint(project)}")
         }
     }
 
     override fun toString(): String {
 
-        // All Done.
-        return javaClass.simpleName + " with [${permittedProjectTypes.size}] ProjectTypes:\n$partialDescription"
+        val ignoreDescription = when (dontEvaluateGroupIds == null) {
+            true -> "ignoring no artifacts."
+            else -> "ignoring artifacts matching [${dontEvaluateGroupIds.size}] groupIDs: [" +
+                dontEvaluateGroupIds.map { it.pattern }
+                    .reduce { acc, s -> "$acc, $s" } + "]"
+        }
+
+        return "${this::class.java.simpleName} $ignoreDescription" +
+            "\n[${permittedProjectTypes.size}] known project types: $partialDescription"
+    }
+
+    companion object {
+
+        @JvmStatic
+        internal fun prettyPrint(project: MavenProject): String =
+            "GAV [${project.groupId}:${project.artifactId}:${project.packaging}]"
     }
 }

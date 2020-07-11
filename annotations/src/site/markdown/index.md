@@ -48,9 +48,3 @@ In a similar fashion, the function of the other annotations as described within
    synthetic so it can’t be directly called from Java or Kotlin, but it can be called using reflection.
    This allows the Java Persistence API (JPA) to instantiate the data class although it does not have the 
    zero-parameter constructor from Kotlin or Java point of view.
-
-## Test-scope / Surefire annotations
-
-The `@IntegrationTest` annotation indicates that a test class should be regarded as an automatic integration test.
-The `@RequiresInjection` annotation indicates that a test class should use the cdi-unit test runner to enable injection. 
- 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) jGuru Europe AB.
+  ~ All rights reserved.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+    ################################################
+    # Section 1:  Project information
+    ################################################
+    -->
+    <groupId>se.jguru.foo.whatever</groupId>
+    <artifactId>jguru-foo-bom</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>${project.groupId}.${project.artifactId}</name>
+
+    <!--
+    ################################################
+    # Section 2:  Dependencies
+    ################################################
+    -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!--
+                OK - this is the type of dependencies which should be permitted within a BOM-type POM.
+            -->
+            <dependency>
+                <groupId>se.jguru.nazgul.tools.validation.api</groupId>
+                <artifactId>nazgul-tools-validation-api</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <!--
+            OK: This dependency is ignored.
+        -->
+        <dependency>
+            <groupId>se.jguru.codestyle.annotations</groupId>
+            <artifactId>jguru-codestyle-annotations</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+    </dependencies>
+</project>

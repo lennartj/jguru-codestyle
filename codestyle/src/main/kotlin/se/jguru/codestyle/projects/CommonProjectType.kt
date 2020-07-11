@@ -8,7 +8,6 @@ package se.jguru.codestyle.projects
 import org.apache.maven.artifact.Artifact
 import org.apache.maven.model.Dependency
 import org.apache.maven.project.MavenProject
-import java.lang.Exception
 
 /**
  * Commonly known and used ProjectTypes, collected within an enum.
@@ -23,11 +22,12 @@ import java.lang.Exception
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-enum class CommonProjectType(artifactIdPattern: String?,
-                             groupIdPattern: String?,
-                             packagingPattern: String?,
-                             acceptNullValues: Boolean = true,
-                             structureChecker: (MavenProject) -> String? = { null }) : ProjectType {
+enum class CommonProjectType(
+    artifactIdPattern: String?,
+    groupIdPattern: String?,
+    packagingPattern: String?,
+    acceptNullValues: Boolean = true,
+    structureChecker: (MavenProject, List<Regex>?) -> String? = { _, _ -> null }) : ProjectType {
 
     /**
      * Reactor project, of type pom. May not contain anything except module definitions.
@@ -45,27 +45,40 @@ enum class CommonProjectType(artifactIdPattern: String?,
      * May not contain module definitions.
      */
     BILL_OF_MATERIALS(".*-bom$", null, "pom", false, {
+        project : MavenProject, dontEvaluateGroupIds : List<Regex>? ->
 
-        val containsNoModules = it.modules.isNullOrEmpty()
+        val containsNoModules = project.modules.isNullOrEmpty()
         val parentProject = try {
-            it.parent
-        } catch(e : Exception) {
+            project.parent
+        } catch (e: Exception) {
             null
         }
-        
+
         // Find the immediate dependencies of this project.
         val parentDependencies = when (parentProject == null) {
             true -> mutableSetOf<Dependency>()
             else -> parentProject.dependencies
         }
-        val onlyOwnDependencies = it.dependencies.filter { ownDependency ->
-            parentDependencies.firstOrNull { parentDependency ->
-                ProjectType.DEPENDENCY_COMPARATOR.compare(parentDependency, ownDependency) == 0
-            } == null
-        }
+
+
+        val onlyOwnDependencies = project.dependencies
+            .filter { ownDependency -> parentDependencies
+                .firstOrNull { ProjectType.DEPENDENCY_COMPARATOR.compare(it, ownDependency) == 0 } == null
+            }
+            .filter { ownDependency ->
+
+                when (dontEvaluateGroupIds != null && dontEvaluateGroupIds.isNotEmpty()) {
+
+                    // Nothing to filter
+                    false -> true
+
+                    // Pass through dependencies that do *not* match the supplied ignore patterns
+                    else -> !dontEvaluateGroupIds.any { it.matches(ownDependency.groupId) }
+                }
+            }
 
         // All Done.
-        when(containsNoModules && onlyOwnDependencies.isNullOrEmpty()) {
+        when (containsNoModules && onlyOwnDependencies.isNullOrEmpty()) {
             true -> null
             else -> "BILL_OF_MATERIALS " +
                 "projects should not contain Dependency definitions - only " +
@@ -182,14 +195,15 @@ enum class CommonProjectType(artifactIdPattern: String?,
         name,
         structureChecker)
 
-    constructor(artifactIdPattern: String?,
-                groupIdPattern: String?,
-                packagingPattern: String?,
-                acceptNullValues: Boolean = true) : this(artifactIdPattern,
-        groupIdPattern,
-        packagingPattern,
-        acceptNullValues,
-        { null })
+    constructor(
+        artifactIdPattern: String?,
+        groupIdPattern: String?,
+        packagingPattern: String?,
+        acceptNullValues: Boolean = true) : this(artifactIdPattern,
+                                                 groupIdPattern,
+                                                 packagingPattern,
+                                                 acceptNullValues,
+                                                 { _, _ -> null })
 
     override fun artifactIDNonComplianceMessage(artifactID: String?): String? =
         delegate.artifactIDNonComplianceMessage(artifactID)
@@ -199,8 +213,8 @@ enum class CommonProjectType(artifactIdPattern: String?,
     override fun packagingNonComplianceMessage(packaging: String?): String? =
         delegate.packagingNonComplianceMessage(packaging)
 
-    override fun internalStructureNonComplianceMessage(project: MavenProject?): String? =
-        delegate.internalStructureNonComplianceMessage(project)
+    override fun internalStructureNonComplianceMessage(project: MavenProject?, dontEvaluateGroupIds: List<Regex>?): String? =
+        delegate.internalStructureNonComplianceMessage(project, dontEvaluateGroupIds)
 
     override fun toString(): String = "CommonProjectType.$name"
 
@@ -287,7 +301,7 @@ enum class CommonProjectType(artifactIdPattern: String?,
                     // This project should not contain modules.
                     if (project.modules != null && !project.modules.isEmpty()) {
                         throw IllegalArgumentException("${toReturn.name} projects may not contain " +
-                            "module definitions. (Modules are reserved for reactor projects).")
+                                                           "module definitions. (Modules are reserved for reactor projects).")
                     }
 
                 CommonProjectType.BILL_OF_MATERIALS -> {
@@ -323,7 +337,7 @@ enum class CommonProjectType(artifactIdPattern: String?,
 
                     // Fallback to standard compliance handling.
                     val complianceStatus = toReturn.getComplianceStatus(project)
-                    if(!complianceStatus.isCompliant) {
+                    if (!complianceStatus.isCompliant) {
                         throw IllegalArgumentException(complianceStatus.toString())
                     }
                 }
@@ -338,16 +352,28 @@ enum class CommonProjectType(artifactIdPattern: String?,
      * Special handling to separate BILL_OF_MATERIALS, PARENT, REACTOR and ASSEMBLY pom types.
      *
      * @param project A Maven Project to validate for compliance with this [ProjectType].
+     * @param dontEvaluateGroupIds Optional list of patterns fot groupIDs to ignore in evaluation.
      *
      * @return A [ComplianceStatusHolder] containing information about compliance status or causes
      * to lack of such compliance.
      */
-    override fun getComplianceStatus(project: MavenProject): ComplianceStatusHolder {
+    override fun getComplianceStatus(project: MavenProject, dontEvaluateGroupIds: List<Regex>?): ComplianceStatusHolder {
 
         // First, check standard compliance.
-        val standardCompliance = super.getComplianceStatus(project)
+        val standardCompliance = super.getComplianceStatus(project, dontEvaluateGroupIds)
 
-        fun containsElements(depList: List<Dependency>?): Boolean = depList != null && !depList.isEmpty()
+        fun containsElements(depList: List<Dependency>?): Boolean = depList != null
+            && depList.isNotEmpty()
+            && depList.any { aDependency ->
+            when (dontEvaluateGroupIds != null && dontEvaluateGroupIds.isNotEmpty()) {
+
+                // Nothing to process; all dependencies should be evaluated
+                false -> true
+
+                // Pass through dependencies that do *not* match the supplied ignore patterns
+                else -> !dontEvaluateGroupIds.any { it.matches(aDependency.groupId) }
+            }
+        }
 
         // All Done.
         return when (standardCompliance.isCompliant) {
@@ -362,11 +388,23 @@ enum class CommonProjectType(artifactIdPattern: String?,
                         else -> project.parent.dependencies
                     }
 
-                    val onlyOwnDependencies = project.dependencies.filter { ownDependency ->
-                        parentDependencies.firstOrNull {
-                            ProjectType.DEPENDENCY_COMPARATOR.compare(it, ownDependency) == 0
-                        } == null
-                    }
+                    val onlyOwnDependencies = project.dependencies
+                        .filter { ownDependency ->
+                            parentDependencies.firstOrNull {
+                                ProjectType.DEPENDENCY_COMPARATOR.compare(it, ownDependency) == 0
+                            } == null
+                        }
+                        .filter { ownDependency ->
+
+                            when (dontEvaluateGroupIds != null && dontEvaluateGroupIds.isNotEmpty()) {
+
+                                // Nothing to filter
+                                false -> true
+
+                                // Pass through dependencies that do *not* match the supplied ignore patterns
+                                else -> !dontEvaluateGroupIds.any { it.matches(ownDependency.groupId) }
+                            }
+                        }
 
                     when (containsElements(onlyOwnDependencies)) {
                         true -> ComplianceStatusHolder(internalStructureComplianceFailure = "BILL_OF_MATERIALS " +

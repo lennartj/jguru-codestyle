@@ -56,25 +56,35 @@ interface ProjectType : Serializable {
      * Checks if the provided MavenProject complies with the standard/requirements of this ProjectType.
      *
      * @param project The MavenProject which should be checked for compliance.
+     * @param dontEvaluateGroupIds an optional list of Regexs used to exclude evaluation from artifacts whose groupIDs
+     * match any of the supplied Regexes.
      * @return `null` if the supplied MavenProject's internal structure was compliant with this ProjectType's
      * requirements, and a reason message for non-compliance if not.
      */
-    fun internalStructureNonComplianceMessage(project: MavenProject?): String?
+    fun internalStructureNonComplianceMessage(project: MavenProject?,
+                                              dontEvaluateGroupIds : List<Regex>? = null): String?
 
     /**
      * Convenience implementation used to test whether or not a [org.apache.maven.project.MavenProject] is
      * compliant with this [ProjectType]. Override to provide extra mechanics for validation.
      *
      * @param project The MavenProject to ascertain compliance for this ProjectType.
+     * @param dontEvaluateGroupIds an optional list of Regexs used to exclude evaluation from artifacts
+     * whose groupIDs match any of the supplied Regexes.
      */
-    fun getComplianceStatus(project: MavenProject): ComplianceStatusHolder {
+    fun getComplianceStatus(project: MavenProject, dontEvaluateGroupIds : List<Regex>? = null): ComplianceStatusHolder {
 
         val toReturn = ComplianceStatusHolder()
+
+        // Check sanity: Should we evaluate this project.
+        if(dontEvaluateGroupIds != null && dontEvaluateGroupIds.any { it.matches(project.groupId) }) {
+            return toReturn
+        }
 
         toReturn.groupComplianceFailure = groupIDNonComplianceMessage(project.groupId)
         toReturn.artifactComplianceFailure = artifactIDNonComplianceMessage(project.artifactId)
         toReturn.packagingComplianceFailure = packagingNonComplianceMessage(project.packaging)
-        toReturn.internalStructureComplianceFailure = internalStructureNonComplianceMessage(project)
+        toReturn.internalStructureComplianceFailure = internalStructureNonComplianceMessage(project, dontEvaluateGroupIds)
 
         // All Done
         return toReturn
@@ -141,7 +151,7 @@ open class DefaultProjectType @JvmOverloads constructor(
 
     private val id: String? = null,
 
-    protected val structureChecker: (MavenProject) -> String?) : ProjectType {
+    protected val structureChecker: (MavenProject, List<Regex>?) -> String?) : ProjectType {
 
     /**
      * Convenience constructor using the pure String [Pattern]s instead of the full [Regex] objects.
@@ -154,7 +164,7 @@ open class DefaultProjectType @JvmOverloads constructor(
                 packagingPattern: String? = null,
                 acceptNullValues: Boolean = false,
                 id: String? = null,
-                structureChecker: (MavenProject) -> String? = { null }) : this(
+                structureChecker: (MavenProject, List<Regex>?) -> String? = { _, _ -> null }) : this(
         getDefaultRegexFor(groupIdPattern),
         getDefaultRegexFor(artifactIdPattern),
         getDefaultRegexFor(packagingPattern),
@@ -226,14 +236,15 @@ open class DefaultProjectType @JvmOverloads constructor(
      *
      * @see [ProjectType.packagingNonComplianceMessage]
      */
-    override fun internalStructureNonComplianceMessage(project: MavenProject?): String? = when (project) {
+    override fun internalStructureNonComplianceMessage(project: MavenProject?,
+                                                       dontEvaluateGroupIds: List<Regex>?): String? = when (project) {
 
         null -> when (acceptNullValues) {
             true -> null
             else -> "Got null MavenProject. Expected: non-null."
         }
 
-        else -> structureChecker.invoke(project)
+        else -> structureChecker.invoke(project, dontEvaluateGroupIds)
     }
 
     /**

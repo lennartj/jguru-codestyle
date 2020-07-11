@@ -5,6 +5,12 @@
 
 package se.jguru.codestyle.annotations;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * Add this annotation to a class to indicate to the Kotlin compiler that the
  * sam-with-receiver compiler module should be used.
@@ -15,5 +21,8 @@ package se.jguru.codestyle.annotations;
  *
  * @author <a href="mailto:lj@jguru.se">Lennart J&ouml;relid</a>, jGuru Europe AB
  */
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR})
+@Retention(RetentionPolicy.CLASS)
+@Documented
 public @interface ReceiverIsThisInSingleAbstractMethod {
 }

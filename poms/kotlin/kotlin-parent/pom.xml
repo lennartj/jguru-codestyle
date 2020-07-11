@@ -39,8 +39,8 @@
         <nazgul-core.version>3.0.0</nazgul-core.version>
 
         <enforcer.version>3.0.0-M3</enforcer.version>
-        <enforcer.includedGroupIdPatterns>^se\\.jguru\\..*</enforcer.includedGroupIdPatterns>
-        <enforcer.excludedGroupIdPatterns>^se\\.jguru\\..*\\.generated\\..*,^se\\.jguru\\.codestyle\\..*</enforcer.excludedGroupIdPatterns>
+        <enforcer.includedGroupIdPatterns>^se\.jguru\..*</enforcer.includedGroupIdPatterns>
+        <enforcer.excludedGroupIdPatterns>^se\.jguru\..*\.generated\..*,^se\.jguru\.codestyle\..*</enforcer.excludedGroupIdPatterns>
         <breakOnFailure.enforcer>true</breakOnFailure.enforcer>
         
         <!-- License plugin configuration parameters. -->
@@ -54,21 +54,6 @@
     # Section 2:  Dependency (management) settings
     ################################################
     -->
-    <dependencies>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
-
-        <!--
-            Test-scope dependencies.
-        -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <!--
     ################################################
@@ -178,7 +163,6 @@
                             <requireJavaVersion>
                                 <version>${jdk.version}</version>
                             </requireJavaVersion>
-                            <requireUpperBoundDeps />
 
                             <!--
                                 Enforce the ProjectType structure, implying that all projects

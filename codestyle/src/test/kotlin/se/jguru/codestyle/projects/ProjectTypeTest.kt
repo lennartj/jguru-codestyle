@@ -51,10 +51,4 @@ class ProjectTypeTest {
         Assert.assertNotNull(apiProjectType.packagingNonComplianceMessage("war"))
         Assert.assertNotNull(apiProjectType.packagingNonComplianceMessage(null))
     }
-
-    fun validateApplicationPattern() {
-
-        // Assemble
-        val eeApplicationProject = CommonProjectType.JEE_APPLICATION
-    }
 }
