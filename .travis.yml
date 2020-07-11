@@ -1,18 +1,19 @@
+dist: bionic
 language: java
 env:
-  - MAVEN_VERSION=3.5.4
+    - MAVEN_VERSION=3.6.3
 jdk:
-  - openjdk8
+    - openjdk8
 addons:
-  apt:
-    packages:
-      - graphviz
+    apt:
+        packages:
+            - graphviz
 install:
-  - "mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
+    - "mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
 script: "./mvnw --show-version --errors --batch-mode clean install site"
 cache:
     directories:
-    - $HOME/.m2
+        - $HOME/.m2
 branches:
     except:
         - gh-pages
