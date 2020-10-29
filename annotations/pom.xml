@@ -76,8 +76,8 @@
 
         <!-- Code style properties -->
         <clover.plugin.version>4.2.1</clover.plugin.version>
-        <spotbugs.plugin.version>3.1.12.2</spotbugs.plugin.version>
-        <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
+        <spotbugs.plugin.version>4.1.4</spotbugs.plugin.version>
+        <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>2.6.1</clean.plugin.version>
 
@@ -85,7 +85,7 @@
         <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
-        <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
         <scm.provider.version>1.11.2</scm.provider.version>
     </properties>
 

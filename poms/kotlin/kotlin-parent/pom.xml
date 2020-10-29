@@ -326,7 +326,7 @@
             <properties>
 
                 <!-- AspectJ Properties -->
-                <aspectj.runtime.version>1.8.13</aspectj.runtime.version>
+                <aspectj.runtime.version>1.9.6</aspectj.runtime.version>
                 <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
             </properties>
 

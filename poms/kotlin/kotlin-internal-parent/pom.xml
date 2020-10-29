@@ -82,7 +82,7 @@
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
 
         <!-- Commonly controlled version properties -->
-        <aspectj.runtime.version>1.9.4</aspectj.runtime.version>
+        <aspectj.runtime.version>1.9.6</aspectj.runtime.version>
         <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <jaxb2-maven-plugin.version>2.5.0</jaxb2-maven-plugin.version>
@@ -97,11 +97,11 @@
 
         <!-- Code style properties -->
         <maven-bundle-plugin.version>4.2.1</maven-bundle-plugin.version>
-        <dependency.plugin.version>3.1.1</dependency.plugin.version>
+        <dependency.plugin.version>3.1.2</dependency.plugin.version>
         <pmd.plugin.version>3.12.0</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
-        <spotbugs.plugin.version>3.1.12.2</spotbugs.plugin.version>
-        <checkstyle.plugin.version>2.17</checkstyle.plugin.version>
+        <spotbugs.plugin.version>4.1.4</spotbugs.plugin.version>
+        <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>3.1.0</clean.plugin.version>
 
@@ -119,10 +119,9 @@
         <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
-        <versions-maven-plugin.version>2.7</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
         <dokka.version>1.4.10.2</dokka.version>
         <scm.provider.version>1.11.2</scm.provider.version>
-        <dokka.outputFormat>javadoc</dokka.outputFormat>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     </properties>
 
@@ -428,19 +427,18 @@
                     <artifactId>dokka-maven-plugin</artifactId>
                     <version>${dokka.version}</version>
                     <configuration>
+                        <dokkaPlugins>
+                            <plugin>
+                                <groupId>org.jetbrains.dokka</groupId>
+                                <artifactId>kotlin-as-java-plugin</artifactId>
+                                <version>${dokka.version}</version>
+                            </plugin>
+                        </dokkaPlugins>
                         <outputDir>${project.reporting.outputDirectory}/dokka</outputDir>
-                        <outputFormat>${dokka.outputFormat}</outputFormat>
                         <jdkVersion>8</jdkVersion>
                         <noStdlibLink>true</noStdlibLink>
                         <noJdkLink>true</noJdkLink>
                     </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.sonatype.sisu</groupId>
-                            <artifactId>sisu-guice</artifactId>
-                            <version>4.2.0</version>
-                        </dependency>
-                    </dependencies>
                 </plugin>
 
                 <!--
@@ -899,9 +897,11 @@
                 <artifactId>dokka-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>CreateJavaDocForSite</id>
                         <phase>pre-site</phase>
                         <goals>
                             <goal>dokka</goal>
+                            <goal>javadoc</goal>
                         </goals>
                     </execution>
                 </executions>
