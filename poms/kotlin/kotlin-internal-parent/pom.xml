@@ -113,7 +113,7 @@
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
         <owasp.failOnError>false</owasp.failOnError>
-        <owasp-dependency-check.version>6.0.2</owasp-dependency-check.version>
+        <owasp-dependency-check.version>6.0.3</owasp-dependency-check.version>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
@@ -229,7 +229,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>3.2.3</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <archive>
                             <manifest>

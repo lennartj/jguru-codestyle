@@ -363,7 +363,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.1.1</version>
+                    <version>3.3.1</version>
                     <configuration>
                         <archive>
                             <manifestSections>
@@ -380,7 +380,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>3.2.0</version>
                     <configuration>
                         <archive>
                             <manifestSections>
