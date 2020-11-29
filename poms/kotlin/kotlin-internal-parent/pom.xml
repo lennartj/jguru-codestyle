@@ -438,6 +438,8 @@
                         <jdkVersion>8</jdkVersion>
                         <noStdlibLink>true</noStdlibLink>
                         <noJdkLink>true</noJdkLink>
+                        <apiVersion>${kotlin.compiler.apiVersion}</apiVersion>
+                        <languageVersion>${kotlin.compiler.languageVersion}</languageVersion>
                     </configuration>
                 </plugin>
 
