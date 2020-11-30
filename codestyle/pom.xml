@@ -80,7 +80,7 @@
 
         <!-- Code style properties -->
         <jandex-maven-plugin.version>1.0.8</jandex-maven-plugin.version>
-        <pmd.plugin.version>3.12.0</pmd.plugin.version>
+        <pmd.plugin.version>3.14.0</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
         <spotbugs.plugin.version>4.1.4</spotbugs.plugin.version>
         <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
@@ -95,7 +95,7 @@
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
-        <jandex.version>2.1.3.Final</jandex.version>
+        <jandex.version>2.2.2.Final</jandex.version>
 
         <!-- Include Dokka -->
         <dokka.version>1.4.10.2</dokka.version>

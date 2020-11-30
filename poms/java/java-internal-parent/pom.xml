@@ -89,7 +89,7 @@
         <scm.provider.version>1.11.2</scm.provider.version>
 
         <!-- Diverse plugin versions -->
-        <maven-bundle-plugin.version>4.2.1</maven-bundle-plugin.version>
+        <maven-bundle-plugin.version>5.1.1</maven-bundle-plugin.version>
         <maven-project-info-reports-plugin.version>3.1.1</maven-project-info-reports-plugin.version>
         <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
         <dependency.plugin.version>3.1.2</dependency.plugin.version>
@@ -98,7 +98,7 @@
         <depgraph-maven-plugin.version>3.3.0</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
         <jandex.plugin.version>1.0.8</jandex.plugin.version>
-        <jandex.version>2.1.3.Final</jandex.version>
+        <jandex.version>2.2.2.Final</jandex.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
         <owasp-dependency-check.version>6.0.3</owasp-dependency-check.version>
@@ -121,14 +121,14 @@
         <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
 
         <!-- Checkstyle configuration parameters. -->
-        <checkstyle.plugin.version>3.1.0</checkstyle.plugin.version>
+        <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
         <checkstyle.config.location>codestyle/checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions.location>codestyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
         <checkstyle.violationSeverity>error</checkstyle.violationSeverity>
         <checkstyle.excludes>**/generated/**/*,**/grammars/**/*</checkstyle.excludes>
 
         <!-- PMD configuration parameters. -->
-        <pmd.plugin.version>3.13.0</pmd.plugin.version>
+        <pmd.plugin.version>3.14.0</pmd.plugin.version>
         <pmd.version>6.29.0</pmd.version>
         <pmd.ruleset>/codestyle/pmd-rules.xml</pmd.ruleset>
 

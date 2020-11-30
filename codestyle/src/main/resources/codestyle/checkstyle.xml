@@ -14,12 +14,10 @@
         Enable annotations and comments to suppress errors and warnings.
     -->
     <module name="SuppressWarningsFilter"/>
-    <!-- module name="SuppressionCommentFilter">
-        <metadata name="net.sf.eclipsecs.core.comment" value="Single warning"/>
-        <property name="offCommentFormat" value="CHECKSTYLE\:OFF\: ([\w\|]+)"/>
-        <property name="onCommentFormat" value="CHECKSTYLE\:ON\: ([\w\|]+)"/>
-        <property name="checkFormat" value="$1"/>
-    </module -->
+
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
 
     <!--
         Define the file extensions for which this Checkstyle specification is valid.
@@ -30,14 +28,10 @@
 
     <module name="TreeWalker">
 
-        <module name="JavadocMethod">
+        <module name="MissingJavadocMethod">
             <property name="scope" value="public"/>
-            <property name="allowMissingPropertyJavadoc" value="true"/>
             <property name="tokens" value="METHOD_DEF"/>
-            <property name="allowUndeclaredRTE" value="true"/>
-        </module>
-        <module name="LineLength">
-            <property name="max" value="120"/>
+            <property name="allowMissingPropertyJavadoc" value="true"/>
         </module>
 
         <module name="JavadocStyle">

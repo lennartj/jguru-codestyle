@@ -71,7 +71,7 @@
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
 
         <maven.version>3.6.1</maven.version>
-        <jandex.version>2.1.3.Final</jandex.version>
+        <jandex.version>2.2.2.Final</jandex.version>
         <jdk.version>1.8</jdk.version>
 
         <!-- Code style properties -->
