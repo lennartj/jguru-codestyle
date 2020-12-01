@@ -22,7 +22,7 @@
 
     <groupId>se.jguru.codestyle.poms.kotlin</groupId>
     <artifactId>jguru-codestyle-kotlin-internal-parent</artifactId>
-    <version>0.11.2</version>
+    <version>0.11.3-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
@@ -203,7 +203,7 @@
         <dependency>
             <groupId>se.jguru.codestyle.annotations</groupId>
             <artifactId>jguru-codestyle-annotations</artifactId>
-            <version>0.11.2</version>
+            <version>0.11.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -326,7 +326,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>0.11.2</version>
+                            <version>0.11.3-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -412,7 +412,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle.annotations</groupId>
                             <artifactId>jguru-codestyle-annotations</artifactId>
-                            <version>0.11.2</version>
+                            <version>0.11.3-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -604,7 +604,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>0.11.2</version>
+                            <version>0.11.3-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -1043,7 +1043,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>jguru-codestyle-0.11.2</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <!--
