@@ -71,13 +71,13 @@
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
 
         <maven.version>3.6.1</maven.version>
-        <jandex.version>2.2.2.Final</jandex.version>
+        <jandex.version>2.2.3.Final</jandex.version>
         <jdk.version>1.8</jdk.version>
 
         <!-- Code style properties -->
         <clover.plugin.version>4.2.1</clover.plugin.version>
-        <spotbugs.plugin.version>4.1.4</spotbugs.plugin.version>
-        <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
+        <spotbugs.plugin.version>4.2.0</spotbugs.plugin.version>
+        <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>2.6.1</clean.plugin.version>
 
