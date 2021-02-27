@@ -14,7 +14,7 @@
     <parent>
         <groupId>se.jguru.codestyle.poms.java</groupId>
         <artifactId>jguru-codestyle-java-api-parent</artifactId>
-        <version>0.11.3</version>
+        <version>0.11.4-SNAPSHOT</version>
         <relativePath>../java-api-parent</relativePath>
     </parent>
 
@@ -482,6 +482,6 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>jguru-codestyle-0.11.3</tag>
+        <tag>HEAD</tag>
     </scm>
 </project>
