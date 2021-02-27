@@ -287,6 +287,29 @@
                 </plugin>
 
                 <!--
+                    Dokka Maven Plugin provides javadoc-a-like documentation for Kotlin classes.
+                -->
+                <plugin>
+                    <groupId>org.jetbrains.dokka</groupId>
+                    <artifactId>dokka-maven-plugin</artifactId>
+                    <version>${dokka.version}</version>
+                    <configuration>
+                        <dokkaPlugins>
+                            <plugin>
+                                <groupId>org.jetbrains.dokka</groupId>
+                                <artifactId>kotlin-as-java-plugin</artifactId>
+                                <version>${dokka.version}</version>
+                            </plugin>
+                        </dokkaPlugins>
+                        <outputDir>${project.reporting.outputDirectory}/dokka</outputDir>
+                        <noStdlibLink>true</noStdlibLink>
+                        <noJdkLink>true</noJdkLink>
+                        <apiVersion>${kotlin.compiler.apiVersion}</apiVersion>
+                        <languageVersion>${kotlin.compiler.languageVersion}</languageVersion>
+                    </configuration>
+                </plugin>
+
+                <!--
                     Specify the version of the GPG plugin
 
                     Why:  Used to sign artifacts.
@@ -804,8 +827,23 @@
         <profile>
             <id>jguru-release</id>
             <build>
-
                 <plugins>
+
+                    <plugin>
+                        <groupId>org.jetbrains.dokka</groupId>
+                        <artifactId>dokka-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>CreateJavaDocForSite</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>dokka</goal>
+                                    <goal>javadoc</goal>
+                                    <goal>javadocJar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
