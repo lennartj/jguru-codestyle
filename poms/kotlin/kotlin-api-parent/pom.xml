@@ -16,7 +16,7 @@
     <parent>
         <groupId>se.jguru.codestyle.poms.kotlin</groupId>
         <artifactId>jguru-codestyle-kotlin-parent</artifactId>
-        <version>0.11.4-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../kotlin-parent</relativePath>
     </parent>
 
@@ -127,7 +127,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>jguru-codestyle-1.0.0</tag>
     </scm>
 
     <!--

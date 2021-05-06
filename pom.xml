@@ -20,7 +20,7 @@
 
     <groupId>se.jguru.codestyle</groupId>
     <artifactId>jguru-codestyle-reactor</artifactId>
-    <version>0.11.4-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>${project.artifactId}</name>
     <url>${site.top.url}/${path.in.reactor}</url>
     <description>jGuru Codestyle: Reactor (POM, version ${project.version})</description>
@@ -494,7 +494,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>jguru-codestyle-1.0.0</tag>
     </scm>
 
     <!--
