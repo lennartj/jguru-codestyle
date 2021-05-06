@@ -1,9 +1,9 @@
-dist: bionic
+dist: focal
 language: java
 env:
     - MAVEN_VERSION=3.6.3
 jdk:
-    - openjdk8
+    - openjdk11
 addons:
     apt:
         packages:
