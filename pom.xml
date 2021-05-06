@@ -86,7 +86,7 @@
         <!-- Build definitions and Version properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jdk.version>1.8</jdk.version>
+        <jdk.version>11</jdk.version>
         <maven.version>3.6.1</maven.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <scm.provider.version>1.11.2</scm.provider.version>
@@ -101,8 +101,8 @@
         <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.9</wagon-modules.version>
-        <kotlin.version>1.4.31</kotlin.version>
-        <kotlin.jvm.target>1.8</kotlin.jvm.target>
+        <kotlin.version>1.4.32</kotlin.version>
+        <kotlin.jvm.target>11</kotlin.jvm.target>
     </properties>
 
     <repositories>

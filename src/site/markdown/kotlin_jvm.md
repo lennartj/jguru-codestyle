@@ -14,7 +14,7 @@ With frequent Kotlin releases, the Kotlin language version may change often. Hen
 supply a maven property defining the Kotlin version used within the projects. 
 The property `kotlin.version` is used by the `kotlin-maven-plugin` to define the underlying Kotlin platform:
 
-    <kotlin.version>1.3.72</kotlin.version>         
+    <kotlin.version>1.4.32</kotlin.version>         
 
 ## `kotlin.jvm.target` property
 
@@ -23,7 +23,7 @@ If you prefer - say - JDK 11-compliant bytecode, simply change this property in 
 approach is to set this property within the BOM (Bill-Of-Materials) pom file within your reactor, to make it 
 be applied in all your artifact-generating projects: 
 
-    <kotlin.jvm.target>1.8</kotlin.jvm.target>
+    <kotlin.jvm.target>11</kotlin.jvm.target>
     
 ## `kotlin.compiler.apiVersion` property
 
@@ -32,7 +32,7 @@ This is chosen to minimize the impact of some other frameworks not yet being com
 bytecode (which contains some breaking changes from its 1.3 brethren).
 If you prefer Kotlin language version 1.4, simply change this property in subprojects: 
 
-    <kotlin.compiler.apiVersion>1.3</kotlin.compiler.apiVersion>
+    <kotlin.compiler.apiVersion>1.4</kotlin.compiler.apiVersion>
     
 ## `kotlin.compiler.languageVersion` property
 
@@ -41,7 +41,7 @@ This is chosen to minimize the impact of some other frameworks not yet being com
 bytecode (which contains some breaking changes from its 1.3 brethren).
 If you prefer Kotlin language version 1.4, simply change this property in subprojects: 
 
-    <kotlin.compiler.languageVersion>1.3</kotlin.compiler.languageVersion>
+    <kotlin.compiler.languageVersion>1.4</kotlin.compiler.languageVersion>
        
 ## `dokka.version` property
 
@@ -54,5 +54,5 @@ than JDK 8 seems to be coming to a close.
 The dokka plugin version is controlled by another property (`dokka.version`), and reads the versions of the 
 Kotlin API and language from the above mentioned properties: 
 
-    <dokka.version>1.4.20</dokka.version>     
+    <dokka.version>1.4.32</dokka.version>     
         

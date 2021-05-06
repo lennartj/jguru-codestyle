@@ -72,7 +72,7 @@
 
         <maven.version>3.6.1</maven.version>
         <jandex.version>2.2.3.Final</jandex.version>
-        <jdk.version>1.8</jdk.version>
+        <jdk.version>11</jdk.version>
 
         <!-- Code style properties -->
         <clover.plugin.version>4.2.1</clover.plugin.version>

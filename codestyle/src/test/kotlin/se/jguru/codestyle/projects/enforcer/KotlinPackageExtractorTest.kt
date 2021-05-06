@@ -20,8 +20,6 @@ import kotlin.reflect.jvm.isAccessible
  */
 class KotlinPackageExtractorTest {
 
-    private val KOTLIN_ROOTDIR = "/testdata/kotlin/incorrect"
-
     @Test
     fun validatePackagePatternMatching() {
 
@@ -71,7 +69,7 @@ class KotlinPackageExtractorTest {
     fun validateExceptionOnSubmittingDirectoriesToPackageExtractor() {
 
         // Assemble
-        val resource = KotlinPackageExtractorTest::class.java.getResource(KOTLIN_ROOTDIR + "/incorrect")
+        val resource = KotlinPackageExtractorTest::class.java.getResource("/testdata/kotlin/incorrect")
         val unitUnderTest = KotlinPackageExtractor()
 
         // Act

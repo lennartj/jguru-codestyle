@@ -89,18 +89,21 @@ class KotlinPackageExtractor : AbstractSimplePackageExtractor() {
 
     override fun getPackage(sourceFile: File): String {
 
-        for (aLine: String in sourceFile.readLines(Charsets.UTF_8)) {
+        if(sourceFile.isFile) {
+            sourceFile.readLines(Charsets.UTF_8).forEach { aLine: String ->
+                if (packageRegEx.matches(aLine)) {
 
-            if (packageRegEx.matches(aLine)) {
+                    val lastIndexInLine = when (aLine.contains(";")) {
+                        true -> aLine.indexOfFirst { it == ';' }
+                        false -> aLine.length
+                    }
 
-                val lastIndexInLine = when (aLine.contains(";")) {
-                    true -> aLine.indexOfFirst { it == ';' }
-                    false -> aLine.length
+                    // All Done.
+                    return aLine.trim().substring(PACKAGE_WORD.length, lastIndexInLine).trim()
                 }
-
-                // All Done.
-                return aLine.trim().substring(PACKAGE_WORD.length, lastIndexInLine).trim()
             }
+        } else if(sourceFile.isDirectory) {
+            throw IllegalStateException("Expected file, but received directory [${sourceFile.path}]")
         }
 
         // No package statement found.
