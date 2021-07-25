@@ -5,7 +5,8 @@
   ~ All rights reserved.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -17,7 +18,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>se.jguru.codestyle</groupId>
@@ -283,6 +284,7 @@
                         <outputDir>${project.reporting.outputDirectory}/dokka</outputDir>
                         <noStdlibLink>true</noStdlibLink>
                         <noJdkLink>true</noJdkLink>
+                        <jdkVersion>8</jdkVersion>
                         <apiVersion>${kotlin.compiler.apiVersion}</apiVersion>
                         <languageVersion>${kotlin.compiler.languageVersion}</languageVersion>
                     </configuration>
@@ -519,7 +521,7 @@
                         <id>default-deploy</id>
                         <phase>site-deploy</phase>
                         <goals>
-                            <goal />
+                            <goal/>
                         </goals>
                     </execution>
                 </executions>
@@ -784,6 +786,7 @@
                                 <goals>
                                     <goal>dokka</goal>
                                     <goal>javadoc</goal>
+                                    <goal>javadocJar</goal>
                                 </goals>
                             </execution>
                             <execution>
@@ -811,9 +814,9 @@
                     <plugin>
                         <groupId>org.jetbrains.dokka</groupId>
                         <artifactId>dokka-maven-plugin</artifactId>
+                        <version>${dokka.version}</version>
                         <executions>
                             <execution>
-                                <id>CreateJavaDocForSite</id>
                                 <phase>prepare-package</phase>
                                 <goals>
                                     <goal>dokka</goal>
