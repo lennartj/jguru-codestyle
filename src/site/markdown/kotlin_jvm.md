@@ -54,5 +54,5 @@ than JDK 8 seems to be coming to a close.
 The dokka plugin version is controlled by another property (`dokka.version`), and reads the versions of the 
 Kotlin API and language from the above mentioned properties: 
 
-    <dokka.version>1.4.32</dokka.version>     
+    <dokka.version>1.5.21</dokka.version>     
         
