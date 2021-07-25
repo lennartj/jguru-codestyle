@@ -18,17 +18,17 @@ The property `kotlin.version` is used by the `kotlin-maven-plugin` to define the
 
 ## `kotlin.jvm.target` property
 
-By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit JDK 8-compliant bytecode.
-If you prefer - say - JDK 11-compliant bytecode, simply change this property in subprojects. The recommended
+By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit JDK 11-compliant bytecode.
+If you prefer - say - JDK 8-compliant bytecode, simply change this property in subprojects. The recommended
 approach is to set this property within the BOM (Bill-Of-Materials) pom file within your reactor, to make it 
 be applied in all your artifact-generating projects: 
 
-    <kotlin.jvm.target>11</kotlin.jvm.target>
+    <kotlin.jvm.target>8</kotlin.jvm.target>
     
 ## `kotlin.compiler.apiVersion` property
 
-By default, the jGuru Codestyle Parent POM defines the kotlin compiler to interface with Kotlin 1.3-libraries.
-This is chosen to minimize the impact of some other frameworks not yet being compliant with Kotlin 1.4-generated
+By default, the jGuru Codestyle Parent POM defines the kotlin compiler to interface with Kotlin 1.4-libraries.
+This is chosen to minimize the impact of some other frameworks not yet being compliant with Kotlin 1.5-generated
 bytecode (which contains some breaking changes from its 1.3 brethren).
 If you prefer Kotlin language version 1.4, simply change this property in subprojects: 
 
@@ -36,8 +36,8 @@ If you prefer Kotlin language version 1.4, simply change this property in subpro
     
 ## `kotlin.compiler.languageVersion` property
 
-By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit Kotlin 1.3-compliant bytecode.
-This is chosen to minimize the impact of some other frameworks not yet being compliant with Kotlin 1.4-generated
+By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit Kotlin 1.4-compliant bytecode.
+This is chosen to minimize the impact of some other frameworks not yet being compliant with Kotlin 1.5-generated
 bytecode (which contains some breaking changes from its 1.3 brethren).
 If you prefer Kotlin language version 1.4, simply change this property in subprojects: 
 

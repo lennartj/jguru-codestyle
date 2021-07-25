@@ -96,7 +96,7 @@
         <jandex.version>2.2.3.Final</jandex.version>
 
         <!-- Code style properties -->
-        <maven-bundle-plugin.version>5.1.1</maven-bundle-plugin.version>
+        <maven-bundle-plugin.version>5.1.2</maven-bundle-plugin.version>
         <dependency.plugin.version>3.1.2</dependency.plugin.version>
         <pmd.plugin.version>3.14.0</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
@@ -117,7 +117,7 @@
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
         <owasp.failOnError>false</owasp.failOnError>
-        <owasp-dependency-check.version>6.1.1</owasp-dependency-check.version>
+        <owasp-dependency-check.version>6.2.2</owasp-dependency-check.version>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
@@ -285,7 +285,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.3.0</version>
                 </plugin>
 
                 <!--
@@ -497,7 +497,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
+                    <version>3.0.1</version>
                 </plugin>
 
                 <!--
@@ -913,19 +913,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- Analyze dependencies for trivial security flaws -->
-            <plugin>
-                <groupId>org.owasp</groupId>
-                <artifactId>dependency-check-maven</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -946,7 +933,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.5</version>
+                <version>3.1.1</version>
             </plugin>
 
             <!--
@@ -1043,47 +1030,6 @@
     -->
     <profiles>
         <profile>
-            <id>jdk9</id>
-            <activation>
-                <jdk>[9,11)</jdk>
-            </activation>
-
-            <properties>
-                <surefire.fullArgLine>--add-modules java.xml.bind
-                    --illegal-access=deny</surefire.fullArgLine>
-            </properties>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <compilerArgs>
-                                <arg>--add-modules=java.xml.bind</arg>
-                            </compilerArgs>
-                            <!-- without forking compilation happens in the
-                                same process, so no arguments are applied -->
-                            <fork>true</fork>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <argLine>${surefire.fullArgLine}</argLine>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <configuration>
-                            <argLine>${surefire.fullArgLine}</argLine>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-
-        </profile>
-
-        <profile>
             <id>jdk11</id>
             <activation>
                 <jdk>[11,)</jdk>
@@ -1141,6 +1087,19 @@
             <id>jguru-release</id>
             <build>
                 <plugins>
+
+                    <!-- Analyze dependencies for trivial security flaws -->
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
