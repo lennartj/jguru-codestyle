@@ -22,7 +22,7 @@
 
     <groupId>se.jguru.codestyle.poms.java</groupId>
     <artifactId>jguru-codestyle-java-internal-parent</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
@@ -374,7 +374,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>1.0.1-SNAPSHOT</version>
+                            <version>1.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -831,7 +831,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>1.0.1-SNAPSHOT</version>
+                            <version>1.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -882,7 +882,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>1.0.1-SNAPSHOT</version>
+                            <version>1.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -925,7 +925,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>1.0.1-SNAPSHOT</version>
+                            <version>1.1.0</version>
                         </dependency>
                         <!--
                             Workaround https://github.com/jcgay/maven-color/issues/8
@@ -996,7 +996,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>1.0.1-SNAPSHOT</version>
+                            <version>1.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -1069,7 +1069,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>1.0.1-SNAPSHOT</version>
+                            <version>1.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -1152,7 +1152,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle.annotations</groupId>
                             <artifactId>jguru-codestyle-annotations</artifactId>
-                            <version>1.0.1-SNAPSHOT</version>
+                            <version>1.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -1345,7 +1345,7 @@
                     <dependency>
                         <groupId>se.jguru.codestyle</groupId>
                         <artifactId>jguru-codestyle</artifactId>
-                        <version>1.0.1-SNAPSHOT</version>
+                        <version>1.1.0</version>
                     </dependency>
                     <dependency>
                         <groupId>org.apache.maven.enforcer</groupId>
@@ -1708,7 +1708,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>jguru-codestyle-1.1.0</tag>
     </scm>
 
     <!--
