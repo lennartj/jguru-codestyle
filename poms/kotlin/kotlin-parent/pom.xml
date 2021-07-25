@@ -16,7 +16,7 @@
     <parent>
         <groupId>se.jguru.codestyle.poms.kotlin</groupId>
         <artifactId>jguru-codestyle-kotlin-internal-parent</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1-SNAPSHOT</version>
         <relativePath>../kotlin-internal-parent</relativePath>
     </parent>
 
@@ -118,7 +118,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>1.1.0</version>
+                            <version>1.1.1-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -201,7 +201,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>1.1.0</version>
+                            <version>1.1.1-SNAPSHOT</version>
                         </dependency>
                         <dependency>
                             <groupId>org.apache.maven.enforcer</groupId>
@@ -301,7 +301,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>jguru-codestyle-1.1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <!--
