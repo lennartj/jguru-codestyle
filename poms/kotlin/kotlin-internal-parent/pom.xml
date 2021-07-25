@@ -53,7 +53,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.4.32</kotlin.version>
+        <kotlin.version>1.5.21</kotlin.version>
         <kotlin.jvm.target>11</kotlin.jvm.target>
         <kotlin.compiler.languageVersion>1.4</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>1.4</kotlin.compiler.apiVersion>
@@ -74,7 +74,7 @@
         <scm.url>${git.repo.url.prefix}/${reactor.name}.git</scm.url>
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
-        <maven.version>3.6.1</maven.version>
+        <maven.version>3.8.1</maven.version>
         <jdk.version>11</jdk.version>
         <javaee-api.version>8.0.1</javaee-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>

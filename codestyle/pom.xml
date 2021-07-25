@@ -52,7 +52,7 @@
         <path.in.reactor>codestyle</path.in.reactor>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.4.32</kotlin.version>
+        <kotlin.version>1.5.21</kotlin.version>
         <kotlin.jvm.target>11</kotlin.jvm.target>
         <kotlin.compiler.languageVersion>1.4</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>1.4</kotlin.compiler.apiVersion>
@@ -74,7 +74,7 @@
         <scm.url>${git.repo.url.prefix}/${reactor.name}.git</scm.url>
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
-        <maven.version>3.6.1</maven.version>
+        <maven.version>3.8.1</maven.version>
         <enforcer.version>3.0.0-M3</enforcer.version>
         <jdk.version>11</jdk.version>
 

@@ -77,14 +77,14 @@
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
         <!-- Version number properties -->
-        <maven.version>3.6.1</maven.version>
+        <maven.version>3.8.1</maven.version>
         <openjpa.version>2.4.0</openjpa.version>
         <maven.release.plugin.version>2.5.3-jahia1</maven.release.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <osgiVersion>6.0.0</osgiVersion>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.3.0-alpha4</logback.version>
-        <kotlin.version>1.4.32</kotlin.version>
+        <kotlin.version>1.5.21</kotlin.version>
         <clean.plugin.version>3.1.0</clean.plugin.version>
         <scm.provider.version>1.11.2</scm.provider.version>
 
