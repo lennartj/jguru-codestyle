@@ -1,7 +1,7 @@
 dist: focal
 language: java
 env:
-    - MAVEN_VERSION=3.6.3
+    - MAVEN_VERSION=3.8.1
 jdk:
     - openjdk11
 addons:
