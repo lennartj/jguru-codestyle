@@ -6,7 +6,8 @@
 package se.jguru.codestyle.projects.enforcer
 
 import org.apache.maven.enforcer.rule.api.EnforcerRuleException
-import org.junit.Test
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.junit.jupiter.api.Test
 import se.jguru.codestyle.projects.MavenTestUtils
 
 /**
@@ -51,7 +52,7 @@ class PermittedProjectTypeRuleTest {
         unitUnderTest.execute(mockHelper)
     }
 
-    @Test(expected = EnforcerRuleException::class)
+    @Test
     fun validateExceptionOnParentPomWithModules() {
 
         // Assemble
@@ -60,10 +61,12 @@ class PermittedProjectTypeRuleTest {
         val unitUnderTest = PermittedProjectTypeRule()
 
         // Act & Assert
-        unitUnderTest.execute(mockHelper)
+        assertThatExceptionOfType(EnforcerRuleException::class.java).isThrownBy {
+            unitUnderTest.execute(mockHelper)
+        }
     }
 
-    @Test(expected = EnforcerRuleException::class)
+    @Test
     fun validateExceptionOnBillOfMaterialsPomWithDependencies() {
 
         // Assemble
@@ -74,7 +77,9 @@ class PermittedProjectTypeRuleTest {
         )
 
         // Act & Assert
-        unitUnderTest.execute(mockHelper)
+        assertThatExceptionOfType(EnforcerRuleException::class.java).isThrownBy {
+            unitUnderTest.execute(mockHelper)
+        }
     }
 
 

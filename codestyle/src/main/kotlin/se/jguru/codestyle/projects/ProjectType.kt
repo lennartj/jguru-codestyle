@@ -303,6 +303,7 @@ open class DefaultProjectType @JvmOverloads constructor(
          * Convenience function to create a [Regex] from the supplied pattern and using
          * [IGNORE_CASE_AND_COMMENTS] for options.
          */
+        @JvmStatic
         fun getDefaultRegexFor(pattern: String?): Regex = Regex(pattern ?: ".*", IGNORE_CASE_AND_COMMENTS)
     }
 }

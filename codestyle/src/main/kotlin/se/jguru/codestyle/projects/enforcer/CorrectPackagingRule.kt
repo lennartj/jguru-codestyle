@@ -8,10 +8,10 @@ package se.jguru.codestyle.projects.enforcer
 import org.apache.maven.enforcer.rule.api.EnforcerLevel
 import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
+import se.jguru.codestyle.projects.DefaultProjectType
 import se.jguru.codestyle.projects.enforcer.CorrectPackagingRule.Companion.DEFAULT_PACKAGE_EXTRACTORS
 import java.io.File
 import java.io.FileFilter
-import java.util.ArrayList
 import java.util.SortedMap
 import java.util.SortedSet
 import java.util.TreeMap
@@ -25,15 +25,30 @@ import java.util.TreeSet
  * @param enforcerLevel The level of enforcement within this Rule. Defaults to `EnforcerLevel.ERROR`.
  * @param packageExtractors The PackageExtractor implementations used to find packages from source code.
  * Defaults to [DEFAULT_PACKAGE_EXTRACTORS].
+ * @param ignoredFileNames Optional List of RegExp strings implying
+ *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 class CorrectPackagingRule @JvmOverloads constructor(
-
     enforcerLevel: EnforcerLevel = EnforcerLevel.ERROR,
+    private var packageExtractors: List<PackageExtractor> = DEFAULT_PACKAGE_EXTRACTORS,
+    private val ignoredFileNames: List<String> = DEFAULT_IGNORED_FILENAMES
+) : AbstractNonCacheableEnforcerRule(enforcerLevel) {
 
-    private var packageExtractors: List<PackageExtractor> = DEFAULT_PACKAGE_EXTRACTORS)
+    private val ignoredFileNamePatterns: List<Regex> by lazy {
 
-    : AbstractNonCacheableEnforcerRule(enforcerLevel) {
+        val toReturn = mutableListOf<Regex>()
+
+        if (ignoredFileNames.isNotEmpty()) {
+
+            ignoredFileNames
+                .map { DefaultProjectType.getDefaultRegexFor("${it}.*") }
+                .forEach { toReturn.add(it) }
+        }
+
+        // All Done.
+        toReturn
+    }
 
     /**
      * The description of this CorrectPackagingRule.
@@ -88,8 +103,9 @@ class CorrectPackagingRule @JvmOverloads constructor(
                     }
                 }
 
-                throw RuleFailureException(message = "Incorrect packaging detected; required [" + groupId
-                    + "] but found package to file names: " + result,
+                throw RuleFailureException(
+                    message = "Incorrect packaging detected; required [" + groupId
+                        + "] but found package to file names: " + result,
                     offendingArtifact = project.artifact)
             }
         }
@@ -120,10 +136,13 @@ class CorrectPackagingRule @JvmOverloads constructor(
                 // The PackageExtractor implementation must have a default constructor.
                 // Fire, and handle any exceptions.
                 extractors.add(aClass.getDeclaredConstructor().newInstance() as PackageExtractor)
+
             } catch (e: Exception) {
-                throw IllegalArgumentException("Could not instantiate PackageExtractor from class ["
-                    + current + "]. Validate that implementation has a default constructor, and implements the"
-                    + PackageExtractor::class.java.simpleName + " interface.")
+
+                throw IllegalArgumentException(
+                    "Could not instantiate PackageExtractor from class ["
+                        + current + "]. Validate that implementation has a default constructor, and implements the"
+                        + PackageExtractor::class.java.simpleName + " interface.")
             }
 
         }
@@ -138,6 +157,11 @@ class CorrectPackagingRule @JvmOverloads constructor(
     // Private helpers
     //
 
+    private fun isIgnored(file: File) : Boolean = when {
+        file.isDirectory -> false
+        else -> !ignoredFileNamePatterns.any { it.matches(file.name) }
+    }
+
     /**
      * Adds all source file found by recursive search under sourceRoot to the
      * toPopulate List, using a width-first approach.
@@ -146,14 +170,17 @@ class CorrectPackagingRule @JvmOverloads constructor(
      * recursively search for further source files.
      * @param package2FileNamesMap A Map relating package names extracted by the PackageExtractors.
      */
-    private fun addPackages(fileOrDirectory: File,
-                            package2FileNamesMap: SortedMap<String, SortedSet<String>>) {
+    private fun addPackages(
+        fileOrDirectory: File,
+        package2FileNamesMap: SortedMap<String, SortedSet<String>>) {
 
         packageExtractors.forEach { current ->
 
             // Process Files first
             //
-            if (fileOrDirectory.isFile && current.sourceFileFilter.accept(fileOrDirectory)) {
+            if (fileOrDirectory.isFile
+                && current.sourceFileFilter.accept(fileOrDirectory)
+                && !isIgnored(fileOrDirectory)) {
 
                 // Single source file to add.
                 val thePackage = current.getPackage(fileOrDirectory)
@@ -177,13 +204,13 @@ class CorrectPackagingRule @JvmOverloads constructor(
             } else if (fileOrDirectory.isDirectory) {
 
                 // Add the immediate source files
-                for (currentChild in fileOrDirectory.listFiles(current.sourceFileFilter)) {
-                    addPackages(currentChild, package2FileNamesMap)
+                fileOrDirectory.listFiles(current.sourceFileFilter)?.forEach {
+                    addPackages(it, package2FileNamesMap)
                 }
 
                 // Recurse into subdirectories
-                for (currentSubdirectory in fileOrDirectory.listFiles(DIRECTORY_FILTER)) {
-                    addPackages(currentSubdirectory, package2FileNamesMap)
+                fileOrDirectory.listFiles(DIRECTORY_FILTER)?.forEach {
+                    addPackages(it, package2FileNamesMap)
                 }
             }
         }
@@ -200,5 +227,11 @@ class CorrectPackagingRule @JvmOverloads constructor(
          */
         @JvmStatic
         val DEFAULT_PACKAGE_EXTRACTORS = listOf(JavaPackageExtractor(), KotlinPackageExtractor())
+
+        /**
+         * The default List of PackageExtractors used to identify packages within found source files.
+         */
+        @JvmStatic
+        val DEFAULT_IGNORED_FILENAMES = listOf("module-info", "package-info")
     }
 }

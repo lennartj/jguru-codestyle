@@ -5,8 +5,9 @@
 
 package se.jguru.codestyle.projects.enforcer
 
-import org.junit.Assert
-import org.junit.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.Arrays
@@ -35,15 +36,19 @@ class JavaPackageExtractorTest {
         validPackages
             .map { "package $it;" }
             .forEach {
-                Assert.assertTrue("Valid package line [$it] did not match.",
-                    javaPackageRegex.matches(it))
+
+                assertThat(javaPackageRegex.matches(it))
+                    .withFailMessage("Valid package line [$it] did not match.")
+                    .isTrue()
             }
 
         invalidPackages
             .map { "package $it;" }
             .forEach {
-                Assert.assertTrue("Invalid package line [$it] did match.",
-                    !javaPackageRegex.matches(it))
+
+                assertThat(javaPackageRegex.matches(it))
+                    .withFailMessage("Invalid package line [$it] did match.")
+                    .isFalse()
             }
     }
 
@@ -59,14 +64,14 @@ class JavaPackageExtractorTest {
 
         // Act
         packageDir
-            .listFiles(unitUnderTest.sourceFileFilter)
-            .forEach { packageNames[it.name] = unitUnderTest.getPackage(it) }
+            ?.listFiles(unitUnderTest.sourceFileFilter)
+            ?.forEach { packageNames[it.name] = unitUnderTest.getPackage(it) }
 
         // Assert
-        Assert.assertEquals(3, packageNames.size.toLong())
-        Assert.assertEquals("se.jguru.nazgul.tools.codestyle", packageNames["okEvenLongerPackage.java"])
-        Assert.assertEquals("se.jguru.nazgul", packageNames["okLongerPackage.java"])
-        Assert.assertEquals("se.jguru", packageNames["okPackage.java"])
+        assertThat(packageNames.size.toLong()).isEqualTo(3)
+        assertThat(packageNames["okEvenLongerPackage.java"]).isEqualTo("se.jguru.nazgul.tools.codestyle")
+        assertThat(packageNames["okLongerPackage.java"]).isEqualTo("se.jguru.nazgul")
+        assertThat(packageNames["okPackage.java"]).isEqualTo("se.jguru")
     }
 
     @Test
@@ -86,11 +91,11 @@ class JavaPackageExtractorTest {
             .forEach { packageNames[it.name] = unitUnderTest.getPackage(it) }
 
         // Assert
-        Assert.assertEquals(1, packageNames.size.toLong())
-        Assert.assertEquals("", packageNames["nokNotAPackage.txt"])
+        assertThat(packageNames.size).isEqualTo(1)
+        assertThat(packageNames["nokNotAPackage.txt"]).isEmpty()
     }
 
-    @Test(expected = FileNotFoundException::class)
+    @Test
     fun validateExceptionOnSubmittingDirectoriesToPackageExtractor() {
 
         // Assemble
@@ -98,7 +103,9 @@ class JavaPackageExtractorTest {
         val unitUnderTest = JavaPackageExtractor()
 
         // Act
-        unitUnderTest.getPackage(File(resource.path))
+        assertThatExceptionOfType(FileNotFoundException::class.java).isThrownBy {
+            unitUnderTest.getPackage(File(resource.path))
+        }
     }
 
     //

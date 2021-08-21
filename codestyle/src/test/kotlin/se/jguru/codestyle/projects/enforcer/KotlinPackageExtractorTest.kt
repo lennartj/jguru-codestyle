@@ -5,8 +5,9 @@
 
 package se.jguru.codestyle.projects.enforcer
 
-import org.junit.Assert
-import org.junit.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.junit.jupiter.api.Test
 import java.io.File
 import java.util.Arrays
 import java.util.TreeMap
@@ -32,15 +33,19 @@ class KotlinPackageExtractorTest {
         validPackages
             .map { "package $it;" }
             .forEach {
-                Assert.assertTrue("Valid package line [$it] did not match.",
-                    kotlinPackageRegex.matches(it))
+
+                assertThat(kotlinPackageRegex.matches(it))
+                    .withFailMessage("Valid package line [$it] did not match.")
+                    .isTrue()
             }
 
         invalidPackages
             .map { "package $it;" }
             .forEach {
-                Assert.assertTrue("Invalid package line [$it] did match.",
-                    !kotlinPackageRegex.matches(it))
+
+                assertThat(kotlinPackageRegex.matches(it))
+                    .withFailMessage("Invalid package line [$it] did match.")
+                    .isFalse()
             }
     }
 
@@ -61,11 +66,11 @@ class KotlinPackageExtractorTest {
             .forEach { packageNames[it.name] = unitUnderTest.getPackage(it) }
 
         // Assert
-        Assert.assertEquals(1, packageNames.size.toLong())
-        Assert.assertEquals("", packageNames["nokNotAPackage.txt"])
+        assertThat(packageNames.size.toLong()).isEqualTo(1)
+        assertThat(packageNames["nokNotAPackage.txt"]).isEqualTo("")
     }
 
-    @Test(expected = IllegalStateException::class)
+    @Test
     fun validateExceptionOnSubmittingDirectoriesToPackageExtractor() {
 
         // Assemble
@@ -73,7 +78,9 @@ class KotlinPackageExtractorTest {
         val unitUnderTest = KotlinPackageExtractor()
 
         // Act
-        unitUnderTest.getPackage(File(resource.path))
+        assertThatExceptionOfType(IllegalStateException::class.java).isThrownBy {
+            unitUnderTest.getPackage(File(resource.path))
+        }
     }
 
     //

@@ -5,8 +5,9 @@
 
 package se.jguru.codestyle.projects
 
-import org.junit.Assert
-import org.junit.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+
 
 /**
  *
@@ -41,96 +42,94 @@ class CommonProjectTypeTest {
         val bom = MavenTestUtils.getStub("pom", "se.jguru.foo.whatever", "foo-bom")
 
         // Act & Assert
-        Assert.assertEquals(CommonProjectType.PARENT, CommonProjectType.getProjectType(parent))
-        Assert.assertEquals(CommonProjectType.REACTOR, CommonProjectType.getProjectType(reactor))
-        Assert.assertEquals(CommonProjectType.ASSEMBLY, CommonProjectType.getProjectType(assembly))
-        Assert.assertEquals(CommonProjectType.MODEL, CommonProjectType.getProjectType(model))
-        Assert.assertEquals(CommonProjectType.API, CommonProjectType.getProjectType(api))
-        Assert.assertEquals(CommonProjectType.SPI, CommonProjectType.getProjectType(spi))
-        Assert.assertEquals(CommonProjectType.IMPLEMENTATION, CommonProjectType.getProjectType(impl))
-        Assert.assertEquals(CommonProjectType.TEST, CommonProjectType.getProjectType(test))
-        Assert.assertEquals(CommonProjectType.PROOF_OF_CONCEPT, CommonProjectType.getProjectType(poc))
-        Assert.assertEquals(CommonProjectType.JEE_APPLICATION, CommonProjectType.getProjectType(war))
-        Assert.assertEquals(CommonProjectType.JEE_APPLICATION, CommonProjectType.getProjectType(ear))
-        Assert.assertEquals(CommonProjectType.JEE_APPLICATION, CommonProjectType.getProjectType(ejb))
-        Assert.assertEquals(CommonProjectType.JAVA_AGENT, CommonProjectType.getProjectType(javaAgent))
-        Assert.assertEquals(CommonProjectType.STANDALONE_APPLICATION,
-                CommonProjectType.getProjectType(standaloneApplication1))
-        Assert.assertEquals(CommonProjectType.STANDALONE_APPLICATION,
-                CommonProjectType.getProjectType(standaloneApplication2))
-        Assert.assertEquals(CommonProjectType.CODESTYLE, CommonProjectType.getProjectType(codestyle))
-        Assert.assertEquals(CommonProjectType.INTEGRATION_TEST, CommonProjectType.getProjectType(itest))
-        Assert.assertEquals(CommonProjectType.PLUGIN, CommonProjectType.getProjectType(mavenPlugin))
-        Assert.assertEquals(CommonProjectType.BILL_OF_MATERIALS, CommonProjectType.getProjectType(bom))
+        assertThat(CommonProjectType.getProjectType(parent)).isEqualTo(CommonProjectType.PARENT)
+        assertThat(CommonProjectType.getProjectType(reactor)).isEqualTo(CommonProjectType.REACTOR)
+        assertThat(CommonProjectType.getProjectType(assembly)).isEqualTo(CommonProjectType.ASSEMBLY)
+        assertThat(CommonProjectType.getProjectType(model)).isEqualTo(CommonProjectType.MODEL)
+        assertThat(CommonProjectType.getProjectType(api)).isEqualTo(CommonProjectType.API)
+        assertThat(CommonProjectType.getProjectType(spi)).isEqualTo(CommonProjectType.SPI)
+        assertThat(CommonProjectType.getProjectType(impl)).isEqualTo(CommonProjectType.IMPLEMENTATION)
+        assertThat(CommonProjectType.getProjectType(test)).isEqualTo(CommonProjectType.TEST)
+        assertThat(CommonProjectType.getProjectType(poc)).isEqualTo(CommonProjectType.PROOF_OF_CONCEPT)
+        assertThat(CommonProjectType.getProjectType(war)).isEqualTo(CommonProjectType.JEE_APPLICATION)
+        assertThat(CommonProjectType.getProjectType(ear)).isEqualTo(CommonProjectType.JEE_APPLICATION)
+        assertThat(CommonProjectType.getProjectType(ejb)).isEqualTo(CommonProjectType.JEE_APPLICATION)
+        assertThat(CommonProjectType.getProjectType(javaAgent)).isEqualTo(CommonProjectType.JAVA_AGENT)
+        assertThat(CommonProjectType.getProjectType(standaloneApplication1)).isEqualTo(CommonProjectType.STANDALONE_APPLICATION)
+        assertThat(CommonProjectType.getProjectType(standaloneApplication2)).isEqualTo(CommonProjectType.STANDALONE_APPLICATION)
+        assertThat(CommonProjectType.getProjectType(codestyle)).isEqualTo(CommonProjectType.CODESTYLE)
+        assertThat(CommonProjectType.getProjectType(itest)).isEqualTo(CommonProjectType.INTEGRATION_TEST)
+        assertThat(CommonProjectType.getProjectType(mavenPlugin)).isEqualTo(CommonProjectType.PLUGIN)
+        assertThat(CommonProjectType.getProjectType(bom)).isEqualTo(CommonProjectType.BILL_OF_MATERIALS)
     }
 
     @Test
     fun validateModelProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNull(CommonProjectType.MODEL.artifactIDNonComplianceMessage("test-foo-model"))
-        Assert.assertNotNull(CommonProjectType.MODEL.artifactIDNonComplianceMessage("model-test"))
-        Assert.assertNotNull(CommonProjectType.MODEL.artifactIDNonComplianceMessage("foo-model-test"))
+        assertThat(CommonProjectType.MODEL.artifactIDNonComplianceMessage("test-foo-model")).isNull()
+        assertThat(CommonProjectType.MODEL.artifactIDNonComplianceMessage("model-test")).isNotNull()
+        assertThat(CommonProjectType.MODEL.artifactIDNonComplianceMessage("foo-model-test")).isNotNull()
 
-        Assert.assertNull(CommonProjectType.MODEL.groupIDNonComplianceMessage("test.foo.model"))
-        Assert.assertNotNull(CommonProjectType.MODEL.groupIDNonComplianceMessage("model.test"))
-        Assert.assertNotNull(CommonProjectType.MODEL.groupIDNonComplianceMessage("foo.model.test"))
+        assertThat(CommonProjectType.MODEL.groupIDNonComplianceMessage("test.foo.model")).isNull()
+        assertThat(CommonProjectType.MODEL.groupIDNonComplianceMessage("model.test")).isNotNull()
+        assertThat(CommonProjectType.MODEL.groupIDNonComplianceMessage("foo.model.test")).isNotNull()
 
-        Assert.assertNotNull(CommonProjectType.MODEL.packagingNonComplianceMessage("pom"))
-        Assert.assertNull(CommonProjectType.MODEL.packagingNonComplianceMessage("jar"))
-        Assert.assertNull(CommonProjectType.MODEL.packagingNonComplianceMessage("bundle"))
-        Assert.assertNotNull(CommonProjectType.MODEL.packagingNonComplianceMessage("war"))
+        assertThat(CommonProjectType.MODEL.packagingNonComplianceMessage("pom")).isNotNull()
+        assertThat(CommonProjectType.MODEL.packagingNonComplianceMessage("jar")).isNull()
+        assertThat(CommonProjectType.MODEL.packagingNonComplianceMessage("bundle")).isNull()
+        assertThat(CommonProjectType.MODEL.packagingNonComplianceMessage("war")).isNotNull()
     }
 
     @Test
     fun validateReactorProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNull(CommonProjectType.REACTOR.artifactIDNonComplianceMessage("test-foo-reactor"))
-        Assert.assertNotNull(CommonProjectType.REACTOR.artifactIDNonComplianceMessage("reactor-test"))
-        Assert.assertNotNull(CommonProjectType.REACTOR.artifactIDNonComplianceMessage("foo-reactor-test"))
+        assertThat(CommonProjectType.REACTOR.artifactIDNonComplianceMessage("test-foo-reactor")).isNull()
+        assertThat(CommonProjectType.REACTOR.artifactIDNonComplianceMessage("reactor-test")).isNotNull()
+        assertThat(CommonProjectType.REACTOR.artifactIDNonComplianceMessage("foo-reactor-test")).isNotNull()
 
-        Assert.assertNull(CommonProjectType.REACTOR.groupIDNonComplianceMessage("test.foo.reactor"))
-        Assert.assertNull(CommonProjectType.REACTOR.groupIDNonComplianceMessage("reactor.test"))
-        Assert.assertNull(CommonProjectType.REACTOR.groupIDNonComplianceMessage("foo.model.test"))
+        assertThat(CommonProjectType.REACTOR.groupIDNonComplianceMessage("test.foo.reactor")).isNull()
+        assertThat(CommonProjectType.REACTOR.groupIDNonComplianceMessage("reactor.test")).isNull()
+        assertThat(CommonProjectType.REACTOR.groupIDNonComplianceMessage("foo.model.test")).isNull()
 
-        Assert.assertNull(CommonProjectType.REACTOR.packagingNonComplianceMessage("pom"))
-        Assert.assertNotNull(CommonProjectType.REACTOR.packagingNonComplianceMessage("jar"))
-        Assert.assertNotNull(CommonProjectType.REACTOR.packagingNonComplianceMessage("bundle"))
+        assertThat(CommonProjectType.REACTOR.packagingNonComplianceMessage("pom")).isNull()
+        assertThat(CommonProjectType.REACTOR.packagingNonComplianceMessage("jar")).isNotNull()
+        assertThat(CommonProjectType.REACTOR.packagingNonComplianceMessage("bundle")).isNotNull()
     }
 
     @Test
     fun validateAssemblyProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNull(CommonProjectType.ASSEMBLY.artifactIDNonComplianceMessage("test-foo-assembly"))
-        Assert.assertNotNull(CommonProjectType.ASSEMBLY.artifactIDNonComplianceMessage("assembly-test"))
-        Assert.assertNotNull(CommonProjectType.ASSEMBLY.artifactIDNonComplianceMessage("foo-assembly-test"))
+        assertThat(CommonProjectType.ASSEMBLY.artifactIDNonComplianceMessage("test-foo-assembly")).isNull()
+        assertThat(CommonProjectType.ASSEMBLY.artifactIDNonComplianceMessage("assembly-test")).isNotNull()
+        assertThat(CommonProjectType.ASSEMBLY.artifactIDNonComplianceMessage("foo-assembly-test")).isNotNull()
 
-        Assert.assertNull(CommonProjectType.ASSEMBLY.groupIDNonComplianceMessage("test.foo.assembly"))
-        Assert.assertNull(CommonProjectType.ASSEMBLY.groupIDNonComplianceMessage("assembly.test"))
-        Assert.assertNull(CommonProjectType.ASSEMBLY.groupIDNonComplianceMessage("foo.assembly.test"))
+        assertThat(CommonProjectType.ASSEMBLY.groupIDNonComplianceMessage("test.foo.assembly")).isNull()
+        assertThat(CommonProjectType.ASSEMBLY.groupIDNonComplianceMessage("assembly.test")).isNull()
+        assertThat(CommonProjectType.ASSEMBLY.groupIDNonComplianceMessage("foo.assembly.test")).isNull()
 
-        Assert.assertNull(CommonProjectType.ASSEMBLY.packagingNonComplianceMessage("pom"))
-        Assert.assertNotNull(CommonProjectType.ASSEMBLY.packagingNonComplianceMessage("jar"))
-        Assert.assertNotNull(CommonProjectType.ASSEMBLY.packagingNonComplianceMessage("bundle"))
+        assertThat(CommonProjectType.ASSEMBLY.packagingNonComplianceMessage("pom")).isNull()
+        assertThat(CommonProjectType.ASSEMBLY.packagingNonComplianceMessage("jar")).isNotNull()
+        assertThat(CommonProjectType.ASSEMBLY.packagingNonComplianceMessage("bundle")).isNotNull()
     }
 
     @Test
     fun validatePluginProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNull(CommonProjectType.PLUGIN.artifactIDNonComplianceMessage("test-foo-maven-plugin"))
-        Assert.assertNotNull(CommonProjectType.PLUGIN.artifactIDNonComplianceMessage("foo-maven-plugin-test"))
-        Assert.assertNotNull(CommonProjectType.PLUGIN.artifactIDNonComplianceMessage("foo-plugin-test"))
+        assertThat(CommonProjectType.PLUGIN.artifactIDNonComplianceMessage("test-foo-maven-plugin")).isNull()
+        assertThat(CommonProjectType.PLUGIN.artifactIDNonComplianceMessage("foo-maven-plugin-test")).isNotNull()
+        assertThat(CommonProjectType.PLUGIN.artifactIDNonComplianceMessage("foo-plugin-test")).isNotNull()
 
-        Assert.assertNull(CommonProjectType.PLUGIN.groupIDNonComplianceMessage("test.foo.plugin"))
-        Assert.assertNull(CommonProjectType.PLUGIN.groupIDNonComplianceMessage("plugin.test"))
-        Assert.assertNull(CommonProjectType.PLUGIN.groupIDNonComplianceMessage("foo.plugin.test"))
+        assertThat(CommonProjectType.PLUGIN.groupIDNonComplianceMessage("test.foo.plugin")).isNull()
+        assertThat(CommonProjectType.PLUGIN.groupIDNonComplianceMessage("plugin.test")).isNull()
+        assertThat(CommonProjectType.PLUGIN.groupIDNonComplianceMessage("foo.plugin.test")).isNull()
 
-        Assert.assertNotNull(CommonProjectType.PLUGIN.packagingNonComplianceMessage("pom"))
-        Assert.assertNull(CommonProjectType.PLUGIN.packagingNonComplianceMessage("maven-plugin"))
-        Assert.assertNotNull(CommonProjectType.PLUGIN.packagingNonComplianceMessage("bundle"))
+        assertThat(CommonProjectType.PLUGIN.packagingNonComplianceMessage("pom")).isNotNull()
+        assertThat(CommonProjectType.PLUGIN.packagingNonComplianceMessage("maven-plugin")).isNull()
+        assertThat(CommonProjectType.PLUGIN.packagingNonComplianceMessage("bundle")).isNotNull()
     }
 
     @Test
@@ -138,126 +137,126 @@ class CommonProjectTypeTest {
 
         val apiArtifactRegex = Regex(".*-api$", DefaultProjectType.IGNORE_CASE_AND_COMMENTS)
         val result = apiArtifactRegex.matches("api-test")
-        Assert.assertNotNull("nopes: $result", result)
+        assertThat(result).withFailMessage("nopes: $result").isNotNull()
 
         // Act & Assert
-        Assert.assertNull(CommonProjectType.API.artifactIDNonComplianceMessage("test-foo-api"))
-        Assert.assertNotNull(CommonProjectType.API.artifactIDNonComplianceMessage("test-api-foo"))
-        Assert.assertNotNull(CommonProjectType.API.artifactIDNonComplianceMessage("api-test"))
-        Assert.assertNotNull(CommonProjectType.API.artifactIDNonComplianceMessage(null))
+        assertThat(CommonProjectType.API.artifactIDNonComplianceMessage("test-foo-api")).isNull()
+        assertThat(CommonProjectType.API.artifactIDNonComplianceMessage("test-api-foo")).isNotNull()
+        assertThat(CommonProjectType.API.artifactIDNonComplianceMessage("api-test")).isNotNull()
+        assertThat(CommonProjectType.API.artifactIDNonComplianceMessage(null)).isNotNull()
 
-        Assert.assertNotNull(CommonProjectType.API.groupIDNonComplianceMessage("test.api.foo"))
-        Assert.assertNotNull(CommonProjectType.API.groupIDNonComplianceMessage("api.test"))
-        Assert.assertNull(CommonProjectType.API.groupIDNonComplianceMessage("test.api"))
-        Assert.assertNotNull(CommonProjectType.API.groupIDNonComplianceMessage(null))
+        assertThat(CommonProjectType.API.groupIDNonComplianceMessage("test.api.foo"))
+        assertThat(CommonProjectType.API.groupIDNonComplianceMessage("api.test")).isNotNull()
+        assertThat(CommonProjectType.API.groupIDNonComplianceMessage("test.api")).isNull()
+        assertThat(CommonProjectType.API.groupIDNonComplianceMessage(null)).isNotNull()
 
-        Assert.assertNotNull(CommonProjectType.API.packagingNonComplianceMessage("pom"))
-        Assert.assertNull(CommonProjectType.API.packagingNonComplianceMessage("jar"))
-        Assert.assertNull(CommonProjectType.API.packagingNonComplianceMessage("bundle"))
-        Assert.assertNotNull(CommonProjectType.API.packagingNonComplianceMessage(null))
-        Assert.assertNotNull(CommonProjectType.API.packagingNonComplianceMessage("war"))
+        assertThat(CommonProjectType.API.packagingNonComplianceMessage("pom")).isNotNull()
+        assertThat(CommonProjectType.API.packagingNonComplianceMessage("jar")).isNull()
+        assertThat(CommonProjectType.API.packagingNonComplianceMessage("bundle")).isNull()
+        assertThat(CommonProjectType.API.packagingNonComplianceMessage(null)).isNotNull()
+        assertThat(CommonProjectType.API.packagingNonComplianceMessage("war")).isNotNull()
     }
 
     @Test
     fun validateSpiProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNotNull(CommonProjectType.SPI.artifactIDNonComplianceMessage("test-foo-spi"))
-        Assert.assertNull(CommonProjectType.SPI.artifactIDNonComplianceMessage("test-spi-foo"))
-        Assert.assertNotNull(CommonProjectType.SPI.artifactIDNonComplianceMessage("spi-test"))
+        assertThat(CommonProjectType.SPI.artifactIDNonComplianceMessage("test-foo-spi")).isNotNull()
+        assertThat(CommonProjectType.SPI.artifactIDNonComplianceMessage("test-spi-foo")).isNull()
+        assertThat(CommonProjectType.SPI.artifactIDNonComplianceMessage("spi-test")).isNotNull()
 
-        Assert.assertNull(CommonProjectType.SPI.groupIDNonComplianceMessage("test.spi.foo"))
-        Assert.assertNotNull(CommonProjectType.SPI.groupIDNonComplianceMessage("spi.test"))
-        Assert.assertNotNull(CommonProjectType.SPI.groupIDNonComplianceMessage("test.spi"))
+        assertThat(CommonProjectType.SPI.groupIDNonComplianceMessage("test.spi.foo")).isNull()
+        assertThat(CommonProjectType.SPI.groupIDNonComplianceMessage("spi.test")).isNotNull()
+        assertThat(CommonProjectType.SPI.groupIDNonComplianceMessage("test.spi")).isNotNull()
 
-        Assert.assertNotNull(CommonProjectType.SPI.packagingNonComplianceMessage("pom"))
-        Assert.assertNull(CommonProjectType.SPI.packagingNonComplianceMessage("jar"))
-        Assert.assertNull(CommonProjectType.SPI.packagingNonComplianceMessage("bundle"))
-        Assert.assertNotNull(CommonProjectType.SPI.packagingNonComplianceMessage("war"))
+        assertThat(CommonProjectType.SPI.packagingNonComplianceMessage("pom")).isNotNull()
+        assertThat(CommonProjectType.SPI.packagingNonComplianceMessage("jar")).isNull()
+        assertThat(CommonProjectType.SPI.packagingNonComplianceMessage("bundle")).isNull()
+        assertThat(CommonProjectType.SPI.packagingNonComplianceMessage("war")).isNotNull()
     }
 
     @Test
     fun validateImplementationProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNotNull(CommonProjectType.IMPLEMENTATION.artifactIDNonComplianceMessage("test-foo-impl"))
-        Assert.assertNull(CommonProjectType.IMPLEMENTATION.artifactIDNonComplianceMessage("test-impl-foo"))
-        Assert.assertNotNull(CommonProjectType.IMPLEMENTATION.artifactIDNonComplianceMessage("impl-test"))
+        assertThat(CommonProjectType.IMPLEMENTATION.artifactIDNonComplianceMessage("test-foo-impl")).isNotNull()
+        assertThat(CommonProjectType.IMPLEMENTATION.artifactIDNonComplianceMessage("test-impl-foo")).isNull()
+        assertThat(CommonProjectType.IMPLEMENTATION.artifactIDNonComplianceMessage("impl-test")).isNotNull()
 
-        Assert.assertNull(CommonProjectType.IMPLEMENTATION.groupIDNonComplianceMessage("test.impl.foo"))
-        Assert.assertNotNull(CommonProjectType.IMPLEMENTATION.groupIDNonComplianceMessage("impl.test"))
-        Assert.assertNotNull(CommonProjectType.IMPLEMENTATION.groupIDNonComplianceMessage("test.impl"))
+        assertThat(CommonProjectType.IMPLEMENTATION.groupIDNonComplianceMessage("test.impl.foo")).isNull()
+        assertThat(CommonProjectType.IMPLEMENTATION.groupIDNonComplianceMessage("impl.test")).isNotNull()
+        assertThat(CommonProjectType.IMPLEMENTATION.groupIDNonComplianceMessage("test.impl")).isNotNull()
 
-        Assert.assertNotNull(CommonProjectType.IMPLEMENTATION.packagingNonComplianceMessage("pom"))
-        Assert.assertNull(CommonProjectType.IMPLEMENTATION.packagingNonComplianceMessage("jar"))
-        Assert.assertNull(CommonProjectType.IMPLEMENTATION.packagingNonComplianceMessage("bundle"))
-        Assert.assertNotNull(CommonProjectType.IMPLEMENTATION.packagingNonComplianceMessage("war"))
+        assertThat(CommonProjectType.IMPLEMENTATION.packagingNonComplianceMessage("pom")).isNotNull()
+        assertThat(CommonProjectType.IMPLEMENTATION.packagingNonComplianceMessage("jar")).isNull()
+        assertThat(CommonProjectType.IMPLEMENTATION.packagingNonComplianceMessage("bundle")).isNull()
+        assertThat(CommonProjectType.IMPLEMENTATION.packagingNonComplianceMessage("war")).isNotNull()
     }
 
     @Test
     fun validateTestProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNotNull(CommonProjectType.TEST.artifactIDNonComplianceMessage("test-foo-impl"))
-        Assert.assertNotNull(CommonProjectType.TEST.artifactIDNonComplianceMessage("test-impl-foo"))
-        Assert.assertNull(CommonProjectType.TEST.artifactIDNonComplianceMessage("foo-test"))
-        Assert.assertNull(CommonProjectType.TEST.artifactIDNonComplianceMessage("nazgul-core-osgi-test"))
+        assertThat(CommonProjectType.TEST.artifactIDNonComplianceMessage("test-foo-impl")).isNotNull()
+        assertThat(CommonProjectType.TEST.artifactIDNonComplianceMessage("test-impl-foo")).isNotNull()
+        assertThat(CommonProjectType.TEST.artifactIDNonComplianceMessage("foo-test")).isNull()
+        assertThat(CommonProjectType.TEST.artifactIDNonComplianceMessage("nazgul-core-osgi-test")).isNull()
 
-        Assert.assertNotNull(CommonProjectType.TEST.groupIDNonComplianceMessage("test.foo"))
-        Assert.assertNotNull(CommonProjectType.TEST.groupIDNonComplianceMessage("impl.test"))
-        Assert.assertNull(CommonProjectType.TEST.groupIDNonComplianceMessage("some.test.foo"))
-        Assert.assertNull(CommonProjectType.TEST.groupIDNonComplianceMessage("se.jguru.nazgul.test.osgi"))
+        assertThat(CommonProjectType.TEST.groupIDNonComplianceMessage("test.foo")).isNotNull()
+        assertThat(CommonProjectType.TEST.groupIDNonComplianceMessage("impl.test")).isNotNull()
+        assertThat(CommonProjectType.TEST.groupIDNonComplianceMessage("some.test.foo")).isNull()
+        assertThat(CommonProjectType.TEST.groupIDNonComplianceMessage("se.jguru.nazgul.test.osgi")).isNull()
 
-        Assert.assertNull(CommonProjectType.TEST.packagingNonComplianceMessage("bundle"))
-        Assert.assertNull(CommonProjectType.TEST.packagingNonComplianceMessage("jar"))
-        Assert.assertNull(CommonProjectType.TEST.packagingNonComplianceMessage("war"))
+        assertThat(CommonProjectType.TEST.packagingNonComplianceMessage("bundle")).isNull()
+        assertThat(CommonProjectType.TEST.packagingNonComplianceMessage("jar")).isNull()
+        assertThat(CommonProjectType.TEST.packagingNonComplianceMessage("war")).isNull()
     }
 
     @Test
     fun validateIntegrationTestProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNotNull(CommonProjectType.INTEGRATION_TEST.artifactIDNonComplianceMessage("it-foo-impl"))
-        Assert.assertNotNull(CommonProjectType.INTEGRATION_TEST.artifactIDNonComplianceMessage("test-it-foo"))
-        Assert.assertNull(CommonProjectType.INTEGRATION_TEST.artifactIDNonComplianceMessage("foo-it"))
+        assertThat(CommonProjectType.INTEGRATION_TEST.artifactIDNonComplianceMessage("it-foo-impl")).isNotNull()
+        assertThat(CommonProjectType.INTEGRATION_TEST.artifactIDNonComplianceMessage("test-it-foo")).isNotNull()
+        assertThat(CommonProjectType.INTEGRATION_TEST.artifactIDNonComplianceMessage("foo-it")).isNull()
 
-        Assert.assertNotNull(CommonProjectType.INTEGRATION_TEST.groupIDNonComplianceMessage("it.foo"))
-        Assert.assertNotNull(CommonProjectType.INTEGRATION_TEST.groupIDNonComplianceMessage("impl.it"))
-        Assert.assertNull(CommonProjectType.INTEGRATION_TEST.groupIDNonComplianceMessage("some.it.foo"))
+        assertThat(CommonProjectType.INTEGRATION_TEST.groupIDNonComplianceMessage("it.foo")).isNotNull()
+        assertThat(CommonProjectType.INTEGRATION_TEST.groupIDNonComplianceMessage("impl.it")).isNotNull()
+        assertThat(CommonProjectType.INTEGRATION_TEST.groupIDNonComplianceMessage("some.it.foo")).isNull()
     }
 
     @Test
     fun validatePocProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNotNull(CommonProjectType.PROOF_OF_CONCEPT.artifactIDNonComplianceMessage("poc-foo-impl"))
-        Assert.assertNotNull(CommonProjectType.PROOF_OF_CONCEPT.artifactIDNonComplianceMessage("test-poc-foo"))
-        Assert.assertNull(CommonProjectType.PROOF_OF_CONCEPT.artifactIDNonComplianceMessage("foo-poc"))
+        assertThat(CommonProjectType.PROOF_OF_CONCEPT.artifactIDNonComplianceMessage("poc-foo-impl")).isNotNull()
+        assertThat(CommonProjectType.PROOF_OF_CONCEPT.artifactIDNonComplianceMessage("test-poc-foo")).isNotNull()
+        assertThat(CommonProjectType.PROOF_OF_CONCEPT.artifactIDNonComplianceMessage("foo-poc")).isNull()
 
-        Assert.assertNotNull(CommonProjectType.PROOF_OF_CONCEPT.groupIDNonComplianceMessage("poc.foo"))
-        Assert.assertNotNull(CommonProjectType.PROOF_OF_CONCEPT.groupIDNonComplianceMessage("impl.poc"))
-        Assert.assertNull(CommonProjectType.PROOF_OF_CONCEPT.groupIDNonComplianceMessage("some.poc.foo"))
+        assertThat(CommonProjectType.PROOF_OF_CONCEPT.groupIDNonComplianceMessage("poc.foo")).isNotNull()
+        assertThat(CommonProjectType.PROOF_OF_CONCEPT.groupIDNonComplianceMessage("impl.poc")).isNotNull()
+        assertThat(CommonProjectType.PROOF_OF_CONCEPT.groupIDNonComplianceMessage("some.poc.foo")).isNull()
     }
 
     @Test
     fun validateCodestyleProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNotNull(CommonProjectType.CODESTYLE.artifactIDNonComplianceMessage("codestyle-foo"))
-        Assert.assertNull(CommonProjectType.CODESTYLE.artifactIDNonComplianceMessage("foo-codestyle"))
+        assertThat(CommonProjectType.CODESTYLE.artifactIDNonComplianceMessage("codestyle-foo")).isNotNull()
+        assertThat(CommonProjectType.CODESTYLE.artifactIDNonComplianceMessage("foo-codestyle")).isNull()
 
-        Assert.assertNotNull(CommonProjectType.CODESTYLE.groupIDNonComplianceMessage("codestyle.foo"))
-        Assert.assertNull(CommonProjectType.CODESTYLE.groupIDNonComplianceMessage("foo.codestyle"))
+        assertThat(CommonProjectType.CODESTYLE.groupIDNonComplianceMessage("codestyle.foo")).isNotNull()
+        assertThat(CommonProjectType.CODESTYLE.groupIDNonComplianceMessage("foo.codestyle")).isNull()
     }
 
     @Test
     fun validateExampleProjectPatterns() {
 
         // Act & Assert
-        Assert.assertNull(CommonProjectType.EXAMPLE.artifactIDNonComplianceMessage("codestyle-foo-example"))
-        Assert.assertNotNull(CommonProjectType.EXAMPLE.artifactIDNonComplianceMessage("example-codestyle"))
+        assertThat(CommonProjectType.EXAMPLE.artifactIDNonComplianceMessage("codestyle-foo-example")).isNull()
+        assertThat(CommonProjectType.EXAMPLE.artifactIDNonComplianceMessage("example-codestyle")).isNotNull()
 
-        Assert.assertNull(CommonProjectType.EXAMPLE.groupIDNonComplianceMessage("codestyle.foo.example"))
-        Assert.assertNotNull(CommonProjectType.EXAMPLE.groupIDNonComplianceMessage("foo.example.codestyle"))
+        assertThat(CommonProjectType.EXAMPLE.groupIDNonComplianceMessage("codestyle.foo.example")).isNull()
+        assertThat(CommonProjectType.EXAMPLE.groupIDNonComplianceMessage("foo.example.codestyle")).isNotNull()
     }
 }

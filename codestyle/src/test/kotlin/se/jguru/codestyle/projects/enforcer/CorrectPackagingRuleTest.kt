@@ -5,8 +5,10 @@
 
 package se.jguru.codestyle.projects.enforcer
 
-import org.junit.Assert
-import org.junit.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.assertj.core.api.Assertions.fail
+import org.junit.jupiter.api.Test
 import se.jguru.codestyle.projects.MavenTestUtils
 
 /**
@@ -21,10 +23,13 @@ class CorrectPackagingRuleTest {
         // Assemble
         val compileSourceRoot = CorrectPackagingRuleTest::class.java.classLoader.getResource(
             "testdata/project/incorrect/src/main/java")
-        Assert.assertNotNull("compileSourceRoot not found", compileSourceRoot)
+
+        assertThat(compileSourceRoot)
+            .withFailMessage("compileSourceRoot not found")
+            .isNotNull
 
         val project = MavenTestUtils.readPom("testdata/project/incorrect/pom.xml")
-        project.addCompileSourceRoot(compileSourceRoot.path)
+        project.addCompileSourceRoot(compileSourceRoot?.path)
 
         val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = CorrectPackagingRule()
@@ -34,7 +39,7 @@ class CorrectPackagingRuleTest {
 
             unitUnderTest.performValidation(project, mockHelper)
 
-            Assert.fail("CorrectPackagingRule should yield an exception for projects not " +
+            fail<Void>("CorrectPackagingRule should yield an exception for projects not " +
                 "complying with packaging rules.")
 
         } catch (e: RuleFailureException) {
@@ -42,10 +47,8 @@ class CorrectPackagingRuleTest {
             val message = e.message ?: "<none>"
 
             // Validate that the message contains the package-->fileName data
-            Assert.assertTrue(
-                message.contains("se.jguru.nazgul.tools.validation.api=[Validatable.java, package-info.java]"))
+            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.java, package-info.java]")
         }
-
     }
 
     @Test
@@ -54,7 +57,10 @@ class CorrectPackagingRuleTest {
         // Assemble
         val prefix = "testdata/kotlin/incorrect"
         val compileSourceRoot = CorrectPackagingRuleTest::class.java.classLoader.getResource("$prefix/src/main/kotlin")
-        Assert.assertNotNull("compileSourceRoot not found", compileSourceRoot)
+
+        assertThat(compileSourceRoot)
+            .withFailMessage("compileSourceRoot not found")
+            .isNotNull
 
         val project = MavenTestUtils.readPom("$prefix/pom.xml")
         project.addCompileSourceRoot(compileSourceRoot.path)
@@ -67,42 +73,44 @@ class CorrectPackagingRuleTest {
 
             unitUnderTest.performValidation(project, mockHelper)
 
-            Assert.fail("CorrectPackagingRule should yield an exception for projects not " +
+            fail<Void>("CorrectPackagingRule should yield an exception for projects not " +
                 "complying with packaging rules.")
 
         } catch (e: RuleFailureException) {
 
             val message = e.message ?: "<none>"
 
-            // Validate that the message contains the package-->fileName data
-            Assert.assertTrue(
-                message.contains("se.jguru.nazgul.tools.validation.api=[Validatable.kt]"))
+            // Should contain package-->fileName data
+            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.kt]")
         }
     }
 
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun validateExceptionOnCustomPackageExtractorDoesNotImplementPackageExtractor() {
 
         // Assemble
         val unitUnderTest = CorrectPackagingRule()
 
         // Act & Assert
-        unitUnderTest.setPackageExtractors(MockEnforcerRuleHelper::class.java.name)
+        assertThatExceptionOfType(IllegalArgumentException::class.java).isThrownBy {
+            unitUnderTest.setPackageExtractors(MockEnforcerRuleHelper::class.java.name)
+        }
     }
 
-    @Test(expected = IllegalArgumentException::class)
+    @Test
     fun validateExceptionOnCustomPackageExtractorHoldsNoDefaultConstructor() {
 
         // Assemble
         val unitUnderTest = CorrectPackagingRule()
 
         // Act & Assert
-        unitUnderTest.setPackageExtractors(IncorrectNoDefaultConstructorPackageExtractor::class.java.name)
+        assertThatExceptionOfType(IllegalArgumentException::class.java).isThrownBy {
+            unitUnderTest.setPackageExtractors(IncorrectNoDefaultConstructorPackageExtractor::class.java.name)
+        }
     }
 
     @Test
-    @Throws(Exception::class)
     fun validateAddingCustomPackageExtractor() {
 
         // Assemble
@@ -118,10 +126,45 @@ class CorrectPackagingRuleTest {
 
         @Suppress("UNCHECKED_CAST")
         val extractors = packageExtractors.get(unitUnderTest) as List<PackageExtractor>
-        Assert.assertEquals(2, extractors.size.toLong())
-        Assert.assertEquals(SillyPackageExtractor::class.java.name, extractors[0].javaClass.name)
-        Assert.assertEquals(JavaPackageExtractor::class.java.name, extractors[1].javaClass.name)
 
-        Assert.assertNotNull(unitUnderTest.getShortRuleDescription())
+        assertThat(extractors.size.toLong()).isEqualTo(2)
+        assertThat(extractors[0].javaClass.name).isEqualTo(SillyPackageExtractor::class.java.name)
+        assertThat(extractors[1].javaClass.name).isEqualTo(JavaPackageExtractor::class.java.name)
+
+        assertThat(unitUnderTest.getShortRuleDescription()).isNotNull
+    }
+
+    @Test
+    fun validateIgnoredFilesDoNotTriggerTheEnforcerRule() {
+
+        // Assemble
+        val prefix = "testdata/ignoreddiles"
+        val compileSourceRoot = CorrectPackagingRuleTest::class.java.classLoader.getResource("$prefix")
+
+        assertThat(compileSourceRoot)
+            .withFailMessage("compileSourceRoot not found")
+            .isNotNull
+
+        val project = MavenTestUtils.readPom("$prefix/pom.xml")
+        project.addCompileSourceRoot(compileSourceRoot.path)
+
+        val mockHelper = MockEnforcerRuleHelper(project)
+        val unitUnderTest = CorrectPackagingRule()
+
+        // Act & Assert
+        try {
+
+            unitUnderTest.performValidation(project, mockHelper)
+
+            fail<Void>("CorrectPackagingRule should yield an exception for projects not " +
+                           "complying with packaging rules.")
+
+        } catch (e: RuleFailureException) {
+
+            val message = e.message ?: "<none>"
+
+            // Should contain package-->fileName data
+            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.kt]")
+        }
     }
 }

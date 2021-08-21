@@ -5,8 +5,8 @@
 
 package se.jguru.codestyle.projects
 
-import org.junit.Assert
-import org.junit.Test
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
 /**
  *
@@ -22,13 +22,13 @@ class ProjectTypeTest {
         val acceptNoneProjectType = DefaultProjectType(acceptNullValues = false)
 
         // Act & Assert
-        Assert.assertNull(acceptAllProjectType.artifactIDNonComplianceMessage(null))
-        Assert.assertNull(acceptAllProjectType.groupIDNonComplianceMessage(null))
-        Assert.assertNull(acceptAllProjectType.packagingNonComplianceMessage(null))
+        assertThat(acceptAllProjectType.artifactIDNonComplianceMessage(null)).isNull()
+        assertThat(acceptAllProjectType.groupIDNonComplianceMessage(null)).isNull()
+        assertThat(acceptAllProjectType.packagingNonComplianceMessage(null)).isNull()
 
-        Assert.assertNotNull(acceptNoneProjectType.artifactIDNonComplianceMessage(null))
-        Assert.assertNotNull(acceptNoneProjectType.groupIDNonComplianceMessage(null))
-        Assert.assertNotNull(acceptNoneProjectType.packagingNonComplianceMessage(null))
+        assertThat(acceptNoneProjectType.artifactIDNonComplianceMessage(null)).isNotNull()
+        assertThat(acceptNoneProjectType.groupIDNonComplianceMessage(null)).isNotNull()
+        assertThat(acceptNoneProjectType.packagingNonComplianceMessage(null)).isNotNull()
     }
 
     @Test
@@ -38,17 +38,17 @@ class ProjectTypeTest {
         val apiProjectType = DefaultProjectType(".*-api$", ".*\\.api$", "bundle|jar")
 
         // Act & Assert
-        Assert.assertNull(apiProjectType.artifactIDNonComplianceMessage("foo.api"))
-        Assert.assertNotNull(apiProjectType.artifactIDNonComplianceMessage("foo.api.bah"))
-        Assert.assertNotNull(apiProjectType.artifactIDNonComplianceMessage(null))
+        assertThat(apiProjectType.artifactIDNonComplianceMessage("foo.api")).isNull()
+        assertThat(apiProjectType.artifactIDNonComplianceMessage("foo.api.bah")).isNotNull()
+        assertThat(apiProjectType.artifactIDNonComplianceMessage(null)).isNotNull()
 
-        Assert.assertNull(apiProjectType.groupIDNonComplianceMessage("foo-api"))
-        Assert.assertNotNull(apiProjectType.groupIDNonComplianceMessage("foo-api-bah"))
-        Assert.assertNotNull(apiProjectType.groupIDNonComplianceMessage(null))
+        assertThat(apiProjectType.groupIDNonComplianceMessage("foo-api")).isNull()
+        assertThat(apiProjectType.groupIDNonComplianceMessage("foo-api-bah")).isNotNull()
+        assertThat(apiProjectType.groupIDNonComplianceMessage(null)).isNotNull()
 
-        Assert.assertNull(apiProjectType.packagingNonComplianceMessage("bundle"))
-        Assert.assertNull(apiProjectType.packagingNonComplianceMessage("jar"))
-        Assert.assertNotNull(apiProjectType.packagingNonComplianceMessage("war"))
-        Assert.assertNotNull(apiProjectType.packagingNonComplianceMessage(null))
+        assertThat(apiProjectType.packagingNonComplianceMessage("bundle")).isNull()
+        assertThat(apiProjectType.packagingNonComplianceMessage("jar")).isNull()
+        assertThat(apiProjectType.packagingNonComplianceMessage("war")).isNotNull()
+        assertThat(apiProjectType.packagingNonComplianceMessage(null)).isNotNull()
     }
 }
