@@ -163,7 +163,7 @@
                 <!-- Eclipselink versions -->
                 <jakarta.persistence.version>2.2.3</jakarta.persistence.version>
                 <org.eclipse.persistence.version>2.7.5</org.eclipse.persistence.version>
-                <hibernate.validator.version>6.1.0.Final</hibernate.validator.version>
+                <hibernate.validator.version>7.0.1.Final</hibernate.validator.version>
             </properties>
 
             <dependencyManagement>

@@ -89,7 +89,7 @@
         <jdk.version>11</jdk.version>
         <maven.version>3.8.1</maven.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <scm.provider.version>1.11.2</scm.provider.version>
+        <scm.provider.version>1.12.0</scm.provider.version>
 
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
