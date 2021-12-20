@@ -1343,6 +1343,12 @@
                                     or in any subpackage thereof.
                                 -->
                                 <correctPackaging implementation="se.jguru.codestyle.projects.enforcer.CorrectPackagingRule" />
+
+                                <bannedDependencies>
+                                    <excludes combine.children="append">
+                                        <exclude>org.apache.logging.log4j:log4j-core:(,2.17.0)</exclude>
+                                    </excludes>
+                                </bannedDependencies>
                             </rules>
                         </configuration>
                     </execution>
