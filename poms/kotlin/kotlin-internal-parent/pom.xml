@@ -53,10 +53,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.5.21</kotlin.version>
+        <kotlin.version>1.6.20</kotlin.version>
         <kotlin.jvm.target>11</kotlin.jvm.target>
-        <kotlin.compiler.languageVersion>1.5</kotlin.compiler.languageVersion>
-        <kotlin.compiler.apiVersion>1.5</kotlin.compiler.apiVersion>
+        <kotlin.compiler.languageVersion>1.6</kotlin.compiler.languageVersion>
+        <kotlin.compiler.apiVersion>1.6</kotlin.compiler.apiVersion>
 
         <!--
             Define URL prefixes used in the various URL settings of the POM.
@@ -93,7 +93,7 @@
         <depgraph-maven-plugin.version>3.3.0</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
         <jandex.plugin.version>1.2.1</jandex.plugin.version>
-        <jandex.version>2.2.3.Final</jandex.version>
+        <jandex.version>2.4.2.Final</jandex.version>
 
         <!-- Code style properties -->
         <maven-bundle-plugin.version>5.1.2</maven-bundle-plugin.version>
@@ -103,7 +103,7 @@
         <spotbugs.plugin.version>4.2.0</spotbugs.plugin.version>
         <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
-        <clean.plugin.version>3.1.0</clean.plugin.version>
+        <clean.plugin.version>3.2.0</clean.plugin.version>
 
         <!-- Surefire configuration parameters. -->
         <surefire.memconf>-Xmx1024m</surefire.memconf>
@@ -116,17 +116,17 @@
 
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
-        <owasp-dependency-check.version>6.5.0</owasp-dependency-check.version>
+        <owasp-dependency-check.version>7.0.4</owasp-dependency-check.version>
         <owasp.failOnError>false</owasp.failOnError>
         <owasp.skip>false</owasp.skip>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
+        <maven-site-plugin.version>3.11.0</maven-site-plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
-        <versions-maven-plugin.version>2.8.1</versions-maven-plugin.version>
-        <dokka.version>1.5.31</dokka.version>
+        <versions-maven-plugin.version>2.10.0</versions-maven-plugin.version>
+        <dokka.version>1.6.10</dokka.version>
         <scm.provider.version>1.12.0</scm.provider.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     </properties>

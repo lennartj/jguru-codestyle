@@ -11,7 +11,7 @@ With frequent Kotlin releases, the Kotlin language version is often changed. To 
 used by the `kotlin-maven-plugin` (and hence the kotlin language and compiler version), change that property
 within your project on the following form:
 
-    <kotlin.version>1.5.21</kotlin.version>         
+    <kotlin.version>1.6.20</kotlin.version>         
 
 ## `kotlin.js.sourceMap` property
 

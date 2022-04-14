@@ -14,7 +14,7 @@ With frequent Kotlin releases, the Kotlin language version may change often. Hen
 supply a maven property defining the Kotlin version used within the projects. 
 The property `kotlin.version` is used by the `kotlin-maven-plugin` to define the underlying Kotlin platform:
 
-    <kotlin.version>1.5.21</kotlin.version>         
+    <kotlin.version>1.6.20</kotlin.version>         
 
 ## `kotlin.jvm.target` property
 
