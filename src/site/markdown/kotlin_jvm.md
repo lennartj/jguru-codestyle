@@ -27,32 +27,28 @@ be applied in all your artifact-generating projects:
     
 ## `kotlin.compiler.apiVersion` property
 
-By default, the jGuru Codestyle Parent POM defines the kotlin compiler to interface with Kotlin 1.4-libraries.
-This is chosen to minimize the impact of some other frameworks not yet being compliant with Kotlin 1.5-generated
-bytecode (which contains some breaking changes from its 1.3 brethren).
-If you prefer Kotlin language version 1.4, simply change this property in subprojects: 
+By default, the jGuru Codestyle Parent POM defines the kotlin compiler to interface with Kotlin 1.6-libraries.
+If you prefer another Kotlin language version, simply change this property in subprojects: 
 
     <kotlin.compiler.apiVersion>1.4</kotlin.compiler.apiVersion>
     
 ## `kotlin.compiler.languageVersion` property
 
-By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit Kotlin 1.4-compliant bytecode.
-This is chosen to minimize the impact of some other frameworks not yet being compliant with Kotlin 1.5-generated
-bytecode (which contains some breaking changes from its 1.3 brethren).
-If you prefer Kotlin language version 1.4, simply change this property in subprojects: 
+By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit Kotlin 1.6-compliant bytecode.
+If you prefer another Kotlin language version, simply change this property in subprojects: 
 
     <kotlin.compiler.languageVersion>1.4</kotlin.compiler.languageVersion>
        
 ## `dokka.version` property
 
 The Dokka Maven Plugin is the "official" documentation engine for Kotlin code. While it historically have been
-problematic generating JavaDoc JARs using the Kotlin plugin for any JVM above 1.8, the 1.4.10 strain of the Dokka
+problematic generating JavaDoc JARs using the Kotlin plugin for any JVM above 1.8, the 1.4+ strain of the Dokka
 Maven plugin works better. Still being in an Alpha release at the time of this writing, we can be confident that
 the biggest hurdle for releasing software accompanied by JavaDoc JARs for Kotlin running on Java platforms greater
 than JDK 8 seems to be coming to a close.
 
 The dokka plugin version is controlled by another property (`dokka.version`), and reads the versions of the 
-Kotlin API and language from the above mentioned properties: 
+Kotlin API and language from the above-mentioned properties: 
 
-    <dokka.version>1.5.0</dokka.version>     
+    <dokka.version>1.6.10</dokka.version>     
         

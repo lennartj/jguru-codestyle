@@ -7,10 +7,10 @@ implemented set of best-pracises to start projects quickly - and scale those pro
 development and delivery process. This is in part usability engineering for the development process, and in part a 
 lot of experience in software development ... all in one repo. 
 
-The jGuru Codestyle project provides parents and plugin configuration for 
+The jGuru Codestyle project provides parents and plugin configuration for Java and  
 [Kotlin development](http://www.kotlinlang.org), mainly on the Java Virtual Machine and JavaScript platforms.
 At the time of this writing, most code-quality maven plugins require Java sources to operate on - Kotlin equivalents 
-are currently few and far between. Also, most build-style plugins are currently geared towards the Java 8 release.
+are currently few and far between. Also, most build-style plugins are currently geared towards the Java 11 release.
 The intended structure and responsibilities of projects/artifacts within repositories could/should be ordered as 
 illustrated in the image below:
 
@@ -46,7 +46,7 @@ The main parts of the `jGuru Codestyle` build reactor are:
 
 6. **jguru-codestyle-kotlin-js-parent**. Use this POM as parent for JavaScript projects. 
 
-## "JVM" target: Java9 interoperability
+## "JVM" target: Java11+ interoperability
 
 The Jigsaw module system of Java9 is similar to OSGi and JBoss Modules in that it attempts to define how to access 
 (and limit access to) classes or resources. In this sense, the 3 module systems are similar - but the way to make 
