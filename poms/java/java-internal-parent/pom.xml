@@ -103,7 +103,7 @@
         <maven-install-plugin.version>3.1.0</maven-install-plugin.version>
 
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
-        <owasp-dependency-check.version>7.0.4</owasp-dependency-check.version>
+        <owasp-dependency-check.version>7.4.4</owasp-dependency-check.version>
         <owasp.failOnError>false</owasp.failOnError>
         <owasp.skip>false</owasp.skip>
 
@@ -132,12 +132,12 @@
         <checkstyle.excludes>**/generated/**/*,**/grammars/**/*</checkstyle.excludes>
 
         <!-- PMD configuration parameters. -->
-        <pmd.plugin.version>3.14.0</pmd.plugin.version>
-        <pmd.version>6.32.0</pmd.version>
+        <pmd.plugin.version>3.19.0</pmd.plugin.version>
+        <pmd.version>6.53.0</pmd.version>
         <pmd.ruleset>/codestyle/pmd-rules.xml</pmd.ruleset>
 
         <!-- Spotbugs configuration parameters. -->
-        <spotbugs.plugin.version>4.2.0</spotbugs.plugin.version>
+        <spotbugs.plugin.version>4.7.3.0</spotbugs.plugin.version>
         <spotbugs.only.analyze>se.jguru.*</spotbugs.only.analyze>
         <spotbugs.includeFilterFile>codestyle/spotbugs.xml</spotbugs.includeFilterFile>
         <spotbugs.excludeFilterFile>codestyle/spotbugs-excludes.xml</spotbugs.excludeFilterFile>
@@ -1191,9 +1191,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>${maven-install-plugin.version}</version>
-                    <configuration>
-                        <createChecksum>true</createChecksum>
-                    </configuration>
                 </plugin>
 
             </plugins>

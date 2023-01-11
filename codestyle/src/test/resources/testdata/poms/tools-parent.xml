@@ -44,7 +44,7 @@
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
         <cobertura.haltOnFailure>true</cobertura.haltOnFailure>
-        <pmd.plugin.version>3.14.0</pmd.plugin.version>
+        <pmd.plugin.version>3.19.0</pmd.plugin.version>
         <cobertura.plugin.version>2.5.1</cobertura.plugin.version>
         <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
         <findbugs.plugin.version>2.5.2</findbugs.plugin.version>

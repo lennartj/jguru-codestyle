@@ -80,9 +80,9 @@
 
         <!-- Code style properties -->
         <jandex-maven-plugin.version>1.2.3</jandex-maven-plugin.version>
-        <pmd.plugin.version>3.14.0</pmd.plugin.version>
+        <pmd.plugin.version>3.19.0</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
-        <spotbugs.plugin.version>4.2.0</spotbugs.plugin.version>
+        <spotbugs.plugin.version>4.7.3.0</spotbugs.plugin.version>
         <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>3.2.0</clean.plugin.version>
@@ -383,9 +383,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>${maven-install-plugin.version}</version>
-                    <configuration>
-                        <createChecksum>true</createChecksum>
-                    </configuration>
                 </plugin>
 
                 <!--
@@ -538,7 +535,7 @@
                     <stagingDirectory>${site.staging.localDirectory}</stagingDirectory>
                     <generateSitemap>true</generateSitemap>
                     <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
-                    <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
+                    <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
                 </configuration>
             </plugin>
 
