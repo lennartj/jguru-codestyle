@@ -146,7 +146,7 @@
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
 
         <!-- Surefire configuration parameters. -->
-        <surefire.memconf>-Xmx1024m -XX:MaxPermSize=512m</surefire.memconf>
+        <surefire.memconf>-Xmx1024m</surefire.memconf>
         <surefire.argLine>${surefire.memconf}</surefire.argLine>
 
         <!-- License plugin configuration parameters. -->

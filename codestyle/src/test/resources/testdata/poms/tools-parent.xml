@@ -449,7 +449,7 @@
                         <systemPropertyVariables>
                             <logging.enable>${logging.enable}</logging.enable>
                         </systemPropertyVariables>
-                        <argLine>-Dfile.encoding=UTF-8 -Xmx1024m -XX:MaxPermSize=512m</argLine>
+                        <argLine>-Dfile.encoding=UTF-8 -Xmx2048m</argLine>
                     </configuration>
                 </plugin>
                 <plugin>

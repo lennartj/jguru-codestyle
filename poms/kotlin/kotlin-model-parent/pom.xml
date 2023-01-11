@@ -129,7 +129,7 @@
 
             <properties>
                 <jpa.provider.class>org.eclipse.persistence.jpa.PersistenceProvider</jpa.provider.class>
-                <surefire.argLine>-javaagent:${basedir}/target/eclipselink.jar -Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
+                <surefire.argLine>-javaagent:${basedir}/target/eclipselink.jar -Xmx2048m</surefire.argLine>
 
                 <!-- Eclipselink versions -->
                 <jakarta.persistence.version>2.2.3</jakarta.persistence.version>
@@ -234,8 +234,8 @@
             </activation>
 
             <properties>
-                <hibernate.version>5.4.2.Final</hibernate.version>
-                <surefire.argLine>-Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
+                <hibernate.version>5.6.14.Final</hibernate.version>
+                <surefire.argLine>-Xmx2048m</surefire.argLine>
             </properties>
 
             <dependencyManagement>
@@ -312,7 +312,7 @@
             </activation>
 
             <properties>
-                <openjpa.version>3.0.0</openjpa.version>
+                <openjpa.version>3.2.2</openjpa.version>
                 <openjpa.includes>se/jguru/nazgul/**/*.class</openjpa.includes>
                 <openjpa.excludes>se/jguru/nazgul/core/xmlbinding/spi/jaxb/transport/EntityWrapper.class</openjpa.excludes>
                 <openjpa.persistenceXmlPath>weaving/openjpa/v2/${project.artifactId}-persistence.xml</openjpa.persistenceXmlPath>
