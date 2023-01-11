@@ -13,6 +13,7 @@ import org.codehaus.plexus.PlexusContainer
 import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluationException
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException
 import java.io.File
+import java.util.function.Supplier
 
 /**
  *
@@ -57,6 +58,11 @@ class MockEnforcerRuleHelper(val project: MavenProject,
 
     override fun getLog(): Log = MutableStateLog(logLevel)
 
+    @Throws(ComponentLookupException::class)
+    override fun getCache(key: String?, producer: Supplier<*>?): Any {
+        throw ComponentLookupException("Foo", "Bar", "Baz")
+    }
+
     enum class Level {
 
         WARN,
@@ -66,7 +72,7 @@ class MockEnforcerRuleHelper(val project: MavenProject,
         DEBUG
     }
 
-    class MutableStateLog(val level: Level = Level.DEBUG) : SystemStreamLog() {
+    class MutableStateLog(private val level: Level = Level.DEBUG) : SystemStreamLog() {
 
         override fun isInfoEnabled(): Boolean = level <= Level.INFO
 

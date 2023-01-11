@@ -86,23 +86,23 @@
         <!-- Build definitions and Version properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jdk.version>11</jdk.version>
-        <maven.version>3.8.4</maven.version>
+        <jdk.version>17</jdk.version>
+        <maven.version>3.8.7</maven.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <scm.provider.version>1.12.0</scm.provider.version>
 
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
         <clean.plugin.version>3.2.0</clean.plugin.version>
-        <maven-project-info-reports-plugin.version>3.1.1</maven-project-info-reports-plugin.version>
-        <versions-maven-plugin.version>2.10.0</versions-maven-plugin.version>
+        <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
+        <versions-maven-plugin.version>2.14.2</versions-maven-plugin.version>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.11.0</maven-site-plugin.version>
+        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.9</wagon-modules.version>
-        <kotlin.version>1.6.20</kotlin.version>
-        <kotlin.jvm.target>11</kotlin.jvm.target>
+        <kotlin.version>1.7.22</kotlin.version>
+        <kotlin.jvm.target>17</kotlin.jvm.target>
     </properties>
 
     <dependencies>
@@ -219,7 +219,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.4.1</version>
                     <configuration>
                         <failOnError>false</failOnError>
                         <stylesheet>java</stylesheet>
@@ -345,9 +345,9 @@
                 Used: Site lifecycle, mvn site.
             -->
             <plugin>
-                <groupId>com.github.jeluard</groupId>
+                <groupId>com.github.funthomas424242</groupId>
                 <artifactId>plantuml-maven-plugin</artifactId>
-                <version>7954</version>
+                <version>1.5.2</version>
                 <configuration>
                     <sourceFiles>
                         <directory>${basedir}</directory>
@@ -367,16 +367,11 @@
                     </execution>
                 </executions>
                 <dependencies>
-                    <!--
-                        NOTE!
-
-                        Do not upgrade the plantuml dependency above version 8030, as those plantuml releases
-                        are not binary compatible with the plugin version 7954.
-                    -->
                     <dependency>
                         <groupId>net.sourceforge.plantuml</groupId>
                         <artifactId>plantuml</artifactId>
-                        <version>8030</version>
+                        <version>1.2020.19</version>
+                        <scope>runtime</scope>
                     </dependency>
                 </dependencies>
             </plugin>

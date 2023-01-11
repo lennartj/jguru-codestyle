@@ -14,7 +14,7 @@ With frequent Kotlin releases, the Kotlin language version may change often. Hen
 supply a maven property defining the Kotlin version used within the projects. 
 The property `kotlin.version` is used by the `kotlin-maven-plugin` to define the underlying Kotlin platform:
 
-    <kotlin.version>1.6.20</kotlin.version>         
+    <kotlin.version>1.7.22</kotlin.version>         
 
 ## `kotlin.jvm.target` property
 
@@ -50,5 +50,5 @@ than JDK 8 seems to be coming to a close.
 The dokka plugin version is controlled by another property (`dokka.version`), and reads the versions of the 
 Kotlin API and language from the above-mentioned properties: 
 
-    <dokka.version>1.6.10</dokka.version>     
+    <dokka.version>1.7.20</dokka.version>     
         
