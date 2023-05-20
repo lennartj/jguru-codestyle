@@ -74,7 +74,7 @@
         <git.repo.owner>lennartj</git.repo.owner>
         <git.repo.url.prefix>https://github.com/${git.repo.owner}</git.repo.url.prefix>
         <git.scm.url.prefix>scm:git:ssh://git@github.com/${git.repo.owner}</git.scm.url.prefix>
-        <site.url.prefix>http://${git.repo.owner}.github.io</site.url.prefix>
+        <site.url.prefix>https://${git.repo.owner}.github.io</site.url.prefix>
         <site.top.url>${site.url.prefix}/${reactor.name}/Documentation/${project.version}</site.top.url>
 
         <scm.connection.url>scm:git:${git.repo.url.prefix}/${reactor.name}.git</scm.connection.url>
@@ -87,21 +87,21 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jdk.version>17</jdk.version>
-        <maven.version>3.8.7</maven.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <scm.provider.version>1.12.0</scm.provider.version>
+        <maven.version>3.9.2</maven.version>
+        <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
+        <scm.provider.version>2.0.1</scm.provider.version>
 
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
         <clean.plugin.version>3.2.0</clean.plugin.version>
-        <maven-project-info-reports-plugin.version>3.4.1</maven-project-info-reports-plugin.version>
-        <versions-maven-plugin.version>2.14.2</versions-maven-plugin.version>
+        <maven-project-info-reports-plugin.version>3.4.3</maven-project-info-reports-plugin.version>
+        <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.9</wagon-modules.version>
-        <kotlin.version>1.7.22</kotlin.version>
+        <kotlin.version>1.8.21</kotlin.version>
         <kotlin.jvm.target>17</kotlin.jvm.target>
     </properties>
 

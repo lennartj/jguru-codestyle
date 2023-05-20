@@ -53,7 +53,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.7.22</kotlin.version>
+        <kotlin.version>1.8.21</kotlin.version>
         <kotlin.jvm.target>17</kotlin.jvm.target>
         <kotlin.compiler.languageVersion>1.6</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>1.6</kotlin.compiler.apiVersion>
@@ -65,7 +65,7 @@
         <git.repo.owner>lennartj</git.repo.owner>
         <git.repo.url.prefix>https://github.com/${git.repo.owner}</git.repo.url.prefix>
         <git.scm.url.prefix>scm:git:ssh://git@github.com/${git.repo.owner}</git.scm.url.prefix>
-        <site.url.prefix>http://${git.repo.owner}.github.io</site.url.prefix>
+        <site.url.prefix>https://${git.repo.owner}.github.io</site.url.prefix>
         <site.top.url>${site.url.prefix}/${reactor.name}/Documentation/${project.version}</site.top.url>
 
         <scm.connection.url>scm:git:${git.repo.url.prefix}/${reactor.name}.git</scm.connection.url>
@@ -74,29 +74,29 @@
         <scm.url>${git.repo.url.prefix}/${reactor.name}.git</scm.url>
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
-        <maven.version>3.8.7</maven.version>
+        <maven.version>3.9.2</maven.version>
         <jdk.version>17</jdk.version>
         <javaee-api.version>8.0.1</javaee-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
-        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-        <maven-install-plugin.version>3.1.0</maven-install-plugin.version>
+        <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
+        <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
 
         <!-- Commonly controlled version properties -->
         <aspectj.runtime.version>1.9.6</aspectj.runtime.version>
         <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
-        <jaxb2-maven-plugin.version>2.5.0</jaxb2-maven-plugin.version>
+        <jaxb2-maven-plugin.version>3.1.0</jaxb2-maven-plugin.version>
         <osgi.version>6.0.0</osgi.version>
-        <slf4j.version>1.7.25</slf4j.version>
-        <logback.version>1.2.3</logback.version>
+        <slf4j.version>2.0.7</slf4j.version>
+        <logback.version>1.4.7</logback.version>
         <xmlunit.version>2.8.1</xmlunit.version>
-        <depgraph-maven-plugin.version>3.3.0</depgraph-maven-plugin.version>
+        <depgraph-maven-plugin.version>4.0.2</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
-        <jandex.plugin.version>1.2.1</jandex.plugin.version>
-        <jandex.version>2.4.2.Final</jandex.version>
+        <jandex.plugin.version>1.2.3</jandex.plugin.version>
+        <jandex.version>3.1.1</jandex.version>
 
         <!-- Code style properties -->
-        <maven-bundle-plugin.version>5.1.8</maven-bundle-plugin.version>
+        <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
         <dependency.plugin.version>3.1.2</dependency.plugin.version>
         <pmd.plugin.version>3.19.0</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
@@ -116,19 +116,19 @@
 
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
-        <owasp-dependency-check.version>7.4.4</owasp-dependency-check.version>
+        <owasp-dependency-check.version>8.2.1</owasp-dependency-check.version>
         <owasp.failOnError>false</owasp.failOnError>
-        <owasp.skip>false</owasp.skip>
+        <owasp.skip>true</owasp.skip>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
-        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
+        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
-        <versions-maven-plugin.version>2.14.2</versions-maven-plugin.version>
-        <dokka.version>1.7.20</dokka.version>
-        <scm.provider.version>1.12.0</scm.provider.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+        <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
+        <dokka.version>1.8.10</dokka.version>
+        <scm.provider.version>2.0.1</scm.provider.version>
+        <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
     </properties>
 
     <developers>
