@@ -22,7 +22,7 @@
 
     <groupId>se.jguru.codestyle.annotations</groupId>
     <artifactId>jguru-codestyle-annotations</artifactId>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>3.0.0</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
@@ -556,7 +556,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>jguru-codestyle-3.0.0</tag>
     </scm>
 
     <!--

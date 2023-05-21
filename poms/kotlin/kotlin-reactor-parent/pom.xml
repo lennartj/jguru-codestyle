@@ -16,7 +16,7 @@
     <parent>
         <groupId>se.jguru.codestyle.poms.kotlin</groupId>
         <artifactId>jguru-codestyle-poms-kotlin-reactor</artifactId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>3.0.0</version>
     </parent>
 
     <groupId>se.jguru.codestyle.poms.kotlin</groupId>
@@ -102,7 +102,7 @@
                     <dependency>
                         <groupId>se.jguru.codestyle</groupId>
                         <artifactId>jguru-codestyle</artifactId>
-                        <version>2.0.1-SNAPSHOT</version>
+                        <version>3.0.0</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -150,6 +150,6 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-      <tag>HEAD</tag>
+      <tag>jguru-codestyle-3.0.0</tag>
   </scm>
 </project>
