@@ -67,6 +67,7 @@
         <scm.url>${git.repo.url.prefix}/${reactor.name}.git</scm.url>
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
+        <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
         <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
         <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
         <jandex.plugin.version>3.1.1</jandex.plugin.version>
@@ -372,7 +373,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>5.1.8</version>
+                <version>${maven-bundle-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>bundle-manifest</id>
