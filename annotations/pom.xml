@@ -440,7 +440,6 @@
                 <version>3.4.1</version>
                 <configuration>
                     <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
             </plugin>
 
@@ -614,9 +613,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>
-                        <configuration>
-                            <updateReleaseInfo>true</updateReleaseInfo>
-                        </configuration>
                         <executions>
                             <execution>
                                 <id>default-deploy</id>

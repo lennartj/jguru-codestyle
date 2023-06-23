@@ -789,7 +789,7 @@
                             <id>default-deploy</id>
                             <phase>site-deploy</phase>
                             <goals>
-                                <goal />
+                                <goal/>
                             </goals>
                         </execution>
                     </executions>
@@ -830,10 +830,9 @@
                         <rulesets>
                             <ruleset>${pmd.ruleset}</ruleset>
                         </rulesets>
-                        <sourceEncoding>utf-8</sourceEncoding>
+                        <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
                         <printFailingErrors>true</printFailingErrors>
                         <failOnViolation>${breakOnFailure.pmd}</failOnViolation>
-                        <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
                     </configuration>
                     <executions>
                         <execution>
@@ -1534,7 +1533,7 @@
                         <ruleset>${pmd.ruleset}</ruleset>
                     </rulesets>
                     <targetJdk>${jdk.version}</targetJdk>
-                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
                 </configuration>
             </plugin>
 
@@ -1695,6 +1694,7 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
                             <!--
@@ -1706,6 +1706,7 @@
                     </plugin>
 
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <argLine>${surefire.fullArgLine}</argLine>
@@ -1713,6 +1714,7 @@
                     </plugin>
 
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <configuration>
                             <argLine>${surefire.fullArgLine}</argLine>
@@ -1747,6 +1749,7 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
                         <!--
@@ -1758,6 +1761,7 @@
                     </plugin>
 
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <argLine>${surefire.fullArgLine}</argLine>
@@ -1765,6 +1769,7 @@
                     </plugin>
 
                     <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <configuration>
                             <argLine>${surefire.fullArgLine}</argLine>
@@ -1785,9 +1790,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>
-                        <configuration>
-                            <updateReleaseInfo>true</updateReleaseInfo>
-                        </configuration>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
