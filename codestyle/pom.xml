@@ -79,7 +79,6 @@
         <jdk.version>17</jdk.version>
 
         <!-- Code style properties -->
-        <jandex-maven-plugin.version>1.2.3</jandex-maven-plugin.version>
         <pmd.plugin.version>3.19.0</pmd.plugin.version>
         <clover.plugin.version>4.2.1</clover.plugin.version>
         <spotbugs.plugin.version>4.7.3.0</spotbugs.plugin.version>
@@ -89,13 +88,13 @@
         <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
         <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
         <scm.provider.version>2.0.1</scm.provider.version>
+        <jandex.plugin.version>3.1.1</jandex.plugin.version>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
-        <jandex.version>3.1.1</jandex.version>
 
         <!-- Include Dokka -->
         <dokka.version>1.8.10</dokka.version>
@@ -407,9 +406,9 @@
                 Used: Default lifecycle, mvn process-classes.
             -->
             <plugin>
-                <groupId>org.jboss.jandex</groupId>
+                <groupId>io.smallrye</groupId>
                 <artifactId>jandex-maven-plugin</artifactId>
-                <version>${jandex-maven-plugin.version}</version>
+                <version>${jandex.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>make-index</id>
@@ -418,18 +417,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <dependencies>
-                    <!--
-                        To avoid problems, the Jandex jar version must match
-                        the version found within the runtime used.
-                        For example, this applies to the Wildfly application server.
-                    -->
-                    <dependency>
-                        <groupId>org.jboss</groupId>
-                        <artifactId>jandex</artifactId>
-                        <version>${jandex.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <!--
