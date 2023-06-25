@@ -11,6 +11,7 @@ import se.jguru.codestyle.projects.ComplianceStatusHolder
 import se.jguru.codestyle.projects.DefaultProjectType.Companion.getDefaultRegexFor
 import se.jguru.codestyle.projects.ProjectType
 import java.util.TreeMap
+import javax.inject.Named
 
 /**
  * Enforcer rule to validate ProjectType compliance, to harmonize the pom structure in terms
@@ -23,13 +24,15 @@ import java.util.TreeMap
  * @see ProjectType
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-class PermittedProjectTypeRule(
+@Suppress("LeakingThis")
+@Named("validatePermittedProjectTypes")
+open class PermittedProjectTypeRule(
 
     @SuppressWarnings("WeakerAccess")
-    val dontEvaluateGroupIds: List<Regex>,
+    open var dontEvaluateGroupIds: List<Regex>,
 
     @SuppressWarnings("WeakerAccess")
-    val permittedProjectTypes: List<ProjectType>
+    open var permittedProjectTypes: List<ProjectType>
 ) : AbstractNonCacheableEnforcerRule() {
 
     constructor() : this(mutableListOf(), CommonProjectType.values().asList())
@@ -53,7 +56,6 @@ class PermittedProjectTypeRule(
      * Delegate method, implemented by concrete subclasses.
      *
      * @param project The active MavenProject.
-     * @param helper  The EnforcerRuleHelper instance, from which the MavenProject has been retrieved.
      * @throws RuleFailureException If the enforcer rule was not satisfied.
      */
     override fun performValidation(project: MavenProject) {

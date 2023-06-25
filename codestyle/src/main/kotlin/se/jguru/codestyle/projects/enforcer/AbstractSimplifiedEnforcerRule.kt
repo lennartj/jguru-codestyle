@@ -39,7 +39,7 @@ abstract class AbstractSimplifiedEnforcerRule @JvmOverloads constructor(
     @Suppress("MemberVisibilityCanBePrivate")
     protected var cacheable = false
 
-    @Inject
+    @set:Inject
     lateinit var project: MavenProject
 
     override fun getLevel(): EnforcerLevel = enforcerLevel

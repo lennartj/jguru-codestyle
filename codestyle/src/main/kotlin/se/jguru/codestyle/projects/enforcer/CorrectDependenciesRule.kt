@@ -9,10 +9,9 @@ import org.apache.maven.artifact.Artifact
 import org.apache.maven.artifact.DefaultArtifact
 import org.apache.maven.artifact.handler.DefaultArtifactHandler
 import org.apache.maven.project.MavenProject
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import se.jguru.codestyle.projects.CommonProjectType
 import se.jguru.codestyle.projects.ProjectType
+import javax.inject.Named
 
 /**
  * Maven enforcement rule which ensures that Implementation [Artifact]s are not used as dependencies within
@@ -28,6 +27,7 @@ import se.jguru.codestyle.projects.ProjectType
  *
  * @author <a href="mailto:lj@jguru.se">Lennart J&ouml;relid</a>, jGuru Europe AB
  */
+@Named("validateCorrectDependencies")
 open class CorrectDependenciesRule @JvmOverloads constructor(
 
     val ignoredProjectTypes: List<ProjectType> = DEFAULT_IGNORED_PROJECT_TYPES,

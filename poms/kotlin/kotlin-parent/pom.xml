@@ -168,7 +168,7 @@
                                 Enforce the ProjectType structure, implying that all projects
                                 must comply with the project template definitions.
                             -->
-                            <validateProjectTypes implementation="se.jguru.codestyle.projects.enforcer.PermittedProjectTypeRule" />
+                            <validatePermittedProjectTypes/>
 
                             <!--
                                 Enforce the implementation rules for dependencies, to enforce that
@@ -180,10 +180,10 @@
                                 reproduced her to serve as an example of how to configure this enforcement rule
                                 in child reactors - where needs are likely different than here.
                             -->
-                            <restrictImplDependencies implementation="se.jguru.codestyle.projects.enforcer.CorrectDependenciesRule">
+                            <validateCorrectDependencies>
                                 <evaluateGroupIds>${enforcer.includedGroupIdPatterns}</evaluateGroupIds>
                                 <dontEvaluateGroupIds>${enforcer.excludedGroupIdPatterns}</dontEvaluateGroupIds>
-                            </restrictImplDependencies>
+                            </validateCorrectDependencies>
 
                             <!--
                                 Enforce using correct packages for classes within a NSC project.
@@ -194,7 +194,7 @@
                                 then all code within that project must reside within the "com.acme.foobar" package,
                                 or in any subpackage thereof.
                             -->
-                            <correctPackaging implementation="se.jguru.codestyle.projects.enforcer.CorrectPackagingRule" />
+                            <validateCorrectPackaging />
                         </rules>
                     </configuration>
                     <dependencies>
@@ -202,11 +202,6 @@
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
                             <version>3.0.1-SNAPSHOT</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.apache.maven.enforcer</groupId>
-                            <artifactId>enforcer-api</artifactId>
-                            <version>${enforcer.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>

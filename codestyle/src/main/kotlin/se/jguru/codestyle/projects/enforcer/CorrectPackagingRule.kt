@@ -15,6 +15,7 @@ import java.util.SortedMap
 import java.util.SortedSet
 import java.util.TreeMap
 import java.util.TreeSet
+import javax.inject.Named
 
 /**
  * Enforcer rule to enforce correct packaging for all source files within a project,
@@ -28,6 +29,7 @@ import java.util.TreeSet
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
+@Named("validateCorrectPackaging")
 class CorrectPackagingRule @JvmOverloads constructor(
     enforcerLevel: EnforcerLevel = EnforcerLevel.ERROR,
     private var packageExtractors: List<PackageExtractor> = DEFAULT_PACKAGE_EXTRACTORS,
@@ -58,7 +60,6 @@ class CorrectPackagingRule @JvmOverloads constructor(
      * Delegate method, implemented by concrete subclasses.
      *
      * @param project The active MavenProject.
-     * @param helper  The EnforcerRuleHelper instance, from which the MavenProject has been retrieved.
      * @throws RuleFailureException If the enforcer rule was not satisfied.
      */
     @Throws(RuleFailureException::class)

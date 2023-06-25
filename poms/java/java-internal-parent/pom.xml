@@ -5,7 +5,8 @@
   -->
 
 <!--suppress MavenRedundantGroupId -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -17,7 +18,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>se.jguru.codestyle.poms.java</groupId>
@@ -55,7 +56,7 @@
         <!-- Build-controlling properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <build.number />
+        <build.number/>
         <artifact.distribution.directory>${project.build.outputDirectory}</artifact.distribution.directory>
         <check.plugins.phase>package</check.plugins.phase>
         <jdk.version>17</jdk.version>
@@ -113,7 +114,8 @@
         <!-- Enforcer configuration parameters -->
         <enforcer.version>3.3.0</enforcer.version>
         <enforcer.includedGroupIdPatterns>^se\.jguru\..*</enforcer.includedGroupIdPatterns>
-        <enforcer.excludedGroupIdPatterns>^se\.jguru\..*\.generated\..*,^se\.jguru\.codestyle\..*</enforcer.excludedGroupIdPatterns>
+        <enforcer.excludedGroupIdPatterns>^se\.jguru\..*\.generated\..*,^se\.jguru\.codestyle\..*
+        </enforcer.excludedGroupIdPatterns>
 
         <!-- Openclover configuration parameters -->
         <clover.plugin.version>4.4.1</clover.plugin.version>
@@ -743,7 +745,8 @@
                     <configuration>
                         <argLine>${surefire.argLine}</argLine>
                         <parallelOptimized>true</parallelOptimized>
-                        <workingDirectory>${basedir}/target/FAILSAFE_FORK_DIRECTORY_${surefire.forkNumber}</workingDirectory>
+                        <workingDirectory>${basedir}/target/FAILSAFE_FORK_DIRECTORY_${surefire.forkNumber}
+                        </workingDirectory>
                         <redirectTestOutputToFile>true</redirectTestOutputToFile>
                     </configuration>
                     <dependencies>
@@ -986,7 +989,8 @@
                     <artifactId>license-maven-plugin</artifactId>
                     <version>2.0.0</version>
                     <configuration>
-                        <descriptionTemplate>/codestyle/license/${license.id}/licenseDescriptionTemplate.ftl</descriptionTemplate>
+                        <descriptionTemplate>/codestyle/license/${license.id}/licenseDescriptionTemplate.ftl
+                        </descriptionTemplate>
                         <failOnMissingHeader>${breakOnFailure.license}</failOnMissingHeader>
                         <licenseName>${license.id}</licenseName>
                         <licenseResolver>${license.licenseResolver}</licenseResolver>
@@ -1269,7 +1273,7 @@
                                     Enforce the ProjectType structure, implying that all projects
                                     must comply with the project template definitions.
                                 -->
-                                <validateProjectTypes implementation="se.jguru.codestyle.projects.enforcer.PermittedProjectTypeRule" />
+                                <validatePermittedProjectTypes/>
 
                                 <!--
                                     Enforce the implementation rules for dependencies, to enforce that
@@ -1281,10 +1285,10 @@
                                     reproduced her to serve as an example of how to configure this enforcement rule
                                     in child reactors - where needs are likely different than here.
                                 -->
-                                <restrictImplDependencies implementation="se.jguru.codestyle.projects.enforcer.CorrectDependenciesRule">
+                                <validateCorrectDependencies>
                                     <evaluateGroupIds>${enforcer.includedGroupIdPatterns}</evaluateGroupIds>
                                     <dontEvaluateGroupIds>${enforcer.excludedGroupIdPatterns}</dontEvaluateGroupIds>
-                                </restrictImplDependencies>
+                                </validateCorrectDependencies>
 
                                 <!--
                                     Enforce using correct packages for classes within a NSC project.
@@ -1295,7 +1299,7 @@
                                     then all code within that project must reside within the "com.acme.foobar" package,
                                     or in any subpackage thereof.
                                 -->
-                                <correctPackaging implementation="se.jguru.codestyle.projects.enforcer.CorrectPackagingRule" />
+                                <validateCorrectPackaging/>
 
                                 <bannedDependencies>
                                     <excludes combine.children="append">
@@ -1311,11 +1315,6 @@
                         <groupId>se.jguru.codestyle</groupId>
                         <artifactId>jguru-codestyle</artifactId>
                         <version>3.0.1-SNAPSHOT</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.enforcer</groupId>
-                        <artifactId>enforcer-api</artifactId>
-                        <version>${enforcer.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -1733,7 +1732,7 @@
 
             <properties>
                 <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
-                <surefire.fullArgLine />
+                <surefire.fullArgLine/>
             </properties>
 
             <dependencyManagement>
@@ -1752,10 +1751,10 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
-                        <!--
-                                Without forking compilation happens in the
-                                same process, so no arguments are applied
-                              -->
+                            <!--
+                                    Without forking compilation happens in the
+                                    same process, so no arguments are applied
+                                  -->
                             <fork>true</fork>
                         </configuration>
                     </plugin>
@@ -1806,6 +1805,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.5.0</version>
                         <configuration>
                             <failOnError>false</failOnError>
                         </configuration>
