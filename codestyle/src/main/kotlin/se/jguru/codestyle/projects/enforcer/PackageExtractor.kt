@@ -7,6 +7,7 @@ package se.jguru.codestyle.projects.enforcer
 
 import java.io.File
 import java.io.FileFilter
+import java.util.Locale
 
 /**
  * Specification for extracting a package definition from the supplied sourceFile.
@@ -45,6 +46,9 @@ abstract class AbstractSimplePackageExtractor : PackageExtractor {
          */
         const val PACKAGE_WORD = "package"
 
+        @JvmStatic
+        private val DEFAULT_LOCALE = Locale.getDefault()
+
         /**
          * Retrieves the RegExp able to match a Package statement within a java, kotlin or C++ file.
          * @param optionalSemicolonTermination if `true` the package statement may optionally be terminated by a
@@ -64,12 +68,13 @@ abstract class AbstractSimplePackageExtractor : PackageExtractor {
 
         /**
          * Utility method which retrieves a FileFilter which accepts Files whose name ends
-         * with the given suffix, case insensitive matching.
+         * with the given suffix, case-insensitive matching.
          */
         fun getSuffixFileFilter(requiredLowerCaseSuffix: String) = FileFilter { aFile ->
+
             aFile != null &&
                 aFile.isFile &&
-                aFile.name.toLowerCase().trim().endsWith(requiredLowerCaseSuffix.toLowerCase())
+                aFile.name.lowercase(DEFAULT_LOCALE).trim().endsWith(requiredLowerCaseSuffix.lowercase(DEFAULT_LOCALE))
         }
     }
 }

@@ -5,17 +5,15 @@
 
 package se.jguru.codestyle.projects.enforcer
 
+import org.apache.maven.enforcer.rule.api.AbstractEnforcerRule
 import org.apache.maven.enforcer.rule.api.EnforcerLevel
-import org.apache.maven.enforcer.rule.api.EnforcerRule
-import org.apache.maven.enforcer.rule.api.EnforcerRule2
 import org.apache.maven.enforcer.rule.api.EnforcerRuleException
-import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
-import org.codehaus.plexus.component.configurator.expression.ExpressionEvaluationException
-import java.util.ArrayList
 import java.util.StringTokenizer
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
+import javax.inject.Inject
+
 
 /**
  * Abstract Enforcer rule specification, handling some pretty printing
@@ -25,23 +23,25 @@ import java.util.regex.PatternSyntaxException
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
-abstract class AbstractEnforcerRule @JvmOverloads constructor(
+abstract class AbstractSimplifiedEnforcerRule @JvmOverloads constructor(
 
     /**
      * Assigns the EnforcerLevel of this AbstractEnforcerRule.
      *
-     * @see EnforcerRule2.getLevel
+     * @see AbstractEnforcerRule.getLevel
      */
-    protected open val enforcerLevel: EnforcerLevel = EnforcerLevel.ERROR) : EnforcerRule2 {
+    protected open val enforcerLevel: EnforcerLevel = EnforcerLevel.ERROR
+) : AbstractEnforcerRule() {
 
     /**
      * Defines if the results of this AbstractEnforcerRule is cacheable.
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var cacheable = false
 
-    /**
-     * Retrieves the enforcer level of this AbstractEnforcerRule
-     */
+    @Inject
+    lateinit var project: MavenProject
+
     override fun getLevel(): EnforcerLevel = enforcerLevel
 
     /**
@@ -49,27 +49,14 @@ abstract class AbstractEnforcerRule @JvmOverloads constructor(
      * rule fails the check. The plugin will then decide based on the fail flag if it should stop or just log the
      * message as a warning.
      *
-     * @param helper The helper provides access to the log, MavenSession and has helpers to get common components. It
-     * is also able to lookup components by class name.
      * @throws org.apache.maven.enforcer.rule.api.EnforcerRuleException the enforcer rule exception
      */
     @Throws(EnforcerRuleException::class)
-    override fun execute(helper: EnforcerRuleHelper) {
-
-        // Get the MavenProject or die trying
-        val project: MavenProject = try {
-            helper.evaluate("\${project}") as MavenProject
-        } catch (e: ExpressionEvaluationException) {
-
-            // Whoops.
-            val msg = ("Could not acquire MavenProject. (Expression lookup failure for: "
-                + e.localizedMessage + ")")
-            throw EnforcerRuleException(msg, e)
-        }
+    override fun execute() {
 
         // Delegate performing the Validation
         try {
-            performValidation(project, helper)
+            performValidation(project)
         } catch (e: RuleFailureException) {
 
             // Create a somewhat verbose failure message.
@@ -98,11 +85,10 @@ abstract class AbstractEnforcerRule @JvmOverloads constructor(
      * Delegate method, implemented by concrete subclasses.
      *
      * @param project The active MavenProject.
-     * @param helper  The EnforcerRuleHelper instance, from which the MavenProject has been retrieved.
      * @throws RuleFailureException If the enforcer rule was not satisfied.
      */
     @Throws(RuleFailureException::class)
-    abstract fun performValidation(project: MavenProject, helper: EnforcerRuleHelper)
+    abstract fun performValidation(project: MavenProject)
 
     /**
      * @return A human-readable short description for this AbstractEnforcerRule.
@@ -119,7 +105,7 @@ abstract class AbstractEnforcerRule @JvmOverloads constructor(
      *
      * @return `true` if rule is cacheable
      */
-    override fun isCacheable(): Boolean {
+    protected fun isCacheable(): Boolean {
         return cacheable
     }
 
@@ -200,19 +186,15 @@ abstract class AbstractEnforcerRule @JvmOverloads constructor(
 abstract class AbstractNonCacheableEnforcerRule @JvmOverloads constructor(
 
     /**
-     * Assigns the EnforcerLevel of this AbstractEnforcerRule.
+     * Assigns the EnforcerLevel of this AbstractNonCacheableEnforcerRule.
      *
-     * @see EnforcerRule2.getLevel
+     * @see AbstractEnforcerRule.getLevel
      */
-    lvl: EnforcerLevel = EnforcerLevel.ERROR) : AbstractEnforcerRule(lvl) {
+    lvl: EnforcerLevel = EnforcerLevel.ERROR
+) : AbstractSimplifiedEnforcerRule(lvl) {
 
     /**
      * Always returns `null`.
      */
     override fun getCacheId(): String? = null
-
-    /**
-     * Always returns `false`.
-     */
-    override fun isResultValid(cachedRule: EnforcerRule): Boolean = false
 }

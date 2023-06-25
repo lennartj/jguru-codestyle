@@ -86,7 +86,7 @@
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
-        <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.16.0</versions-maven-plugin.version>
         <scm.provider.version>2.0.1</scm.provider.version>
     </properties>
 

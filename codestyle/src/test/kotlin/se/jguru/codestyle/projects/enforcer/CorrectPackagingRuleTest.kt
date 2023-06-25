@@ -31,13 +31,13 @@ class CorrectPackagingRuleTest {
         val project = MavenTestUtils.readPom("testdata/project/incorrect/pom.xml")
         project.addCompileSourceRoot(compileSourceRoot?.path)
 
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = CorrectPackagingRule()
+        unitUnderTest.project = project
 
         // Act & Assert
         try {
 
-            unitUnderTest.performValidation(project, mockHelper)
+            unitUnderTest.performValidation(project)
 
             fail<Void>("CorrectPackagingRule should yield an exception for projects not " +
                 "complying with packaging rules.")
@@ -65,13 +65,13 @@ class CorrectPackagingRuleTest {
         val project = MavenTestUtils.readPom("$prefix/pom.xml")
         project.addCompileSourceRoot(compileSourceRoot.path)
 
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = CorrectPackagingRule()
+        unitUnderTest.project = project
 
         // Act & Assert
         try {
 
-            unitUnderTest.performValidation(project, mockHelper)
+            unitUnderTest.performValidation(project)
 
             fail<Void>("CorrectPackagingRule should yield an exception for projects not " +
                 "complying with packaging rules.")
@@ -138,8 +138,8 @@ class CorrectPackagingRuleTest {
     fun validateIgnoredFilesDoNotTriggerTheEnforcerRule() {
 
         // Assemble
-        val prefix = "testdata/ignoreddiles"
-        val compileSourceRoot = CorrectPackagingRuleTest::class.java.classLoader.getResource("$prefix")
+        val prefix = "testdata/ignoredfiles"
+        val compileSourceRoot = CorrectPackagingRuleTest::class.java.classLoader.getResource(prefix)
 
         assertThat(compileSourceRoot)
             .withFailMessage("compileSourceRoot not found")
@@ -148,13 +148,13 @@ class CorrectPackagingRuleTest {
         val project = MavenTestUtils.readPom("$prefix/pom.xml")
         project.addCompileSourceRoot(compileSourceRoot.path)
 
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = CorrectPackagingRule()
+        unitUnderTest.project = project
 
         // Act & Assert
         try {
 
-            unitUnderTest.performValidation(project, mockHelper)
+            unitUnderTest.performValidation(project)
 
             fail<Void>("CorrectPackagingRule should yield an exception for projects not " +
                            "complying with packaging rules.")
@@ -164,6 +164,7 @@ class CorrectPackagingRuleTest {
             val message = e.message ?: "<none>"
 
             // Should contain package-->fileName data
+            // Incorrect packaging detected; required [se.jguru.nazgul.tools.validation.aspect] but found package to file names: {=[module-info.java]}
             assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.kt]")
         }
     }

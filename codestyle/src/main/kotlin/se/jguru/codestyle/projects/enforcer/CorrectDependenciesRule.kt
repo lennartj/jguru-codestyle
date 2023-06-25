@@ -8,11 +8,11 @@ package se.jguru.codestyle.projects.enforcer
 import org.apache.maven.artifact.Artifact
 import org.apache.maven.artifact.DefaultArtifact
 import org.apache.maven.artifact.handler.DefaultArtifactHandler
-import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import se.jguru.codestyle.projects.CommonProjectType
 import se.jguru.codestyle.projects.ProjectType
-import java.lang.IllegalStateException
 
 /**
  * Maven enforcement rule which ensures that Implementation [Artifact]s are not used as dependencies within
@@ -28,7 +28,7 @@ import java.lang.IllegalStateException
  *
  * @author <a href="mailto:lj@jguru.se">Lennart J&ouml;relid</a>, jGuru Europe AB
  */
-class CorrectDependenciesRule @JvmOverloads constructor(
+open class CorrectDependenciesRule @JvmOverloads constructor(
 
     val ignoredProjectTypes: List<ProjectType> = DEFAULT_IGNORED_PROJECT_TYPES,
 
@@ -46,7 +46,7 @@ class CorrectDependenciesRule @JvmOverloads constructor(
 
     override fun getShortRuleDescription(): String = "Incorrect Dependency found within project."
 
-    override fun performValidation(project: MavenProject, helper: EnforcerRuleHelper) {
+    override fun performValidation(project: MavenProject) {
 
         // Acquire the ProjectType, and don't evaluate for ignored ProjectTypes.
         val projectType: ProjectType
@@ -63,7 +63,7 @@ class CorrectDependenciesRule @JvmOverloads constructor(
         if (matches(project.groupId, getIgnoreEvaluationPatterns())) {
 
             // Log somewhat
-            helper.log.debug("Ignored [" + project.groupId + ":" + project.artifactId
+            log.debug("Ignored [" + project.groupId + ":" + project.artifactId
                 + "] since its groupId was excluded from enforcement.")
             return
 
@@ -73,7 +73,7 @@ class CorrectDependenciesRule @JvmOverloads constructor(
         if (!matches(project.groupId, getEvaluationPatterns())) {
 
             // Log somewhat
-            helper.log.debug("Ignored [" + project.groupId + ":" + project.artifactId
+            log.debug("Ignored [" + project.groupId + ":" + project.artifactId
                 + "] since its groupId was not included in enforcement.")
             return
         }

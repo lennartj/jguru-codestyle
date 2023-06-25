@@ -93,7 +93,7 @@
         <maven-project-info-reports-plugin.version>3.4.3</maven-project-info-reports-plugin.version>
         <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
         <dependency.plugin.version>3.5.0</dependency.plugin.version>
-        <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.16.0</versions-maven-plugin.version>
         <jaxb2-maven-plugin.version>3.1.0</jaxb2-maven-plugin.version>
         <depgraph-maven-plugin.version>4.0.2</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>

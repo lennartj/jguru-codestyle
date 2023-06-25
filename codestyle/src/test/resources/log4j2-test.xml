@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Configuration>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%highlight{${LOG_LEVEL_PATTERN:-%5p} [%c{1}::%M]:} %msg%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <!-- By default, make the logging keep quiet -->
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <!-- Lower the logging level for relevant classes -->
+        <logger name="se.jguru.codestyle" level="DEBUG"/>
+
+        <!-- Make the frameworks shut up. -->
+        <Logger name="se.jguru.nazgul" level="WARN"/>
+        <Logger name="org.springframework" level="WARN"/>
+        <Logger name="org.hibernate" level="WARN"/>
+        <Logger name="org.eclipselink" level="WARN"/>
+        <Logger name="org.dbunit" level="WARN"/>
+    </Loggers>
+
+</Configuration>

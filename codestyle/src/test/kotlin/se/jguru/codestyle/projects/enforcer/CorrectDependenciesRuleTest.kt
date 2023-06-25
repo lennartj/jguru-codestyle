@@ -19,12 +19,12 @@ class CorrectDependenciesRuleTest {
 
         // Assemble
         val project = MavenTestUtils.readPom("testdata/poms/incorrect-bom-as-dependency.xml")
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = CorrectDependenciesRule()
+        unitUnderTest.project = project
 
         // Act & Assert
         assertThatExceptionOfType(EnforcerRuleException::class.java).isThrownBy {
-            unitUnderTest.execute(mockHelper)
+            unitUnderTest.execute()
         }
     }
 
@@ -33,13 +33,13 @@ class CorrectDependenciesRuleTest {
 
         // Assemble
         val project = MavenTestUtils.readPom("testdata/poms/incorrect-bom-as-dependency.xml")
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = CorrectDependenciesRule()
+        unitUnderTest.project = project
 
         // Act & Assert
         try {
 
-            unitUnderTest.performValidation(project, mockHelper)
+            unitUnderTest.performValidation(project)
 
             fail<Void>("CorrectPackagingRule should yield an exception for projects " +
                                            "not complying with packaging rules.")

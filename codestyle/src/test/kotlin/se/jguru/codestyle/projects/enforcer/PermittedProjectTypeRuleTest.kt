@@ -8,6 +8,8 @@ package se.jguru.codestyle.projects.enforcer
 import org.apache.maven.enforcer.rule.api.EnforcerRuleException
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import se.jguru.codestyle.projects.MavenTestUtils
 
 /**
@@ -21,11 +23,11 @@ class PermittedProjectTypeRuleTest {
 
         // Assemble
         val project = MavenTestUtils.readPom("testdata/poms/tools-parent.xml")
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = PermittedProjectTypeRule()
+        unitUnderTest.project = project
 
         // Act & Assert
-        unitUnderTest.execute(mockHelper)
+        unitUnderTest.execute()
     }
 
     @Test
@@ -33,11 +35,11 @@ class PermittedProjectTypeRuleTest {
 
         // Assemble
         val project = MavenTestUtils.readPom("testdata/poms/osgi-test-pom.xml")
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = PermittedProjectTypeRule()
+        unitUnderTest.project = project
 
         // Act & Assert
-        unitUnderTest.execute(mockHelper)
+        unitUnderTest.execute()
     }
 
     @Test
@@ -45,11 +47,11 @@ class PermittedProjectTypeRuleTest {
 
         // Assemble
         val project = MavenTestUtils.readPom("testdata/poms/aspect-project.xml")
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = PermittedProjectTypeRule()
+        unitUnderTest.project = project
 
         // Act & Assert
-        unitUnderTest.execute(mockHelper)
+        unitUnderTest.execute()
     }
 
     @Test
@@ -57,12 +59,12 @@ class PermittedProjectTypeRuleTest {
 
         // Assemble
         val project = MavenTestUtils.readPom("testdata/poms/incorrect-parent-with-modules.xml")
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = PermittedProjectTypeRule()
+        unitUnderTest.project = project
 
         // Act & Assert
         assertThatExceptionOfType(EnforcerRuleException::class.java).isThrownBy {
-            unitUnderTest.execute(mockHelper)
+            unitUnderTest.execute()
         }
     }
 
@@ -71,14 +73,14 @@ class PermittedProjectTypeRuleTest {
 
         // Assemble
         val project = MavenTestUtils.readPom("testdata/poms/incorrect-bom-has-dependencies.xml")
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = PermittedProjectTypeRule(
             listOf("^se\\.jguru\\..*\\.generated\\..*", "^se\\.jguru\\.codestyle\\..*")
         )
+        unitUnderTest.project = project
 
         // Act & Assert
         assertThatExceptionOfType(EnforcerRuleException::class.java).isThrownBy {
-            unitUnderTest.execute(mockHelper)
+            unitUnderTest.execute()
         }
     }
 
@@ -88,12 +90,18 @@ class PermittedProjectTypeRuleTest {
 
         // Assemble
         val project = MavenTestUtils.readPom("testdata/poms/correct-bom-with-ignored-dependencies.xml")
-        val mockHelper = MockEnforcerRuleHelper(project)
         val unitUnderTest = PermittedProjectTypeRule(
             listOf("^se\\.jguru\\..*\\.generated\\..*", "^se\\.jguru\\.codestyle\\..*")
         )
+        unitUnderTest.project = project
 
         // Act & Assert
-        unitUnderTest.execute(mockHelper)
+        unitUnderTest.execute()
+    }
+
+    companion object {
+
+        @JvmStatic
+        private val log: Logger = LoggerFactory.getLogger(PermittedProjectTypeRule::class.java)
     }
 }

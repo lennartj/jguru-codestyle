@@ -95,7 +95,7 @@
         <wtp.version>2.0</wtp.version>
         <clean.plugin.version>3.2.0</clean.plugin.version>
         <maven-project-info-reports-plugin.version>3.4.3</maven-project-info-reports-plugin.version>
-        <versions-maven-plugin.version>2.15.0</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.16.0</versions-maven-plugin.version>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>

@@ -5,7 +5,6 @@
 
 package se.jguru.codestyle.projects.enforcer
 
-import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
 import se.jguru.codestyle.projects.CommonProjectType
 import se.jguru.codestyle.projects.ComplianceStatusHolder
@@ -57,7 +56,7 @@ class PermittedProjectTypeRule(
      * @param helper  The EnforcerRuleHelper instance, from which the MavenProject has been retrieved.
      * @throws RuleFailureException If the enforcer rule was not satisfied.
      */
-    override fun performValidation(project: MavenProject, helper: EnforcerRuleHelper) {
+    override fun performValidation(project: MavenProject) {
 
         // Does any of the supplied project types match?
         val firstMatchingProjectType = permittedProjectTypes
@@ -90,18 +89,17 @@ class PermittedProjectTypeRule(
                 "None of the permitted ProjectTypes matched ${prettyPrint(project)}. " +
                     "\n Failure reasons per similar ProjectType:\n$closestProjectTypes")
 
-        } else if (helper.log.isDebugEnabled) {
-
-            helper.log.debug("Found matching ProjectType [$firstMatchingProjectType] " +
+        } else {
+            log.debug("Found matching ProjectType [$firstMatchingProjectType] " +
                                  "for project ${prettyPrint(project)}")
         }
     }
 
     override fun toString(): String {
 
-        val ignoreDescription = when (dontEvaluateGroupIds == null) {
+        val ignoreDescription = when (dontEvaluateGroupIds.isEmpty()) {
             true -> "ignoring no artifacts."
-            else -> "ignoring artifacts matching [${dontEvaluateGroupIds.size}] groupIDs: [" +
+            else -> "ignoring artifacts matching [${dontEvaluateGroupIds.size}] groupIDs: [" +
                 dontEvaluateGroupIds.map { it.pattern }
                     .reduce { acc, s -> "$acc, $s" } + "]"
         }

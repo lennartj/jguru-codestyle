@@ -6,7 +6,6 @@
 package se.jguru.codestyle.projects.enforcer
 
 import org.apache.maven.enforcer.rule.api.EnforcerLevel
-import org.apache.maven.enforcer.rule.api.EnforcerRuleHelper
 import org.apache.maven.project.MavenProject
 import se.jguru.codestyle.projects.DefaultProjectType
 import se.jguru.codestyle.projects.enforcer.CorrectPackagingRule.Companion.DEFAULT_PACKAGE_EXTRACTORS
@@ -63,7 +62,7 @@ class CorrectPackagingRule @JvmOverloads constructor(
      * @throws RuleFailureException If the enforcer rule was not satisfied.
      */
     @Throws(RuleFailureException::class)
-    override fun performValidation(project: MavenProject, helper: EnforcerRuleHelper) {
+    override fun performValidation(project: MavenProject) {
 
         // #1) Find all java source files, and map their packages to their names.
         //     No source roots ==> no complaining.
