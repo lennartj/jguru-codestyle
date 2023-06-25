@@ -524,10 +524,7 @@
                     </execution>
                     <execution>
                         <id>default-deploy</id>
-                        <phase>site-deploy</phase>
-                        <goals>
-                            <goal/>
-                        </goals>
+                        <phase>none</phase>
                     </execution>
                 </executions>
                 <configuration>
