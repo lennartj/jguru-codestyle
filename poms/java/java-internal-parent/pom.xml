@@ -99,6 +99,8 @@
         <depgraph-maven-plugin.version>4.0.2</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
         <jandex.plugin.version>3.1.1</jandex.plugin.version>
+        <jandex.plugin.phase>process-classes</jandex.plugin.phase>
+
         <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
         <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
 
@@ -284,6 +286,7 @@
                     <executions>
                         <execution>
                             <id>make-index</id>
+                            <phase>${jandex.plugin.phase}</phase>
                             <goals>
                                 <goal>jandex</goal>
                             </goals>
