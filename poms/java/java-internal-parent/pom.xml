@@ -5,8 +5,7 @@
   -->
 
 <!--suppress MavenRedundantGroupId -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -18,12 +17,12 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <groupId>se.jguru.codestyle.poms.java</groupId>
     <artifactId>jguru-codestyle-java-internal-parent</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.1.0</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
@@ -56,7 +55,7 @@
         <!-- Build-controlling properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <build.number/>
+        <build.number />
         <artifact.distribution.directory>${project.build.outputDirectory}</artifact.distribution.directory>
         <check.plugins.phase>package</check.plugins.phase>
         <jdk.version>17</jdk.version>
@@ -354,7 +353,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>3.0.1-SNAPSHOT</version>
+                            <version>3.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -808,7 +807,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>3.0.1-SNAPSHOT</version>
+                            <version>3.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -858,7 +857,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>3.0.1-SNAPSHOT</version>
+                            <version>3.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -901,7 +900,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>3.0.1-SNAPSHOT</version>
+                            <version>3.1.0</version>
                         </dependency>
                         <!--
                             Workaround https://github.com/jcgay/maven-color/issues/8
@@ -972,7 +971,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>3.0.1-SNAPSHOT</version>
+                            <version>3.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -1046,7 +1045,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>3.0.1-SNAPSHOT</version>
+                            <version>3.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -1131,7 +1130,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle.annotations</groupId>
                             <artifactId>jguru-codestyle-annotations</artifactId>
-                            <version>3.0.1-SNAPSHOT</version>
+                            <version>3.1.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -1273,7 +1272,7 @@
                                     Enforce the ProjectType structure, implying that all projects
                                     must comply with the project template definitions.
                                 -->
-                                <validatePermittedProjectTypes/>
+                                <validatePermittedProjectTypes />
 
                                 <!--
                                     Enforce the implementation rules for dependencies, to enforce that
@@ -1299,7 +1298,7 @@
                                     then all code within that project must reside within the "com.acme.foobar" package,
                                     or in any subpackage thereof.
                                 -->
-                                <validateCorrectPackaging/>
+                                <validateCorrectPackaging />
 
                                 <bannedDependencies>
                                     <excludes combine.children="append">
@@ -1314,7 +1313,7 @@
                     <dependency>
                         <groupId>se.jguru.codestyle</groupId>
                         <artifactId>jguru-codestyle</artifactId>
-                        <version>3.0.1-SNAPSHOT</version>
+                        <version>3.1.0</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -1659,7 +1658,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>HEAD</tag>
+        <tag>jguru-codestyle-3.1.0</tag>
     </scm>
 
     <!--
@@ -1732,7 +1731,7 @@
 
             <properties>
                 <jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
-                <surefire.fullArgLine/>
+                <surefire.fullArgLine />
             </properties>
 
             <dependencyManagement>
