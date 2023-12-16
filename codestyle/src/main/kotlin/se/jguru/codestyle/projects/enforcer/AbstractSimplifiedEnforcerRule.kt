@@ -54,7 +54,6 @@ abstract class AbstractSimplifiedEnforcerRule @JvmOverloads constructor(
     @Throws(EnforcerRuleException::class)
     override fun execute() {
 
-        // Delegate performing the Validation
         try {
             performValidation(project)
         } catch (e: RuleFailureException) {

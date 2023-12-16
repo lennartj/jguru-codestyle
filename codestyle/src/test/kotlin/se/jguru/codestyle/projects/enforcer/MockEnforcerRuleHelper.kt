@@ -42,7 +42,7 @@ class MockEnforcerRuleHelper(val project: MavenProject,
     override fun getComponentList(role: String): List<*>? = null
 
     @Throws(ComponentLookupException::class)
-    override fun <T : Any?> getComponent(clazz: Class<T>?): T {
+    override fun <T : Any?> getComponent(clazz: Class<T>?): T & Any {
         throw ComponentLookupException("Foo", "Bar", "Baz")
     }
 

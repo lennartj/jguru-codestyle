@@ -101,7 +101,7 @@
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.9</wagon-modules.version>
-        <kotlin.version>1.8.21</kotlin.version>
+        <kotlin.version>1.9.21</kotlin.version>
         <kotlin.jvm.target>17</kotlin.jvm.target>
     </properties>
 

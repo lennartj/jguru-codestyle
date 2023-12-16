@@ -35,11 +35,11 @@ open class PermittedProjectTypeRule(
     open var permittedProjectTypes: List<ProjectType>
 ) : AbstractNonCacheableEnforcerRule() {
 
-    constructor() : this(mutableListOf(), CommonProjectType.values().asList())
+    constructor() : this(mutableListOf(), CommonProjectType.entries)
 
     constructor(dontEvaluateGroupIdPatterns: List<String>) : this(
         dontEvaluateGroupIdPatterns.map { getDefaultRegexFor(it) }.toList(),
-        CommonProjectType.values().asList())
+        CommonProjectType.entries)
 
     // Internal state
     private val partialDescription = permittedProjectTypes

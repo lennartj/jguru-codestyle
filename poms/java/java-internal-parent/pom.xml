@@ -84,7 +84,7 @@
         <osgiVersion>6.0.0</osgiVersion>
         <slf4j.version>2.0.7</slf4j.version>
         <logback.version>1.4.12</logback.version>
-        <kotlin.version>1.8.21</kotlin.version>
+        <kotlin.version>1.9.21</kotlin.version>
         <clean.plugin.version>3.2.0</clean.plugin.version>
         <scm.provider.version>2.0.1</scm.provider.version>
 

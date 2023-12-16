@@ -30,14 +30,14 @@ be applied in all your artifact-generating projects:
 By default, the jGuru Codestyle Parent POM defines the kotlin compiler to interface with Kotlin 1.6-libraries.
 If you prefer another Kotlin language version, simply change this property in subprojects: 
 
-    <kotlin.compiler.apiVersion>1.8</kotlin.compiler.apiVersion>
+    <kotlin.compiler.apiVersion>1.9</kotlin.compiler.apiVersion>
     
 ## `kotlin.compiler.languageVersion` property
 
 By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit Kotlin 1.6-compliant bytecode.
 If you prefer another Kotlin language version, simply change this property in subprojects: 
 
-    <kotlin.compiler.languageVersion>1.8</kotlin.compiler.languageVersion>
+    <kotlin.compiler.languageVersion>1.9</kotlin.compiler.languageVersion>
        
 ## `dokka.version` property
 
