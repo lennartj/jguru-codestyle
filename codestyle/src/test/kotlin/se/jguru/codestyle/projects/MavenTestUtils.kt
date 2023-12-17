@@ -28,6 +28,7 @@ object MavenTestUtils {
      * @param filePath The path to the pom.xml file.
      * @return The MavenProject created from the filePath pom.
      */
+    @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     fun readPom(filePath: String): MavenProject {
 
         try {
@@ -67,10 +68,11 @@ object MavenTestUtils {
      * @param version    The version for the MavenProject to return.
      * @return a MavenProjectStub created from the supplied properties.
      */
-    fun getStub(packaging: String,
-                groupId: String,
-                artifactId: String,
-                version: String): MavenProject {
+    @Suppress("SameParameterValue", "MemberVisibilityCanBePrivate")
+    internal fun getStub(packaging: String,
+                        groupId: String,
+                        artifactId: String,
+                        version: String): MavenProject {
 
         val model = Model()
         model.modelVersion = "4.0.0"

@@ -31,7 +31,7 @@ class CorrectPackagingRuleTest {
         val project = MavenTestUtils.readPom("testdata/project/incorrect/pom.xml")
         project.addCompileSourceRoot(compileSourceRoot?.path)
 
-        val unitUnderTest = CorrectPackagingRule()
+        val unitUnderTest = CorrectPackagingRule(packageExtractors = listOf(JavaPackageExtractor()))
         unitUnderTest.project = project
 
         // Act & Assert
@@ -47,7 +47,7 @@ class CorrectPackagingRuleTest {
             val message = e.message ?: "<none>"
 
             // Validate that the message contains the package-->fileName data
-            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.java, package-info.java]")
+            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.java]")
         }
     }
 
@@ -164,8 +164,8 @@ class CorrectPackagingRuleTest {
             val message = e.message ?: "<none>"
 
             // Should contain package-->fileName data
-            // Incorrect packaging detected; required [se.jguru.nazgul.tools.validation.aspect] but found package to file names: {=[module-info.java]}
-            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.kt]")
+            // Incorrect packaging detected; required [se.jguru.nazgul.tools.validation.aspect] but found package to file names: {se.jguru.nazgul.tools.validation.api=[Validatable.java]}
+            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.java]")
         }
     }
 }

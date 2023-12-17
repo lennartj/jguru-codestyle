@@ -159,7 +159,7 @@ class CorrectPackagingRule @JvmOverloads constructor(
 
     private fun isIgnored(file: File) : Boolean = when {
         file.isDirectory -> false
-        else -> !ignoredFileNamePatterns.any { it.matches(file.name) }
+        else -> ignoredFileNamePatterns.any { it.matches(file.name) }
     }
 
     /**
@@ -218,7 +218,6 @@ class CorrectPackagingRule @JvmOverloads constructor(
 
     companion object {
 
-        // Constants
         @JvmStatic
         private val DIRECTORY_FILTER = FileFilter { candidate -> candidate.isDirectory }
 
