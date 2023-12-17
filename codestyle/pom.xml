@@ -21,7 +21,7 @@
 
     <groupId>se.jguru.codestyle</groupId>
     <artifactId>jguru-codestyle</artifactId>
-    <version>0.12.0</version>
+    <version>0.12.1-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
     <url>${site.top.url}/${path.in.reactor}</url>
@@ -736,7 +736,7 @@
         <connection>${scm.connection.url}</connection>
         <developerConnection>${scm.devConnection.url}</developerConnection>
         <url>${scm.url}</url>
-        <tag>jguru-codestyle-0.12.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <!--
