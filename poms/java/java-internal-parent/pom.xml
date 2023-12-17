@@ -82,18 +82,18 @@
         <maven.release.plugin.version>3.0.0</maven.release.plugin.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <osgiVersion>6.0.0</osgiVersion>
-        <slf4j.version>2.0.7</slf4j.version>
-        <logback.version>1.4.12</logback.version>
+        <slf4j.version>2.0.9</slf4j.version>
+        <logback.version>1.4.14</logback.version>
         <kotlin.version>1.9.21</kotlin.version>
-        <clean.plugin.version>3.2.0</clean.plugin.version>
+        <clean.plugin.version>3.3.2</clean.plugin.version>
         <scm.provider.version>2.0.1</scm.provider.version>
 
         <!-- Diverse plugin versions -->
         <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
-        <maven-project-info-reports-plugin.version>3.4.3</maven-project-info-reports-plugin.version>
-        <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
-        <dependency.plugin.version>3.5.0</dependency.plugin.version>
-        <versions-maven-plugin.version>2.16.0</versions-maven-plugin.version>
+        <maven-project-info-reports-plugin.version>3.5.0</maven-project-info-reports-plugin.version>
+        <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
+        <dependency.plugin.version>3.6.1</dependency.plugin.version>
+        <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
         <jaxb2-maven-plugin.version>3.1.0</jaxb2-maven-plugin.version>
         <depgraph-maven-plugin.version>4.0.2</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
@@ -104,7 +104,7 @@
         <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
 
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
-        <owasp-dependency-check.version>8.2.1</owasp-dependency-check.version>
+        <owasp-dependency-check.version>9.0.6</owasp-dependency-check.version>
         <owasp.failOnError>false</owasp.failOnError>
         <owasp.skip>true</owasp.skip>
 
@@ -115,31 +115,30 @@
         <!-- Enforcer configuration parameters -->
         <enforcer.version>3.3.0</enforcer.version>
         <enforcer.includedGroupIdPatterns>^se\.jguru\..*</enforcer.includedGroupIdPatterns>
-        <enforcer.excludedGroupIdPatterns>^se\.jguru\..*\.generated\..*,^se\.jguru\.codestyle\..*
-        </enforcer.excludedGroupIdPatterns>
+        <enforcer.excludedGroupIdPatterns>^se\.jguru\..*\.generated\..*,^se\.jguru\.codestyle\..*</enforcer.excludedGroupIdPatterns>
 
         <!-- Openclover configuration parameters -->
-        <clover.plugin.version>4.4.1</clover.plugin.version>
+        <clover.plugin.version>4.5.1</clover.plugin.version>
         <clover.plugin.required.percentage>80%</clover.plugin.required.percentage>
 
         <!-- AspectJ Properties -->
-        <aspectj.runtime.version>1.9.19</aspectj.runtime.version>
-        <aspectj-maven-plugin.version>1.11</aspectj-maven-plugin.version>
+        <aspectj.runtime.version>1.9.21</aspectj.runtime.version>
+        <aspectj-maven-plugin.version>1.15.0</aspectj-maven-plugin.version>
 
         <!-- Checkstyle configuration parameters. -->
-        <checkstyle.plugin.version>3.2.2</checkstyle.plugin.version>
+        <checkstyle.plugin.version>3.3.1</checkstyle.plugin.version>
         <checkstyle.config.location>codestyle/checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions.location>codestyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
         <checkstyle.violationSeverity>error</checkstyle.violationSeverity>
         <checkstyle.excludes>**/generated/**/*,**/grammars/**/*</checkstyle.excludes>
 
         <!-- PMD configuration parameters. -->
-        <pmd.plugin.version>3.21.0</pmd.plugin.version>
-        <pmd.version>7.0.0-rc2</pmd.version>
+        <pmd.plugin.version>3.21.2</pmd.plugin.version>
+        <pmd.version>7.0.0-rc4</pmd.version>
         <pmd.ruleset>/codestyle/pmd-rules.xml</pmd.ruleset>
 
         <!-- Spotbugs configuration parameters. -->
-        <spotbugs.plugin.version>4.7.3.4</spotbugs.plugin.version>
+        <spotbugs.plugin.version>4.8.2.0</spotbugs.plugin.version>
         <spotbugs.only.analyze>se.jguru.*</spotbugs.only.analyze>
         <spotbugs.includeFilterFile>codestyle/spotbugs.xml</spotbugs.includeFilterFile>
         <spotbugs.excludeFilterFile>codestyle/spotbugs-excludes.xml</spotbugs.excludeFilterFile>
@@ -1069,7 +1068,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.0</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -1090,7 +1089,7 @@
                 <plugin>
                     <groupId>org.apache.servicemix.tooling</groupId>
                     <artifactId>depends-maven-plugin</artifactId>
-                    <version>1.4.0</version>
+                    <version>1.5.0</version>
                 </plugin>
 
                 <!--

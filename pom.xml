@@ -88,14 +88,14 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jdk.version>17</jdk.version>
         <maven.version>3.9.2</maven.version>
-        <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
+        <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
         <scm.provider.version>2.0.1</scm.provider.version>
 
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
         <clean.plugin.version>3.2.0</clean.plugin.version>
-        <maven-project-info-reports-plugin.version>3.4.3</maven-project-info-reports-plugin.version>
-        <versions-maven-plugin.version>2.16.0</versions-maven-plugin.version>
+        <maven-project-info-reports-plugin.version>3.5.0</maven-project-info-reports-plugin.version>
+        <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
@@ -508,7 +508,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>
                         <configuration>
-                            <updateReleaseInfo>true</updateReleaseInfo>
+                            <deployAtEnd>true</deployAtEnd>
                         </configuration>
                         <executions>
                             <execution>
