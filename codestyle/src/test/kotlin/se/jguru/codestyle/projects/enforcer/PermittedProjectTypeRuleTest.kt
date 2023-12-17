@@ -5,12 +5,15 @@
 
 package se.jguru.codestyle.projects.enforcer
 
+import org.apache.maven.enforcer.rule.api.EnforcerLogger
 import org.apache.maven.enforcer.rule.api.EnforcerRuleException
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import se.jguru.codestyle.projects.MavenTestUtils
+import se.jguru.codestyle.projects.enforcer.se.jguru.codestyle.projects.Slf4JDelegatingEnforcerLogger
 
 /**
  *
@@ -18,13 +21,21 @@ import se.jguru.codestyle.projects.MavenTestUtils
  */
 class PermittedProjectTypeRuleTest {
 
+    private lateinit var enforcerLogger: EnforcerLogger
+
+    @BeforeEach
+    fun setupSharedState() {
+        enforcerLogger = Slf4JDelegatingEnforcerLogger(log)
+    }
+
     @Test
     fun validateCorrectPom() {
 
         // Assemble
-        val project = MavenTestUtils.readPom("testdata/poms/tools-parent.xml")
-        val unitUnderTest = PermittedProjectTypeRule()
-        unitUnderTest.project = project
+        val unitUnderTest = PermittedProjectTypeRule().apply {
+            log = enforcerLogger
+            project = MavenTestUtils.readPom("testdata/poms/tools-parent.xml")
+        }
 
         // Act & Assert
         unitUnderTest.execute()
@@ -34,9 +45,10 @@ class PermittedProjectTypeRuleTest {
     fun validateTestProjectTypePom() {
 
         // Assemble
-        val project = MavenTestUtils.readPom("testdata/poms/osgi-test-pom.xml")
-        val unitUnderTest = PermittedProjectTypeRule()
-        unitUnderTest.project = project
+        val unitUnderTest = PermittedProjectTypeRule().apply {
+            log = enforcerLogger
+            project = MavenTestUtils.readPom("testdata/poms/osgi-test-pom.xml")
+        }
 
         // Act & Assert
         unitUnderTest.execute()
@@ -46,9 +58,10 @@ class PermittedProjectTypeRuleTest {
     fun validateAspectPom() {
 
         // Assemble
-        val project = MavenTestUtils.readPom("testdata/poms/aspect-project.xml")
-        val unitUnderTest = PermittedProjectTypeRule()
-        unitUnderTest.project = project
+        val unitUnderTest = PermittedProjectTypeRule().apply {
+            log = enforcerLogger
+            project = MavenTestUtils.readPom("testdata/poms/aspect-project.xml")
+        }
 
         // Act & Assert
         unitUnderTest.execute()
@@ -58,9 +71,10 @@ class PermittedProjectTypeRuleTest {
     fun validateExceptionOnParentPomWithModules() {
 
         // Assemble
-        val project = MavenTestUtils.readPom("testdata/poms/incorrect-parent-with-modules.xml")
-        val unitUnderTest = PermittedProjectTypeRule()
-        unitUnderTest.project = project
+        val unitUnderTest = PermittedProjectTypeRule().apply {
+            log = enforcerLogger
+            project = MavenTestUtils.readPom("testdata/poms/incorrect-parent-with-modules.xml")
+        }
 
         // Act & Assert
         assertThatExceptionOfType(EnforcerRuleException::class.java).isThrownBy {
@@ -72,11 +86,13 @@ class PermittedProjectTypeRuleTest {
     fun validateExceptionOnBillOfMaterialsPomWithDependencies() {
 
         // Assemble
-        val project = MavenTestUtils.readPom("testdata/poms/incorrect-bom-has-dependencies.xml")
-        val unitUnderTest = PermittedProjectTypeRule(
-            listOf("^se\\.jguru\\..*\\.generated\\..*", "^se\\.jguru\\.codestyle\\..*")
-        )
-        unitUnderTest.project = project
+        val dontEvaluateGroupIdPatterns = listOf("^se\\.jguru\\..*\\.generated\\..*", "^se\\.jguru\\.codestyle\\..*")
+        val unitUnderTest = PermittedProjectTypeRule(dontEvaluateGroupIdPatterns)
+            .apply {
+            log = enforcerLogger
+            project = MavenTestUtils.readPom("testdata/poms/incorrect-bom-has-dependencies.xml")
+        }
+
 
         // Act & Assert
         assertThatExceptionOfType(EnforcerRuleException::class.java).isThrownBy {
@@ -89,11 +105,13 @@ class PermittedProjectTypeRuleTest {
     fun validateNoExceptionOnBomHavingIgnoredDependencies() {
 
         // Assemble
-        val project = MavenTestUtils.readPom("testdata/poms/correct-bom-with-ignored-dependencies.xml")
-        val unitUnderTest = PermittedProjectTypeRule(
-            listOf("^se\\.jguru\\..*\\.generated\\..*", "^se\\.jguru\\.codestyle\\..*")
-        )
-        unitUnderTest.project = project
+        val dontEvaluateGroupIdPatterns = listOf("^se\\.jguru\\..*\\.generated\\..*", "^se\\.jguru\\.codestyle\\..*")
+        val unitUnderTest = PermittedProjectTypeRule(dontEvaluateGroupIdPatterns)
+            .apply {
+                log = enforcerLogger
+                project = MavenTestUtils.readPom("testdata/poms/correct-bom-with-ignored-dependencies.xml")
+            }
+
 
         // Act & Assert
         unitUnderTest.execute()

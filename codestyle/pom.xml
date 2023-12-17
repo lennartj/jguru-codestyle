@@ -4,8 +4,8 @@
   ~ Copyright (c) jGuru Europe AB.
   ~ All rights reserved.
   -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -17,7 +17,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>se.jguru.codestyle</groupId>
@@ -52,15 +52,16 @@
         <path.in.reactor>codestyle</path.in.reactor>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.8.21</kotlin.version>
+        <kotlin.version>1.9.21</kotlin.version>
+        <!-- Due to https://issues.apache.org/jira/browse/MENFORCER-473, we are still limited to version 11 -->
         <kotlin.jvm.target>11</kotlin.jvm.target>
-        <kotlin.compiler.languageVersion>1.8</kotlin.compiler.languageVersion>
-        <kotlin.compiler.apiVersion>1.8</kotlin.compiler.apiVersion>
+        <kotlin.compiler.languageVersion>1.9</kotlin.compiler.languageVersion>
+        <kotlin.compiler.apiVersion>1.9</kotlin.compiler.apiVersion>
         <kotlin.plugin>jpa</kotlin.plugin>
 
         <!--
             Define URL prefixes used in the various URL settings of the POM.
-        -->
+          -->
         <github.global.server>nazgul_github</github.global.server>
         <git.repo.owner>lennartj</git.repo.owner>
         <git.repo.url.prefix>https://github.com/${git.repo.owner}</git.repo.url.prefix>
@@ -75,8 +76,8 @@
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
         <maven.version>3.9.2</maven.version>
-        <enforcer.version>3.3.0</enforcer.version>
-        <jdk.version>11</jdk.version>
+        <enforcer.version>3.4.1</enforcer.version>
+        <jdk.version>17</jdk.version>
 
         <!-- Code style properties -->
         <pmd.plugin.version>3.19.0</pmd.plugin.version>

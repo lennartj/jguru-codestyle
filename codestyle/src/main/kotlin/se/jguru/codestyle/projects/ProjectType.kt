@@ -61,8 +61,9 @@ interface ProjectType : Serializable {
      * @return `null` if the supplied MavenProject's internal structure was compliant with this ProjectType's
      * requirements, and a reason message for non-compliance if not.
      */
-    fun internalStructureNonComplianceMessage(project: MavenProject?,
-                                              dontEvaluateGroupIds : List<Regex>? = null): String?
+    fun internalStructureNonComplianceMessage(
+        project: MavenProject?,
+        dontEvaluateGroupIds: List<Regex>? = null): String?
 
     /**
      * Convenience implementation used to test whether or not a [org.apache.maven.project.MavenProject] is
@@ -72,12 +73,12 @@ interface ProjectType : Serializable {
      * @param dontEvaluateGroupIds an optional list of Regexs used to exclude evaluation from artifacts
      * whose groupIDs match any of the supplied Regexes.
      */
-    fun getComplianceStatus(project: MavenProject, dontEvaluateGroupIds : List<Regex>? = null): ComplianceStatusHolder {
+    fun getComplianceStatus(project: MavenProject, dontEvaluateGroupIds: List<Regex>? = null): ComplianceStatusHolder {
 
         val toReturn = ComplianceStatusHolder()
 
         // Check sanity: Should we evaluate this project.
-        if(dontEvaluateGroupIds != null && dontEvaluateGroupIds.any { it.matches(project.groupId) }) {
+        if (dontEvaluateGroupIds != null && dontEvaluateGroupIds.any { it.matches(project.groupId) }) {
             return toReturn
         }
 
@@ -91,7 +92,7 @@ interface ProjectType : Serializable {
     }
 
     companion object {
-        
+
         private fun representation(groupId: String?,
                                    artifactId: String?,
                                    version: String?,
@@ -136,7 +137,7 @@ interface ProjectType : Serializable {
  * @param groupIdRegex The [Regex] to identify matching Aether GroupIDs for this [ProjectType]
  * @param artifactIdRegex The [Regex] to identify matching Aether ArtifactIDs for this [ProjectType]
  * @param packagingRegex The [Regex] to identify matching Aether packaging for this [ProjectType]
- * @param acceptNullValues Indicates if received [null]s should be accepted or rejected.
+ * @param acceptNullValues Indicates if received nulls should be accepted or rejected.
  * @param id an optional ID to assign to this DefaultProjectType.
  */
 open class DefaultProjectType @JvmOverloads constructor(
@@ -151,7 +152,7 @@ open class DefaultProjectType @JvmOverloads constructor(
 
     private val id: String? = null,
 
-    protected val structureChecker: (MavenProject, List<Regex>?) -> String?) : ProjectType {
+    protected open val structureChecker: (MavenProject, List<Regex>?) -> String?) : ProjectType {
 
     /**
      * Convenience constructor using the pure String [Pattern]s instead of the full [Regex] objects.
@@ -159,12 +160,13 @@ open class DefaultProjectType @JvmOverloads constructor(
      * @see #getDefaultRegexFor
      * @see #IGNORE_CASE_AND_COMMENTS
      */
-    constructor(groupIdPattern: String? = null,
-                artifactIdPattern: String? = null,
-                packagingPattern: String? = null,
-                acceptNullValues: Boolean = false,
-                id: String? = null,
-                structureChecker: (MavenProject, List<Regex>?) -> String? = { _, _ -> null }) : this(
+    constructor(
+        groupIdPattern: String? = null,
+        artifactIdPattern: String? = null,
+        packagingPattern: String? = null,
+        acceptNullValues: Boolean = false,
+        id: String? = null,
+        structureChecker: (MavenProject, List<Regex>?) -> String? = { _, _ -> null }) : this(
         getDefaultRegexFor(groupIdPattern),
         getDefaultRegexFor(artifactIdPattern),
         getDefaultRegexFor(packagingPattern),
@@ -236,8 +238,9 @@ open class DefaultProjectType @JvmOverloads constructor(
      *
      * @see [ProjectType.packagingNonComplianceMessage]
      */
-    override fun internalStructureNonComplianceMessage(project: MavenProject?,
-                                                       dontEvaluateGroupIds: List<Regex>?): String? = when (project) {
+    override fun internalStructureNonComplianceMessage(
+        project: MavenProject?,
+        dontEvaluateGroupIds: List<Regex>?): String? = when (project) {
 
         null -> when (acceptNullValues) {
             true -> null
