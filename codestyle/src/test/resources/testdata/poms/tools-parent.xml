@@ -397,7 +397,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.5.1</version>
+                    <version>3.13.0</version>
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
@@ -755,7 +755,7 @@
                         <ruleset>/codestyle/pmd-rules.xml</ruleset>
                     </rulesets>
                     <targetJdk>${jdk.version}</targetJdk>
-                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
                 </configuration>
                 <dependencies>
                     <dependency>

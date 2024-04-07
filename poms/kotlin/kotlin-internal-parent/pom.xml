@@ -53,7 +53,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.9.21</kotlin.version>
+        <kotlin.version>1.9.22</kotlin.version>
         <kotlin.jvm.target>17</kotlin.jvm.target>
         <kotlin.compiler.languageVersion>1.9</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>1.9</kotlin.compiler.apiVersion>
@@ -82,7 +82,7 @@
         <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
 
         <!-- Commonly controlled version properties -->
-        <aspectj.runtime.version>1.9.7</aspectj.runtime.version>
+        <aspectj.runtime.version>1.9.22</aspectj.runtime.version>
         <aspectj-maven-plugin.version>1.15.0</aspectj-maven-plugin.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <jaxb2-maven-plugin.version>3.1.0</jaxb2-maven-plugin.version>
@@ -122,7 +122,7 @@
 
         <!-- Site plugin properties -->
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
-        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
         <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
@@ -773,6 +773,13 @@
                     <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
                     <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctor-parser-doxia-module</artifactId>
+                        <version>3.0.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
 
             <!--

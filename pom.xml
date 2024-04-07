@@ -101,7 +101,7 @@
         <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.9</wagon-modules.version>
-        <kotlin.version>1.9.21</kotlin.version>
+        <kotlin.version>1.9.22</kotlin.version>
         <kotlin.jvm.target>17</kotlin.jvm.target>
     </properties>
 
@@ -333,6 +333,13 @@
                     <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
                     <outputEncoding>${project.reporting.outputEncoding}</outputEncoding>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctor-parser-doxia-module</artifactId>
+                        <version>3.0.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
 
             <!--
