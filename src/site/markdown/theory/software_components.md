@@ -13,7 +13,7 @@ therefore defines a software component in a more specific way.
 
 A Nazgul Software Component is implemented as a set of collaborating Maven projects,
 each with a separate role/purpose. The overall purpose of the software component is to
-[reduce dependency tanglements](scalability/tanglements.html) and to improve
+[reduce dependency tanglements](tanglements.md) and to improve
 architecture/usability by design.
 
 A NSC has a set of publicly available projects which act as the interface of the NSC - normally an API project
