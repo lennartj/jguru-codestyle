@@ -14,7 +14,7 @@ With frequent Kotlin releases, the Kotlin language version may change often. Hen
 supply a maven property defining the Kotlin version used within the projects. 
 The property `kotlin.version` is used by the `kotlin-maven-plugin` to define the underlying Kotlin platform:
 
-    <kotlin.version>1.7.22</kotlin.version>         
+    <kotlin.version>2.1.10</kotlin.version>         
 
 ## `kotlin.jvm.target` property
 
@@ -27,17 +27,17 @@ be applied in all your artifact-generating projects:
     
 ## `kotlin.compiler.apiVersion` property
 
-By default, the jGuru Codestyle Parent POM defines the kotlin compiler to interface with Kotlin 1.6-libraries.
+By default, the jGuru Codestyle Parent POM defines the kotlin compiler to interface with Kotlin 2.1-libraries.
 If you prefer another Kotlin language version, simply change this property in subprojects: 
 
-    <kotlin.compiler.apiVersion>1.8</kotlin.compiler.apiVersion>
+    <kotlin.compiler.apiVersion>2.0</kotlin.compiler.apiVersion>
     
 ## `kotlin.compiler.languageVersion` property
 
-By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit Kotlin 1.6-compliant bytecode.
+By default, the jGuru Codestyle Parent POM defines the kotlin compiler to emit Kotlin 1.9-compliant bytecode.
 If you prefer another Kotlin language version, simply change this property in subprojects: 
 
-    <kotlin.compiler.languageVersion>1.8</kotlin.compiler.languageVersion>
+    <kotlin.compiler.languageVersion>2.0</kotlin.compiler.languageVersion>
        
 ## `dokka.version` property
 
@@ -50,5 +50,5 @@ than JDK 8 seems to be coming to a close.
 The dokka plugin version is controlled by another property (`dokka.version`), and reads the versions of the 
 Kotlin API and language from the above-mentioned properties: 
 
-    <dokka.version>1.7.20</dokka.version>     
+    <dokka.version>2.0.0</dokka.version>     
         

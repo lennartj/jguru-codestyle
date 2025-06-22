@@ -10,12 +10,39 @@ import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.assertj.core.api.Assertions.fail
 import org.junit.jupiter.api.Test
 import se.jguru.codestyle.projects.MavenTestUtils
+import se.jguru.codestyle.projects.enforcer.CorrectPackagingRule.Companion.DEFAULT_IGNORED_FILENAMES
+import se.jguru.codestyle.projects.enforcer.CorrectPackagingRule.Companion.isIgnored
+import se.jguru.codestyle.projects.enforcer.CorrectPackagingRule.Companion.synthesizeRegExpsFor
+import java.io.File
 
 /**
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 class CorrectPackagingRuleTest {
+
+    @Test
+    fun validateIgnoringFilePatterns() {
+
+        // Assemble
+        val fileName2Expectancy = mapOf(
+            "module-info.java" to true,
+            "module-inf.java" to false,
+            "module-" to false,
+            "module-info.something.something" to true,
+            "package-info.java" to true,
+            "package-inf.java" to false,
+            "package-info.something.something" to true,
+        )
+        val ignoredFilePatterns = synthesizeRegExpsFor(DEFAULT_IGNORED_FILENAMES)
+
+        // Act & Assert
+        fileName2Expectancy.forEach { fileName, expectedResult ->
+
+            assertThat(ignoredFilePatterns.any { it.matches(fileName) }).isEqualTo(expectedResult)
+            assertThat(isIgnored(File("", fileName), ignoredFilePatterns)).isEqualTo(expectedResult)
+        }
+    }
 
     @Test
     fun validateExceptionOnIncorrectSourceCodePackaging() {
@@ -47,7 +74,7 @@ class CorrectPackagingRuleTest {
             val message = e.message ?: "<none>"
 
             // Validate that the message contains the package-->fileName data
-            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.java, package-info.java]")
+            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.java]")
         }
     }
 
@@ -57,6 +84,7 @@ class CorrectPackagingRuleTest {
         // Assemble
         val prefix = "testdata/kotlin/incorrect"
         val compileSourceRoot = CorrectPackagingRuleTest::class.java.classLoader.getResource("$prefix/src/main/kotlin")
+            ?: throw IllegalStateException("No test resource found.")
 
         assertThat(compileSourceRoot)
             .withFailMessage("compileSourceRoot not found")
@@ -140,6 +168,7 @@ class CorrectPackagingRuleTest {
         // Assemble
         val prefix = "testdata/ignoredfiles"
         val compileSourceRoot = CorrectPackagingRuleTest::class.java.classLoader.getResource(prefix)
+            ?: throw IllegalStateException("No test resource found.")
 
         assertThat(compileSourceRoot)
             .withFailMessage("compileSourceRoot not found")
@@ -165,7 +194,7 @@ class CorrectPackagingRuleTest {
 
             // Should contain package-->fileName data
             // Incorrect packaging detected; required [se.jguru.nazgul.tools.validation.aspect] but found package to file names: {=[module-info.java]}
-            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.kt]")
+            assertThat(message).contains("se.jguru.nazgul.tools.validation.api=[Validatable.java]")
         }
     }
 }

@@ -66,7 +66,7 @@ open class PermittedProjectTypeRule(
 
         if (firstMatchingProjectType == null) {
 
-            // Emit failure message for the ProjectTypes "closest" to this one
+            // Emit a failure message for the ProjectTypes "closest" to this one
             val projectFailureDistanceMap = TreeMap<Int, MutableList<Pair<ComplianceStatusHolder, ProjectType>>>()
             permittedProjectTypes.forEach { pt ->
 
@@ -92,8 +92,10 @@ open class PermittedProjectTypeRule(
                     "\n Failure reasons per similar ProjectType:\n$closestProjectTypes")
 
         } else {
-            log.debug("Found matching ProjectType [$firstMatchingProjectType] " +
-                                 "for project ${prettyPrint(project)}")
+            if(log != null && log.isDebugEnabled) {
+                log.debug("Found matching ProjectType [$firstMatchingProjectType] " +
+                              "for project ${prettyPrint(project)}")
+            }
         }
     }
 

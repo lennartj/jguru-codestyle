@@ -37,18 +37,7 @@ class CorrectPackagingRule @JvmOverloads constructor(
 ) : AbstractNonCacheableEnforcerRule(enforcerLevel) {
 
     private val ignoredFileNamePatterns: List<Regex> by lazy {
-
-        val toReturn = mutableListOf<Regex>()
-
-        if (ignoredFileNames.isNotEmpty()) {
-
-            ignoredFileNames
-                .map { DefaultProjectType.getDefaultRegexFor("${it}.*") }
-                .forEach { toReturn.add(it) }
-        }
-
-        // All Done.
-        toReturn
+        synthesizeRegExpsFor(ignoredFileNames)
     }
 
     /**
@@ -65,7 +54,7 @@ class CorrectPackagingRule @JvmOverloads constructor(
     @Throws(RuleFailureException::class)
     override fun performValidation(project: MavenProject) {
 
-        // #1) Find all java source files, and map their packages to their names.
+        // #1) Find all java source files and map their packages to their names.
         //     No source roots ==> no complaining.
         //
         val compileSourceRoots = project.compileSourceRoots
@@ -134,10 +123,10 @@ class CorrectPackagingRule @JvmOverloads constructor(
                 val aClass = javaClass.classLoader.loadClass(current)
 
                 // The PackageExtractor implementation must have a default constructor.
-                // Fire, and handle any exceptions.
+                // Fire and handle any exceptions.
                 extractors.add(aClass.getDeclaredConstructor().newInstance() as PackageExtractor)
 
-            } catch (e: Exception) {
+            } catch (_: Exception) {
 
                 throw IllegalArgumentException(
                     "Could not instantiate PackageExtractor from class ["
@@ -148,7 +137,7 @@ class CorrectPackagingRule @JvmOverloads constructor(
         }
 
         // Assign if non-null.
-        if (extractors.size > 0) {
+        if (extractors.isNotEmpty()) {
             this.packageExtractors = extractors
         }
     }
@@ -156,11 +145,6 @@ class CorrectPackagingRule @JvmOverloads constructor(
     //
     // Private helpers
     //
-
-    private fun isIgnored(file: File) : Boolean = when {
-        file.isDirectory -> false
-        else -> !ignoredFileNamePatterns.any { it.matches(file.name) }
-    }
 
     /**
      * Adds all source file found by recursive search under sourceRoot to the
@@ -180,7 +164,7 @@ class CorrectPackagingRule @JvmOverloads constructor(
             //
             if (fileOrDirectory.isFile
                 && current.sourceFileFilter.accept(fileOrDirectory)
-                && !isIgnored(fileOrDirectory)) {
+                && !isIgnored(fileOrDirectory, ignoredFileNamePatterns)) {
 
                 // Single source file to add.
                 val thePackage = current.getPackage(fileOrDirectory)
@@ -204,9 +188,11 @@ class CorrectPackagingRule @JvmOverloads constructor(
             } else if (fileOrDirectory.isDirectory) {
 
                 // Add the immediate source files
-                fileOrDirectory.listFiles(current.sourceFileFilter)?.forEach {
-                    addPackages(it, package2FileNamesMap)
-                }
+                fileOrDirectory.listFiles(current.sourceFileFilter)
+                    ?.filter { it.isFile && it.canRead() && !isIgnored(it, ignoredFileNamePatterns) }
+                    ?.forEach {
+                        addPackages(it, package2FileNamesMap)
+                    }
 
                 // Recurse into subdirectories
                 fileOrDirectory.listFiles(DIRECTORY_FILTER)?.forEach {
@@ -233,5 +219,32 @@ class CorrectPackagingRule @JvmOverloads constructor(
          */
         @JvmStatic
         val DEFAULT_IGNORED_FILENAMES = listOf("module-info", "package-info")
+
+        @JvmStatic
+        internal fun isIgnored(file: File, ignoredFileNamePatterns: List<Regex>) : Boolean = when {
+            file.isDirectory -> false
+            else -> ignoredFileNamePatterns.any { it.matches(file.name) }
+        }
+
+        /**
+         * Converts the supplied list of filenames to corresponding Regex
+         *
+         * @param fileNames File names to convert by adding <code>.*</code>, so pre-matching.
+         * @return A list of Regexs for the filenames.
+         */
+        @JvmStatic
+        internal fun synthesizeRegExpsFor(fileNames: List<String>) : List<Regex> {
+            val toReturn = mutableListOf<Regex>()
+
+            if (fileNames.isNotEmpty()) {
+
+                fileNames
+                    .map { DefaultProjectType.getDefaultRegexFor("${it}.*") }
+                    .forEach { toReturn.add(it) }
+            }
+
+            // All Done.
+            return toReturn
+        }
     }
 }

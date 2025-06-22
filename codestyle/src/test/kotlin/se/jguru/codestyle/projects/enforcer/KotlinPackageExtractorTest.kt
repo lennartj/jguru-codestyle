@@ -9,7 +9,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
 import java.io.File
-import java.util.Arrays
 import java.util.TreeMap
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties
@@ -25,8 +24,8 @@ class KotlinPackageExtractorTest {
     fun validatePackagePatternMatching() {
 
         // Assemble
-        val validPackages = Arrays.asList("se", "se.jguru", "se.jguru.nazgul")
-        val invalidPackages = Arrays.asList("se.", "se..jguru", ".se.jguru.nazgul")
+        val validPackages = listOf("se", "se.jguru", "se.jguru.nazgul")
+        val invalidPackages = listOf("se.", "se..jguru", ".se.jguru.nazgul")
         val kotlinPackageRegex = getRegexFrom(KotlinPackageExtractor())
 
         // Act & Assert
@@ -55,6 +54,7 @@ class KotlinPackageExtractorTest {
         // Assemble
         val resource = KotlinPackageExtractorTest::class.java.getResource(
             "/testdata/packages/lang_kotlin/incorrect/nokNotAPackage.txt")
+            ?: throw IllegalStateException("No test resource found.")
         val packageDir = File(resource.path).parentFile
 
         val unitUnderTest = KotlinPackageExtractor()
@@ -75,6 +75,7 @@ class KotlinPackageExtractorTest {
 
         // Assemble
         val resource = KotlinPackageExtractorTest::class.java.getResource("/testdata/kotlin/incorrect")
+            ?: throw IllegalStateException("No test resource found.")
         val unitUnderTest = KotlinPackageExtractor()
 
         // Act

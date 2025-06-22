@@ -52,8 +52,8 @@
         <path.in.reactor>codestyle</path.in.reactor>
 
         <!-- Kotlin constants -->
-        <kotlin.version>1.8.21</kotlin.version>
-        <kotlin.jvm.target>11</kotlin.jvm.target>
+        <kotlin.version>2.1.20</kotlin.version>
+        <kotlin.jvm.target>17</kotlin.jvm.target>
         <kotlin.compiler.languageVersion>1.8</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>1.8</kotlin.compiler.apiVersion>
         <kotlin.plugin>jpa</kotlin.plugin>
@@ -74,9 +74,13 @@
         <scm.url>${git.repo.url.prefix}/${reactor.name}.git</scm.url>
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
-        <maven.version>3.9.2</maven.version>
-        <enforcer.version>3.3.0</enforcer.version>
-        <jdk.version>11</jdk.version>
+        <maven.version>3.9.10</maven.version>
+        <enforcer.version>3.5.0</enforcer.version>
+        <jdk.version>17</jdk.version>
+
+        <!-- Surefire configuration -->
+        <surefire.memconf>-Xmx1024m</surefire.memconf>
+        <surefire.argLine>${surefire.memconf}</surefire.argLine>
 
         <!-- Code style properties -->
         <pmd.plugin.version>3.19.0</pmd.plugin.version>
@@ -85,19 +89,19 @@
         <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>3.2.0</clean.plugin.version>
-        <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
-        <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
-        <scm.provider.version>2.0.1</scm.provider.version>
-        <jandex.plugin.version>3.1.1</jandex.plugin.version>
+        <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+        <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
+        <scm.provider.version>2.1.0</scm.provider.version>
+        <jandex.plugin.version>3.3.1</jandex.plugin.version>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
+        <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
-        <versions-maven-plugin.version>2.16.0</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 
         <!-- Include Dokka -->
-        <dokka.version>1.8.20</dokka.version>
+        <dokka.version>2.0.0</dokka.version>
     </properties>
 
     <developers>
@@ -155,22 +159,34 @@
             <version>2.1.1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.maven.shared</groupId>
+            <groupId>org.apache.maven.plugin-testing</groupId>
             <artifactId>maven-plugin-testing-harness</artifactId>
-            <version>1.1</version>
+            <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.10.0-M1</version>
+            <version>5.13.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.13.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.13.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.24.2</version>
+            <version>3.27.3</version>
             <scope>test</scope>
         </dependency>
 
@@ -191,15 +207,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.20.0</version>
+            <version>2.25.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -215,6 +225,25 @@
 
         <pluginManagement>
             <plugins>
+
+                <!--
+                Define the version of the Surefire plugin
+
+                Why:  Ensure we have a recent enough surefire to use parallellism properly
+                When: Standard lifecycle, test phase
+                -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.22.0</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <argLine>${surefire.argLine}</argLine>
+                        <parallelOptimized>true</parallelOptimized>
+                        <workingDirectory>${basedir}/target/FORK_DIRECTORY_${surefire.forkNumber}</workingDirectory>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    </configuration>
+                </plugin>
 
                 <!--
                     Up the version of the source plugin.
@@ -339,7 +368,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5.3</version>
+                    <version>3.1.1</version>
                     <configuration combine.self="override">
                         <arguments>-Pjguru-release</arguments>
                         <mavenExecutorId>forked-path</mavenExecutorId>
@@ -406,7 +435,7 @@
                 <plugin>
                     <groupId>org.apache.servicemix.tooling</groupId>
                     <artifactId>depends-maven-plugin</artifactId>
-                    <version>1.4.0</version>
+                    <version>1.5.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -557,7 +586,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>5.1.8</version>
+                <version>5.1.9</version>
                 <executions>
                     <execution>
                         <id>bundle-manifest</id>
@@ -668,7 +697,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.6.0</version>
             </plugin>
 
             <!--

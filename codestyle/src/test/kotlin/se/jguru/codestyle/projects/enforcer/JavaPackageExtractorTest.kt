@@ -10,7 +10,6 @@ import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.io.FileNotFoundException
-import java.util.Arrays
 import java.util.TreeMap
 import kotlin.reflect.KProperty
 import kotlin.reflect.full.declaredMemberProperties
@@ -28,8 +27,8 @@ class JavaPackageExtractorTest {
     fun validatePackagePatternMatching() {
 
         // Assemble
-        val validPackages = Arrays.asList("se", "se.jguru", "se.jguru.nazgul")
-        val invalidPackages = Arrays.asList("se.", "se..jguru", ".se.jguru.nazgul")
+        val validPackages = listOf("se", "se.jguru", "se.jguru.nazgul")
+        val invalidPackages = listOf("se.", "se..jguru", ".se.jguru.nazgul")
         val javaPackageRegex = getRegexFrom(JavaPackageExtractor())
 
         // Act & Assert
@@ -56,7 +55,8 @@ class JavaPackageExtractorTest {
     fun validatePatternExtraction() {
 
         // Assemble
-        val resource = JavaPackageExtractorTest::class.java.getResource(JAVA_PACKAGES + "/okPackage.java")
+        val resource = JavaPackageExtractorTest::class.java.getResource("$JAVA_PACKAGES/okPackage.java")
+            ?: throw IllegalStateException("No test resource found.")
         val packageDir = File(resource.path).parentFile
 
         val unitUnderTest = JavaPackageExtractor()
@@ -80,6 +80,7 @@ class JavaPackageExtractorTest {
         // Assemble
         val resource = JavaPackageExtractorTest::class.java.getResource(
             "$JAVA_PACKAGES/incorrect/nokNotAPackage.txt")
+            ?: throw IllegalStateException("No test resource found.")
         val packageDir = File(resource.path).parentFile
 
         val unitUnderTest = JavaPackageExtractor()
@@ -100,6 +101,7 @@ class JavaPackageExtractorTest {
 
         // Assemble
         val resource = JavaPackageExtractorTest::class.java.getResource("$JAVA_PACKAGES/incorrect")
+            ?: throw IllegalStateException("No test resource found.")
         val unitUnderTest = JavaPackageExtractor()
 
         // Act
