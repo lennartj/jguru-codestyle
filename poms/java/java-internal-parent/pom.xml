@@ -79,29 +79,29 @@
         <!-- Version number properties -->
         <maven.version>3.9.2</maven.version>
         <openjpa.version>2.4.0</openjpa.version>
-        <maven.release.plugin.version>3.0.1</maven.release.plugin.version>
-        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+        <maven.release.plugin.version>3.1.1</maven.release.plugin.version>
+        <maven.compiler.plugin.version>3.14.0</maven.compiler.plugin.version>
         <osgiVersion>6.0.0</osgiVersion>
         <slf4j.version>2.0.9</slf4j.version>
-        <logback.version>1.4.14</logback.version>
-        <kotlin.version>1.9.22</kotlin.version>
-        <clean.plugin.version>3.3.2</clean.plugin.version>
-        <scm.provider.version>2.0.1</scm.provider.version>
+        <logback.version>1.5.18</logback.version>
+        <kotlin.version>2.1.21</kotlin.version>
+        <clean.plugin.version>3.5.0</clean.plugin.version>
+        <scm.provider.version>2.1.0</scm.provider.version>
 
         <!-- Diverse plugin versions -->
         <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
-        <maven-project-info-reports-plugin.version>3.5.0</maven-project-info-reports-plugin.version>
-        <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
-        <dependency.plugin.version>3.6.1</dependency.plugin.version>
-        <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
-        <jaxb2-maven-plugin.version>3.1.0</jaxb2-maven-plugin.version>
+        <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
+        <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+        <dependency.plugin.version>3.8.1</dependency.plugin.version>
+        <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
+        <jaxb2-maven-plugin.version>3.3.0</jaxb2-maven-plugin.version>
         <depgraph-maven-plugin.version>4.0.3</depgraph-maven-plugin.version>
         <depgraph.printStyleConfiguration>false</depgraph.printStyleConfiguration>
-        <jandex.plugin.version>3.1.1</jandex.plugin.version>
+        <jandex.plugin.version>3.3.1</jandex.plugin.version>
         <jandex.plugin.phase>process-classes</jandex.plugin.phase>
 
-        <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
-        <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
+        <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+        <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
 
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
         <owasp-dependency-check.version>9.1.0</owasp-dependency-check.version>
@@ -113,7 +113,7 @@
         <skip.verify.code>false</skip.verify.code>
 
         <!-- Enforcer configuration parameters -->
-        <enforcer.version>3.4.1</enforcer.version>
+        <enforcer.version>3.5.0</enforcer.version>
         <enforcer.includedGroupIdPatterns>^se\.jguru\..*</enforcer.includedGroupIdPatterns>
         <enforcer.excludedGroupIdPatterns>^se\.jguru\..*\.generated\..*,^se\.jguru\.codestyle\..*</enforcer.excludedGroupIdPatterns>
 
@@ -122,23 +122,23 @@
         <clover.plugin.required.percentage>80%</clover.plugin.required.percentage>
 
         <!-- AspectJ Properties -->
-        <aspectj.runtime.version>1.9.22</aspectj.runtime.version>
+        <aspectj.runtime.version>1.9.24</aspectj.runtime.version>
         <aspectj-maven-plugin.version>1.15.0</aspectj-maven-plugin.version>
 
         <!-- Checkstyle configuration parameters. -->
-        <checkstyle.plugin.version>3.3.1</checkstyle.plugin.version>
+        <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
         <checkstyle.config.location>codestyle/checkstyle.xml</checkstyle.config.location>
         <checkstyle.suppressions.location>codestyle/checkstyle-suppressions.xml</checkstyle.suppressions.location>
         <checkstyle.violationSeverity>error</checkstyle.violationSeverity>
         <checkstyle.excludes>**/generated/**/*,**/grammars/**/*</checkstyle.excludes>
 
         <!-- PMD configuration parameters. -->
-        <pmd.plugin.version>3.21.2</pmd.plugin.version>
-        <pmd.version>7.0.0</pmd.version>
+        <pmd.plugin.version>3.26.0</pmd.plugin.version>
+        <pmd.version>7.14.0</pmd.version>
         <pmd.ruleset>/codestyle/pmd-rules.xml</pmd.ruleset>
 
         <!-- Spotbugs configuration parameters. -->
-        <spotbugs.plugin.version>4.8.3.1</spotbugs.plugin.version>
+        <spotbugs.plugin.version>4.9.3.0</spotbugs.plugin.version>
         <spotbugs.only.analyze>se.jguru.*</spotbugs.only.analyze>
         <spotbugs.includeFilterFile>codestyle/spotbugs.xml</spotbugs.includeFilterFile>
         <spotbugs.excludeFilterFile>codestyle/spotbugs-excludes.xml</spotbugs.excludeFilterFile>
@@ -161,7 +161,7 @@
         <breakOnFailure.license>true</breakOnFailure.license>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
+        <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.10</wagon-modules.version>
 
@@ -245,7 +245,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.12.0</version>
+                <version>3.17.0</version>
             </dependency>
 
             <!--
@@ -366,7 +366,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.7.1</version>
                 </plugin>
 
                 <!--
@@ -1506,7 +1506,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.6.0</version>
             </plugin>
 
             <!--

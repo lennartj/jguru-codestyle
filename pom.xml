@@ -88,20 +88,20 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jdk.version>17</jdk.version>
         <maven.version>3.9.2</maven.version>
-        <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
-        <scm.provider.version>2.0.1</scm.provider.version>
+        <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+        <scm.provider.version>2.1.0</scm.provider.version>
 
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
         <clean.plugin.version>3.2.0</clean.plugin.version>
-        <maven-project-info-reports-plugin.version>3.5.0</maven-project-info-reports-plugin.version>
-        <versions-maven-plugin.version>2.16.2</versions-maven-plugin.version>
+        <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
+        <versions-maven-plugin.version>2.18.0</versions-maven-plugin.version>
 
         <!-- Site plugin properties -->
-        <maven-site-plugin.version>3.12.1</maven-site-plugin.version>
+        <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.9</wagon-modules.version>
-        <kotlin.version>1.9.22</kotlin.version>
+         <kotlin.version>2.1.21</kotlin.version>
         <kotlin.jvm.target>17</kotlin.jvm.target>
     </properties>
 
@@ -219,7 +219,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.4.1</version>
+                    <version>3.11.2</version>
                     <configuration>
                         <failOnError>false</failOnError>
                         <stylesheet>java</stylesheet>

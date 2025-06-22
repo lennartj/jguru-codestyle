@@ -30,8 +30,8 @@
 
         <!-- Version number properties -->
         <nazgul-core.version>3.0.0</nazgul-core.version>
-        <xmlunit.version>2.9.1</xmlunit.version>
-        <jaxb2-maven-plugin.version>3.1.0</jaxb2-maven-plugin.version>
+        <xmlunit.version>2.10.3</xmlunit.version>
+        <jaxb2-maven-plugin.version>3.3.0</jaxb2-maven-plugin.version>
 
         <!-- Version definitions -->
         <hsqldb.version>2.4.1</hsqldb.version>
