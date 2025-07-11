@@ -1,0 +1,18 @@
+product:
+    type: lib
+    platforms: [ jvm ]
+
+dependencies:
+    - ../annotations
+    - javax.inject:javax.inject:1
+    - org.apache.maven.enforcer:enforcer-api:3.5.0
+    - org.apache.maven:maven-core:3.9.10
+    - org.apache.maven:maven-artifact:3.9.10
+    - org.apache.maven:maven-plugin-api:3.9.10
+    - org.codehaus.plexus:plexus-container-default:2.1.1
+    - org.slf4j:slf4j-api:2.0.12
+
+test-dependencies:
+    - org.apache.maven.plugin-testing:maven-plugin-testing-harness:3.3.0
+    - org.assertj:assertj-core:3.24.2
+    - org.junit.jupiter:junit-jupiter:5.9.2
