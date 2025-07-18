@@ -10,9 +10,12 @@ dependencies:
     - org.apache.maven:maven-artifact:3.9.10
     - org.apache.maven:maven-plugin-api:3.9.10
     - org.codehaus.plexus:plexus-container-default:2.1.1
-    - org.slf4j:slf4j-api:2.0.12
-
-test-dependencies:
-    - org.apache.maven.plugin-testing:maven-plugin-testing-harness:3.3.0
-    - org.assertj:assertj-core:3.24.2
-    - org.junit.jupiter:junit-jupiter:5.9.2
+    - org.jetbrains.kotlin:kotlin-stdlib:2.1.20
+    - org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.20
+    - org.assertj:assertj-core:3.27.3:test
+    - org.apache.maven.plugin-testing:maven-plugin-testing-harness:3.3.0:test
+    - org.junit.jupiter:junit-jupiter:5.13.1:test
+    - org.junit.jupiter:junit-jupiter-engine:5.13.1:test
+    - org.junit.platform:junit-platform-launcher:1.13.1:test
+    - $kotlin.reflect
+    - org.apache.logging.log4j:log4j-slf4j-impl:2.25.0:test

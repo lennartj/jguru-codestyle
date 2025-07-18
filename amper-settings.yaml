@@ -1,0 +1,18 @@
+repositories:
+    mavenCentral:
+        url: https://repo.maven.apache.org/maven2
+        type: maven
+jdk:
+    version: 21
+
+settings:
+    kotlin:
+        apiVersion: 2.1
+        languageVersion: 2.1
+        freeCompilerArgs:
+            - -opt-in=kotlin.ExperimentalStdlibApi
+
+    compilation:
+        exclude:
+            - "**/src/test/resources/**"
+            - "**/src/test/resources/testdata/**"
