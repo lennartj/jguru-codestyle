@@ -53,10 +53,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Kotlin constants -->
-         <kotlin.version>2.1.21</kotlin.version>
-        <kotlin.jvm.target>17</kotlin.jvm.target>
-        <kotlin.compiler.languageVersion>1.9</kotlin.compiler.languageVersion>
-        <kotlin.compiler.apiVersion>1.9</kotlin.compiler.apiVersion>
+        <kotlin.version>2.1.21</kotlin.version>
+        <kotlin.jvm.target>21</kotlin.jvm.target>
+        <kotlin.compiler.languageVersion>2.1</kotlin.compiler.languageVersion>
+        <kotlin.compiler.apiVersion>2.1</kotlin.compiler.apiVersion>
 
         <!--
             Define URL prefixes used in the various URL settings of the POM.
@@ -116,7 +116,7 @@
 
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
-        <owasp-dependency-check.version>9.0.6</owasp-dependency-check.version>
+        <owasp-dependency-check.version>12.1.3</owasp-dependency-check.version>
         <owasp.failOnError>false</owasp.failOnError>
         <owasp.skip>true</owasp.skip>
 
@@ -321,6 +321,11 @@
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
                             <version>3.2.1-SNAPSHOT</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.commons</groupId>
+                            <artifactId>commons-lang3</artifactId>
+                            <version>3.17.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
