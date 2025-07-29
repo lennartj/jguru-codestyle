@@ -137,7 +137,6 @@
                     <systemPropertyVariables>
                         <jpa_provider_class>${jpa.provider.class}</jpa_provider_class>
                     </systemPropertyVariables>
-                    <workingDirectory>${basedir}/target/FORK_DIRECTORY_${surefire.forkNumber}</workingDirectory>
                 </configuration>
             </plugin>
         </plugins>

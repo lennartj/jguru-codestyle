@@ -146,7 +146,8 @@
         <!-- OWASP configuration parameters. -->
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
 
-        <!-- Surefire configuration parameters. -->
+        <!-- Surefire configuration -->
+        <surefire.version>3.5.3</surefire.version>
         <surefire.memconf>-Xmx1024m</surefire.memconf>
         <surefire.argLine>${surefire.memconf}</surefire.argLine>
 
@@ -730,11 +731,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.0</version>
+                    <version>${surefire.version}</version>
                     <configuration>
                         <encoding>UTF-8</encoding>
                         <argLine>${surefire.argLine}</argLine>
-                        <trimStackTrace>false</trimStackTrace>
+                        <parallelOptimized>true</parallelOptimized>
+                        <workingDirectory>${basedir}/target/FORK_DIRECTORY_${surefire.forkNumber}</workingDirectory>
+                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
                     </configuration>
                 </plugin>
 
