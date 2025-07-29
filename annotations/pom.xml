@@ -576,8 +576,8 @@
     <profiles>
 
         <!--
-            Release profile for Nazgul Reactors.
-        -->
+            Release profile for jGuru (Nazgul-component-style) reactors.
+          -->
         <profile>
             <id>jguru-release</id>
             <build>
@@ -630,24 +630,25 @@
                             </execution>
                         </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
 
+        <profile>
+            <id>central-deploy</id>
+            <build>
+                <plugins>
+                    <!-- Do not use maven-deploy-plugin -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-deploy-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default-deploy</id>
-                                <phase>none</phase>
-                            </execution>
-                            <execution>
-                                <id>deploy-to-repo</id>
-                                <goals>
-                                    <goal>deploy</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
                     </plugin>
 
+                    <!-- Publish only using the central-publishing-maven-plugin -->
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
@@ -657,6 +658,32 @@
                                 <phase>deploy</phase>
                                 <goals>
                                     <goal>publish</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>maven-deploy</id>
+            <build>
+                <plugins>
+                    <!-- Publish only using the maven-deploy-plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>deploy-to-repo</id>
+                                <goals>
+                                    <goal>deploy</goal>
                                 </goals>
                             </execution>
                         </executions>
