@@ -86,7 +86,7 @@
         <!-- Build definitions and Version properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jdk.version>17</jdk.version>
+        <jdk.version>21</jdk.version>
         <maven.version>3.9.2</maven.version>
         <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
         <scm.provider.version>2.1.0</scm.provider.version>

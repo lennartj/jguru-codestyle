@@ -75,7 +75,7 @@
         <site.staging.localDirectory>/tmp/${reactor.name}</site.staging.localDirectory>
 
         <maven.version>3.9.2</maven.version>
-        <jdk.version>17</jdk.version>
+        <jdk.version>21</jdk.version>
         <javaee-api.version>8.0.1</javaee-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
