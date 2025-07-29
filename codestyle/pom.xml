@@ -91,6 +91,7 @@
         <checkstyle.header.java.file>codestyle/copyright/header_java.txt</checkstyle.header.java.file>
         <clean.plugin.version>3.2.0</clean.plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+        <sonatype-publish-plugin.version>0.8.0</sonatype-publish-plugin.version>
         <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
         <scm.provider.version>2.1.0</scm.provider.version>
         <jandex.plugin.version>3.3.1</jandex.plugin.version>
@@ -236,7 +237,7 @@
         <pluginManagement>
             <plugins>
 
-                <!--
+             <!--
                 Define the version of the Surefire plugin
 
                 Why:  Ensure we have a recent enough surefire to use parallellism properly
@@ -260,7 +261,7 @@
 
                     Why:  Use a newer source plugin version.
                     Used: Only when called, typically release profile.
-                -->
+                    -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
@@ -273,7 +274,7 @@
 
                     Why:  Workaround for https://jira.codehaus.org/browse/MVERSIONS-236
                     Used: Only when called.
-                -->
+                    -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
@@ -285,7 +286,7 @@
 
                     Why:  Use the latest compiler plugin version for upwards JDK compliance.
                     Used: For compiling all source code to binaries.
-                -->
+                    -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -305,7 +306,7 @@
 
                     Why:  Ensures standard placement for Kotlin sources.
                     Used: Standard lifecycle, mvn compile / test-compile.
-                -->
+                    -->
                 <plugin>
                     <groupId>org.jetbrains.kotlin</groupId>
                     <artifactId>kotlin-maven-plugin</artifactId>
@@ -353,11 +354,11 @@
 
                     Why:  Used to sign artifacts.
                     Used: To sign artifacts, using GPG.
-                -->
+                    -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.0</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -374,7 +375,7 @@
 
                     Why:  Release artifacts
                     Used: Normal lifecycle, release goal
-                -->
+                    -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
@@ -401,11 +402,52 @@
                 </plugin>
 
                 <!--
-                    Defines the deploy mechanics for Maven Release.
+                    Defines the mechanics for Maven artifact installation.
 
-                    Why:  Plugin used to deploy to (remote) repositories.
-                    Used: In all projects; generate-resources phase.
-                -->
+                    Why:  Plugin used to copy artifacts into the local M2 repository.
+                    Used: In all projects; install phase.
+                    -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
+                </plugin>
+
+                <!--
+                        Extracts dependency information from the build into a property file within the artifact.
+
+                        Why:  Plugin used to generate a META-INF/maven/dependencies.properties file within the artifact.
+                        Used: In all projects; generate-resources phase.
+                   -->
+                <plugin>
+                    <groupId>org.apache.servicemix.tooling</groupId>
+                    <artifactId>depends-maven-plugin</artifactId>
+                    <version>1.5.0</version>
+                </plugin>
+
+                <!--
+                        Defines the new deployment mechanics for Sonatype Central Releases.
+
+                        Why:  Plugin used to deploy to the Sonatype Central repository.
+                        Used: During deployment only.
+                    -->
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>${sonatype-publish-plugin.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <checksums>required</checksums>
+                        <publishingServerId>central</publishingServerId>
+                    </configuration>
+                </plugin>
+
+                <!--
+                        Defines the deployment mechanics for Maven Release.
+
+                        Why:  Plugin used to deploy to (remote) repositories.
+                        Used: During deployment only.
+                    -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
@@ -424,29 +466,6 @@
                     </dependencies>
                 </plugin>
 
-                <!--
-                    Defines the mechanics for Maven artifact installation.
-
-                    Why:  Plugin used to copy artifacts into the local M2 repository.
-                    Used: In all projects; install phase.
-                -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>${maven-install-plugin.version}</version>
-                </plugin>
-
-                <!--
-                    Extracts dependency information from the build into a property file within the artifact.
-
-                    Why:  Plugin used to generate a META-INF/maven/dependencies.properties file within the artifact.
-                    Used: In all projects; generate-resources phase.
-                -->
-                <plugin>
-                    <groupId>org.apache.servicemix.tooling</groupId>
-                    <artifactId>depends-maven-plugin</artifactId>
-                    <version>1.5.0</version>
-                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -632,8 +651,8 @@
             </plugin>
 
             <!--
-                Enforce not importing incorrect projects.
-            -->
+                   Enforce not importing incorrect projects.
+               -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -870,7 +889,7 @@
 
         <!--
             Release profile for jGuru (Nazgul-component-style) reactors.
-        -->
+          -->
         <profile>
             <id>jguru-release</id>
             <build>
@@ -887,24 +906,6 @@
                                     <goal>dokka</goal>
                                     <goal>javadoc</goal>
                                     <goal>javadocJar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <version>${maven-deploy-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>default-deploy</id>
-                                <phase>none</phase>
-                            </execution>
-                            <execution>
-                                <id>deploy-to-repo</id>
-                                <goals>
-                                    <goal>deploy</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -936,9 +937,67 @@
                             </execution>
                         </executions>
                     </plugin>
-
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>central-deploy</id>
+            <build>
+                <plugins>
+                    <!-- Do not use maven-deploy-plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Publish only using the central-publishing-maven-plugin -->
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>deploy-to-central</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>publish</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>maven-deploy</id>
+            <build>
+                <plugins>
+                    <!-- Publish only using the maven-deploy-plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>deploy-to-repo</id>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 </project>

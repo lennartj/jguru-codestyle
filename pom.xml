@@ -90,6 +90,8 @@
         <maven.version>3.9.2</maven.version>
         <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
         <scm.provider.version>2.1.0</scm.provider.version>
+        <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+        <sonatype-publish-plugin.version>0.8.0</sonatype-publish-plugin.version>
 
         <!-- Code style properties -->
         <wtp.version>2.0</wtp.version>
@@ -101,7 +103,7 @@
         <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
         <doxia-modules.version>1.8</doxia-modules.version>
         <wagon-modules.version>2.9</wagon-modules.version>
-         <kotlin.version>2.1.21</kotlin.version>
+        <kotlin.version>2.1.21</kotlin.version>
         <kotlin.jvm.target>17</kotlin.jvm.target>
     </properties>
 
@@ -199,7 +201,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.0</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -288,27 +290,11 @@
             </plugin>
 
             <!--
-                Configure the javadoc plugin not to fail on standard HTML
-                constructs when building using JDK 8.
+                    Configures the site plugin. Its use is further documented in the site documentation itself.
 
-                Typical standard constructs include empty tags, like: <p />
-            -->
-            <!-- plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>produce-javadocs</id>
-                    </execution>
-                </executions>
-            </plugin -->
-
-            <!--
-                Configures the site plugin. Its use is further documented in the site documentation itself.
-
-                Why:  Make compile and publish the Codestyle documentation.
-                Used: Site lifecycle, mvn site.
-            -->
+                    Why:  Make compile and publish the Codestyle documentation.
+                    Used: Site lifecycle, mvn site.
+               -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -343,11 +329,11 @@
             </plugin>
 
             <!--
-                Provides Plantuml integration into site deployments.
+                    Provides Plantuml integration into site deployments.
 
-                Why:  Convert Plantuml (*.puml) documents to png images, for use in site documentation.
-                Used: Site lifecycle, mvn site.
-            -->
+                    Why:  Convert Plantuml (*.puml) documents to png images, for use in site documentation.
+                    Used: Site lifecycle, mvn site.
+                -->
             <plugin>
                 <groupId>com.github.funthomas424242</groupId>
                 <artifactId>plantuml-maven-plugin</artifactId>
@@ -513,26 +499,6 @@
 
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                        <configuration>
-                            <deployAtEnd>true</deployAtEnd>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>default-deploy</id>
-                                <phase>none</phase>
-                            </execution>
-                            <execution>
-                                <id>deploy-to-repo</id>
-                                <goals>
-                                    <goal>deploy</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
                         <executions>
                             <execution>
@@ -570,7 +536,64 @@
                             </execution>
                         </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
 
+        <profile>
+            <id>central-deploy</id>
+            <build>
+                <plugins>
+                    <!-- Do not use maven-deploy-plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Publish only using the central-publishing-maven-plugin -->
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>deploy-to-central</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>publish</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>maven-deploy</id>
+            <build>
+                <plugins>
+                    <!-- Publish only using the maven-deploy-plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>deploy-to-repo</id>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>

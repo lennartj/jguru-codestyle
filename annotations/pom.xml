@@ -69,6 +69,7 @@
 
         <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+        <sonatype-publish-plugin.version>0.8.0</sonatype-publish-plugin.version>
         <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
         <jandex.plugin.version>3.3.1</jandex.plugin.version>
 
@@ -245,7 +246,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.1.0</version>
                     <executions>
                         <execution>
                             <id>sign-artifacts</id>
@@ -258,7 +259,7 @@
                 </plugin>
 
                 <!--
-                    Defines the deploy mechanics for Maven Release.
+                    Defines the deployment mechanics for Maven Release.
 
                     Why:  Plugin used to deploy to (remote) repositories.
                     Used: In all projects; generate-resources phase.
@@ -279,6 +280,22 @@
                             <version>${scm.provider.version}</version>
                         </dependency>
                     </dependencies>
+                </plugin>
+
+                <!--
+                    Defines the new deployment mechanics for Sonatype Central Releases.
+
+                    Why:  Plugin used to deploy to the Sonatype Central repository.
+                    Used: During deployment only.
+                    -->
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>${sonatype-publish-plugin.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <publishingServerId>central</publishingServerId>
+                    </configuration>
                 </plugin>
 
                 <!--
@@ -626,6 +643,20 @@
                                 <id>deploy-to-repo</id>
                                 <goals>
                                     <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>deploy-to-central</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>publish</goal>
                                 </goals>
                             </execution>
                         </executions>

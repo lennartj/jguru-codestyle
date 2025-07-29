@@ -101,6 +101,7 @@
         <jandex.plugin.phase>process-classes</jandex.plugin.phase>
 
         <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+        <sonatype-publish-plugin.version>0.8.0</sonatype-publish-plugin.version>
         <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
 
         <owasp.suppressionFile>codestyle/owasp-suppression.xml</owasp.suppressionFile>
@@ -645,17 +646,6 @@
                     </configuration>
                 </plugin>
 
-                <!--
-                    Define deploy plugin version.
-
-                    Why:  Version definition only.
-                    Used: Standard lifecycle, mvn deploy
-                -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
-                </plugin>
 
                 <!--
                     Define project-info-reports plugin version, and reduce the time taken to run it.
@@ -739,32 +729,6 @@
                         <workingDirectory>${basedir}/target/FORK_DIRECTORY_${surefire.forkNumber}</workingDirectory>
                         <redirectTestOutputToFile>true</redirectTestOutputToFile>
                     </configuration>
-                </plugin>
-
-                <!--
-                    Define the version of the Failsafe plugin
-
-                    Why:  Ensure we have a recent enough surefire to use parallelism properly
-                    When: Standard lifecycle, integration-test phases
-                -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.22.2</version>
-                    <configuration>
-                        <argLine>${surefire.argLine}</argLine>
-                        <parallelOptimized>true</parallelOptimized>
-                        <workingDirectory>${basedir}/target/FAILSAFE_FORK_DIRECTORY_${surefire.forkNumber}
-                        </workingDirectory>
-                        <redirectTestOutputToFile>true</redirectTestOutputToFile>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.apache.maven.surefire</groupId>
-                            <artifactId>surefire-junit47</artifactId>
-                            <version>2.22.2</version>
-                        </dependency>
-                    </dependencies>
                 </plugin>
 
                 <!--
@@ -998,7 +962,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>2.0.0</version>
+                    <version>2.1.0</version>
                     <configuration>
                         <descriptionTemplate>/codestyle/license/${license.id}/licenseDescriptionTemplate.ftl
                         </descriptionTemplate>
@@ -1148,11 +1112,28 @@
                 </plugin>
 
                 <!--
-                    Defines the deploy mechanics for Maven Release.
+                        Defines the new deployment mechanics for Sonatype Central Releases.
 
-                    Why:  Plugin used to deploy to (remote) repositories.
-                    Used: In all projects; generate-resources phase.
-                -->
+                        Why:  Plugin used to deploy to the Sonatype Central repository.
+                        Used: During deployment only.
+                    -->
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>${sonatype-publish-plugin.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <checksums>required</checksums>
+                        <publishingServerId>central</publishingServerId>
+                    </configuration>
+                </plugin>
+
+                <!--
+                        Defines the deployment mechanics for Maven Release.
+
+                        Why:  Plugin used to deploy to (remote) repositories.
+                        Used: During deployment only.
+                    -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
@@ -1169,6 +1150,12 @@
                             <version>${scm.provider.version}</version>
                         </dependency>
                     </dependencies>
+                    <executions>
+                        <execution>
+                            <id>default-deploy</id>
+                            <phase>none</phase>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!--
@@ -1722,14 +1709,6 @@
                             <argLine>${surefire.fullArgLine}</argLine>
                         </configuration>
                     </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <configuration>
-                            <argLine>${surefire.fullArgLine}</argLine>
-                        </configuration>
-                    </plugin>
                 </plugins>
             </build>
 
@@ -1777,14 +1756,6 @@
                             <argLine>${surefire.fullArgLine}</argLine>
                         </configuration>
                     </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <configuration>
-                            <argLine>${surefire.fullArgLine}</argLine>
-                        </configuration>
-                    </plugin>
                 </plugins>
             </build>
 
@@ -1797,10 +1768,6 @@
             <id>jguru-release</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-deploy-plugin</artifactId>
-                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -1847,8 +1814,8 @@
         </profile>
 
         <!--
-            Purpose:    Skip deploy step for dryRun
-        -->
+            Purpose: Skip deploy step for dryRun
+          -->
         <profile>
             <id>release.dryRun</id>
             <activation>
@@ -1873,8 +1840,8 @@
         </profile>
 
         <!--
-            Purpose:    Turn off the checks of the code quality plugins [spotbugs, checkstyle, pmd].
-        -->
+            Purpose: Turn off the checks of the code quality plugins [spotbugs, checkstyle, pmd].
+          -->
         <profile>
             <id>skipVerifyCode</id>
             <activation>
@@ -1885,6 +1852,64 @@
             <properties>
                 <skip.verify.code>true</skip.verify.code>
             </properties>
+        </profile>
+
+        <profile>
+            <id>central-deploy</id>
+            <build>
+                <plugins>
+                    <!-- Do not use maven-deploy-plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+
+                    <!-- Publish only using the central-publishing-maven-plugin -->
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>deploy-to-central</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>publish</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>maven-deploy</id>
+            <build>
+                <plugins>
+                    <!-- Publish only using the maven-deploy-plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>deploy-to-repo</id>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

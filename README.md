@@ -1,6 +1,6 @@
 # [jGuru Codestyle](https://lennartj.github.io/jguru-codestyle)
 
-<img src="src/site/resources/images/jGuruLogo.png" style="float:right;" width="167" height="185"/> Put simply - the 
+<img src="src/site/resources/images/jGuruLogo.png" style="float:right;" width="167" height="185" alt="jguru logo"/> Put simply - the 
 codestyle project contains all those settings and configurations which makes your development, deployment and 
 runtime execution *just work*. The jGuru Codestyle project contains a
 implemented set of best-pracises to start projects quickly - and scale those projects without needing to change your
@@ -8,13 +8,13 @@ development and delivery process. This is in part usability engineering for the 
 lot of experience in software development ... all in one repo.
 
 ### Current Build Status:
-<img src="https://travis-ci.org/lennartj/jguru-codestyle.svg?branch=master" />
+<img src="https://travis-ci.org/lennartj/jguru-codestyle.svg?branch=master"  alt="build status"/>
 
 ## What does the Codestyle Repository do?
 The Codestyle repository defines how to _build the build_. For kotlin projects, simply use the various parents as
 parent within the projects within your other repositories. A typical repository structure is shown in the image below:
 
-<img src="src/site/resources/images/repo_structure.png" style="float:right; border:1px solid black;"/>
+<img src="src/site/resources/images/repo_structure.png" style="float:right; border:1px solid black;" alt="repo structure"/>
 
 1. **Codestyle repository**: Single Respository which defines the build, including Maven plugin configuration and 
    parent POMs for different types of project. Normally OSS, since there is no domain information in these components.
@@ -82,3 +82,19 @@ mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}
 ```
 
 In the windows operating system, use `mvnw.bat` instead.
+
+### 2.2.2. Release process
+
+Since the Sonatype OSS service is now at end-of-life, deploying artifacts to Maven Central is now done using
+Sonatype's `central-publishing-maven-plugin`. However, deployment to other repository services is still done using the
+`maven-deploy-plugin`. To enable choosing exactly one deployment target one of 2 profiles must be enabled to select 
+which plugin should perform the deployment when running the deploy goal.
+
+The process is done in 4 steps:
+
+1. **Create the release**: `mvn -DpushChanges=false -DautoVersionSubmodules=true -DreleaseVersion=0.11.3 -DdevelopmentVersion=0.11.4-SNAPSHOT -Dtag=jguru-codestyle-0.11.3 release:prepare`
+2. **Checkout the tagged version**: `git checkout [tagName]`, for example `git checkout jguru-codestyle-0.11.3`
+3. **Deploy the artifacts**: This is done differently for SonatypeCentral than for other repos:
+   * *Sonatype Central*: Use the `central-deploy` profile: `mvn -Pjguru-release -Pcentral-deploy clean deploy`
+   * *Other repo*: Use the `maven-deploy` profile: `mvn -Pjguru-release -Pmaven-deploy clean deploy`
+4. **Push the changes into master**: checkout master in the release repo. Then and push master + tags into the remote repo.
