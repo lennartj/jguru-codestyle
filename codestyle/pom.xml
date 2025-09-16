@@ -52,7 +52,8 @@
 
         <!-- Kotlin constants -->
         <kotlin.version>2.1.20</kotlin.version>
-        <kotlin.jvm.target>17</kotlin.jvm.target>
+        <!-- Must be JDK11-compliant to produce a rules JAR consumable by the maven-enforcer-plugin -->
+        <kotlin.jvm.target>11</kotlin.jvm.target>
         <kotlin.compiler.languageVersion>1.9</kotlin.compiler.languageVersion>
         <kotlin.compiler.apiVersion>1.9</kotlin.compiler.apiVersion>
         <kotlin.plugin>jpa</kotlin.plugin>
@@ -518,7 +519,11 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <!-- Must be JDK11-compliant to produce a rules JAR consumable by the maven-enforcer-plugin -->
                     <jvmTarget>${kotlin.jvm.target}</jvmTarget>
+                    <args>
+                        <arg>-Xjdk-release=11</arg>
+                    </args>
                 </configuration>
             </plugin>
 
@@ -549,6 +554,11 @@
                         <goals>
                             <goal>compile</goal>
                         </goals>
+                        <configuration>
+                            <!-- Compile any Java in this module to Java 11 bytecode -->
+                            <release>11</release>
+                            <fork>true</fork>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>java-test-compile</id>
