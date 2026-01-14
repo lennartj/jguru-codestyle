@@ -1,6 +1,8 @@
 product:
-    type: lib
+    type: jvm/lib
     platforms: [ jvm ]
+
+layout: maven-like
 
 dependencies:
     - ../annotations
