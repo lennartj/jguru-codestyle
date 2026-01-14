@@ -1,0 +1,5 @@
+product:
+  type: jvm/lib
+  platforms: [jvm]
+
+layout: maven-like

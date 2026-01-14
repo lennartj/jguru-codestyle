@@ -1,3 +1,8 @@
 modules:
   - ./annotations
   - ./codestyle
+  - ./poms/kotlin/kotlin-internal-parent
+  - ./poms/kotlin/kotlin-parent
+  - ./poms/kotlin/kotlin-model-parent
+  - ./poms/kotlin/kotlin-api-parent
+  - ./poms/kotlin/kotlin-war-parent
