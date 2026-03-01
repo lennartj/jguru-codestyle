@@ -135,7 +135,7 @@
 
         <!-- PMD configuration parameters. -->
         <pmd.plugin.version>3.26.0</pmd.plugin.version>
-        <pmd.version>7.14.0</pmd.version>
+        <pmd.version>7.22.0</pmd.version>
         <pmd.ruleset>/codestyle/pmd-rules.xml</pmd.ruleset>
 
         <!-- Spotbugs configuration parameters. -->
