@@ -7,33 +7,28 @@ package se.jguru.codestyle.projects.enforcer
 
 import java.io.File
 import java.io.FileFilter
-import java.util.Locale
 
 /**
- * Specification for extracting a package definition from the supplied sourceFile.
+ * Extracts the package declaration from a source file of a specific language.
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 interface PackageExtractor {
 
     /**
-     * Retrieves a FileFilter which identifies the source files that can be handled by this PackageExtractor.
-     *
-     * @return a non-null FileFilter which identifies the source files that can be handled by this PackageExtractor.
+     * [FileFilter] that accepts the source file types handled by this extractor.
      */
     val sourceFileFilter: FileFilter
 
     /**
-     * Retrieves the package definition from the supplied sourceFile.
-     *
-     * @param sourceFile The sourceFile from which the package definition should be extracted.
-     * @return The package of the sourceFile.
+     * Extracts and returns the package name declared in [sourceFile].
+     * Returns an empty string when no package declaration is found (default/unnamed package).
      */
     fun getPackage(sourceFile: File): String
 }
 
 /**
- * Utility class containing constants and generic Pattern definitions.
+ * Shared constants and regex builders for [PackageExtractor] implementations.
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
@@ -41,113 +36,78 @@ abstract class AbstractSimplePackageExtractor : PackageExtractor {
 
     companion object {
 
-        /**
-         * The "package" reserved word.
-         */
+        /** The `package` reserved word used in Java and Kotlin source files. */
         const val PACKAGE_WORD = "package"
 
-        @JvmStatic
-        private val DEFAULT_LOCALE = Locale.getDefault()
-
         /**
-         * Retrieves the RegExp able to match a Package statement within a java, kotlin or C++ file.
-         * @param optionalSemicolonTermination if `true` the package statement may optionally be terminated by a
-         * semicolon. Otherwise this termination is required.
+         * Builds a [Regex] that matches a package declaration line.
+         *
+         * @param optionalSemicolonTermination When `true` the trailing semicolon is optional
+         * (Kotlin syntax); when `false` it is required (Java syntax).
          */
-        fun getPackageRegExp(optionalSemicolonTermination: Boolean) : Regex {
-
-            val expression = "^\\s*$PACKAGE_WORD\\s*" +
-                "([a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)?\\s*?;" +
-                when (optionalSemicolonTermination) {
-                    true -> "?"
-                    false -> ""
-                } + "\\s*$"
-
-            return Regex(expression)
+        fun getPackageRegExp(optionalSemicolonTermination: Boolean): Regex {
+            val semicolonSuffix = if (optionalSemicolonTermination) ";?" else ";"
+            return Regex(
+                "^\\s*$PACKAGE_WORD\\s*" +
+                    "([a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*)?\\s*?$semicolonSuffix\\s*$"
+            )
         }
 
         /**
-         * Utility method which retrieves a FileFilter which accepts Files whose name ends
-         * with the given suffix, case-insensitive matching.
+         * Returns a [FileFilter] that accepts regular files whose name ends with [requiredSuffix],
+         * using case-insensitive comparison.
          */
-        fun getSuffixFileFilter(requiredLowerCaseSuffix: String) = FileFilter { aFile ->
-
-            aFile != null &&
-                aFile.isFile &&
-                aFile.name.lowercase(DEFAULT_LOCALE).trim().endsWith(requiredLowerCaseSuffix.lowercase(DEFAULT_LOCALE))
+        fun getSuffixFileFilter(requiredSuffix: String) = FileFilter { aFile ->
+            aFile != null && aFile.isFile && aFile.name.endsWith(requiredSuffix, ignoreCase = true)
         }
     }
 }
 
 /**
- * [PackageExtractor] for Kotlin source files.
+ * [PackageExtractor] for Kotlin source files (`.kt`).
+ *
+ * Kotlin package declarations may omit the trailing semicolon.
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 class KotlinPackageExtractor : AbstractSimplePackageExtractor() {
 
-    // Internal state
-    private val packageRegEx = getPackageRegExp(true)
+    private val packageRegEx = getPackageRegExp(optionalSemicolonTermination = true)
 
-    override val sourceFileFilter: FileFilter
-        get() = getSuffixFileFilter(".kt")
+    override val sourceFileFilter: FileFilter = getSuffixFileFilter(".kt")
 
     override fun getPackage(sourceFile: File): String {
+        check(!sourceFile.isDirectory) { "Expected a file, but received directory [${sourceFile.path}]" }
 
-        if(sourceFile.isFile) {
-            sourceFile.readLines(Charsets.UTF_8).forEach { aLine: String ->
-                if (packageRegEx.matches(aLine)) {
+        if (!sourceFile.isFile) return ""
 
-                    val lastIndexInLine = when (aLine.contains(";")) {
-                        true -> aLine.indexOfFirst { it == ';' }
-                        false -> aLine.length
-                    }
-
-                    // All Done.
-                    return aLine.trim().substring(PACKAGE_WORD.length, lastIndexInLine).trim()
-                }
-            }
-        } else if(sourceFile.isDirectory) {
-            throw IllegalStateException("Expected file, but received directory [${sourceFile.path}]")
-        }
-
-        // No package statement found.
-        // Return default package.
-        return ""
+        return sourceFile.readLines(Charsets.UTF_8)
+            .firstOrNull { packageRegEx.matches(it) }
+            ?.let { line ->
+                val end = if (line.contains(';')) line.indexOfFirst { it == ';' } else line.length
+                line.trim().substring(PACKAGE_WORD.length, end).trim()
+            } ?: ""
     }
 }
 
 /**
- * [PackageExtractor] for Java source files.
+ * [PackageExtractor] for Java source files (`.java`).
+ *
+ * Java package declarations must end with a semicolon.
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 class JavaPackageExtractor : AbstractSimplePackageExtractor() {
 
-    // Internal state
-    private val packageRegEx = getPackageRegExp(false)
+    private val packageRegEx = getPackageRegExp(optionalSemicolonTermination = false)
 
-    override val sourceFileFilter: FileFilter
-        get() = getSuffixFileFilter(".java")
+    override val sourceFileFilter: FileFilter = getSuffixFileFilter(".java")
 
-    override fun getPackage(sourceFile: File): String {
-
-        for (aLine: String in sourceFile.readLines(Charsets.UTF_8)) {
-
-            if (packageRegEx.matches(aLine)) {
-
-                val lastIndexInLine = when (aLine.contains(";")) {
-                    true -> aLine.indexOfFirst { it == ';' }
-                    false -> aLine.length
-                }
-
-                // All Done.
-                return aLine.trim().substring(PACKAGE_WORD.length, lastIndexInLine).trim()
-            }
-        }
-
-        // No package statement found.
-        // Return default package.
-        return ""
-    }
+    override fun getPackage(sourceFile: File): String =
+        sourceFile.readLines(Charsets.UTF_8)
+            .firstOrNull { packageRegEx.matches(it) }
+            ?.let { line ->
+                val end = if (line.contains(';')) line.indexOfFirst { it == ';' } else line.length
+                line.trim().substring(PACKAGE_WORD.length, end).trim()
+            } ?: ""
 }
