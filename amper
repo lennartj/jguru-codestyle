@@ -12,7 +12,7 @@
 #   AMPER_BOOTSTRAP_CACHE_DIR  Cache directory to store extracted JRE and Amper distribution
 #   AMPER_JAVA_HOME            JRE to run Amper itself (optional, does not affect compilation)
 #   AMPER_JAVA_OPTIONS         JVM options to pass to the JVM running Amper (does not affect the user's application)
-AMPER_NO_WELCOME_BANNER=true #    Disables the first-run welcome message if set to a non-empty value
+#   AMPER_NO_WELCOME_BANNER    Disables the first-run welcome message if set to a non-empty value
 
 set -e -u
 

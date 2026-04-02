@@ -154,49 +154,6 @@
                 <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>${enforcer.version}</version>
-                    <configuration combine.self="override">
-                        <fail>${breakOnFailure.enforcer}</fail>
-                        <rules>
-                            <requireMavenVersion>
-                                <version>[3.0.5,)</version>
-                            </requireMavenVersion>
-                            <requireJavaVersion>
-                                <version>${jdk.version}</version>
-                            </requireJavaVersion>
-
-                            <!--
-                                Enforce the ProjectType structure, implying that all projects
-                                must comply with the project template definitions.
-                            -->
-                            <validatePermittedProjectTypes />
-
-                            <!--
-                                Enforce the implementation rules for dependencies, to enforce that
-                                the level of dependency tanglement is not increased. This implies that
-                                implementation projects cannot import other implementation projects (but
-                                instead should import APIs).
-
-                                While the configuration below reflect the default settings, it is
-                                reproduced her to serve as an example of how to configure this enforcement rule
-                                in child reactors - where needs are likely different than here.
-                            -->
-                            <validateCorrectDependencies>
-                                <evaluateGroupIds>${enforcer.includedGroupIdPatterns}</evaluateGroupIds>
-                                <dontEvaluateGroupIds>${enforcer.excludedGroupIdPatterns}</dontEvaluateGroupIds>
-                            </validateCorrectDependencies>
-
-                            <!--
-                                Enforce using correct packages for classes within a NSC project.
-                                The root package of any project should be identical to its groupId.
-                                Any package below the root package can safely be used - so ...
-
-                                if the groupId of a project is "com.acme.foobar",
-                                then all code within that project must reside within the "com.acme.foobar" package,
-                                or in any subpackage thereof.
-                            -->
-                            <validateCorrectPackaging />
-                        </rules>
-                    </configuration>
                     <dependencies>
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
@@ -239,13 +196,55 @@
             </plugin>
 
             <!--
-                Enforce that projects 
+                Enforce that projects comply with codestyle rules (packaging, dependencies, project types)
+                and that inherited executions (enforce-maven, enforce-imports) are not polluted with
+                codestyle-specific configuration via pluginManagement defaults.
             -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <version>${enforcer.version}</version>
                 <executions>
+                    <execution>
+                        <id>enforce-codestyle</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <fail>${breakOnFailure.enforcer}</fail>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.0.5,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${jdk.version}</version>
+                                </requireJavaVersion>
+
+                                <!--
+                                    Enforce the ProjectType structure, implying that all projects
+                                    must comply with the project template definitions.
+                                -->
+                                <validatePermittedProjectTypes />
+
+                                <!--
+                                    Enforce the implementation rules for dependencies, to enforce that
+                                    the level of dependency tanglement is not increased. This implies that
+                                    implementation projects cannot import other implementation projects (but
+                                    instead should import APIs).
+                                -->
+                                <validateCorrectDependencies>
+                                    <evaluateGroupIds>${enforcer.includedGroupIdPatterns}</evaluateGroupIds>
+                                    <dontEvaluateGroupIds>${enforcer.excludedGroupIdPatterns}</dontEvaluateGroupIds>
+                                </validateCorrectDependencies>
+
+                                <!--
+                                    Enforce using correct packages for classes within a NSC project.
+                                    The root package of any project should be identical to its groupId.
+                                -->
+                                <validateCorrectPackaging />
+                            </rules>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>enforce-imports</id>
                         <goals>

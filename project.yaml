@@ -6,3 +6,10 @@ modules:
   - ./poms/kotlin/kotlin-model-parent
   - ./poms/kotlin/kotlin-api-parent
   - ./poms/kotlin/kotlin-war-parent
+  - ./poms/kotlin/kotlin-reactor-parent
+  - ./poms/java/java-internal-parent
+  - ./poms/java/java-parent
+  - ./poms/java/java-reactor-parent
+  - ./poms/java/java-model-parent
+  - ./poms/java/java-api-parent
+  - ./poms/java/java-war-parent
