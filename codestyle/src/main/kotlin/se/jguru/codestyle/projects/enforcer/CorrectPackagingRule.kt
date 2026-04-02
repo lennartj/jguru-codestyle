@@ -8,24 +8,27 @@ package se.jguru.codestyle.projects.enforcer
 import org.apache.maven.enforcer.rule.api.EnforcerLevel
 import org.apache.maven.project.MavenProject
 import se.jguru.codestyle.projects.DefaultProjectType
+import se.jguru.codestyle.projects.enforcer.CorrectPackagingRule.Companion.DEFAULT_IGNORED_FILENAMES
 import se.jguru.codestyle.projects.enforcer.CorrectPackagingRule.Companion.DEFAULT_PACKAGE_EXTRACTORS
 import java.io.File
 import java.io.FileFilter
 import java.util.SortedMap
 import java.util.SortedSet
-import java.util.TreeMap
-import java.util.TreeSet
 import javax.inject.Named
 
 /**
- * Enforcer rule to enforce correct packaging for all source files within a project,
- * implying that all source files should be located within or under a package identical
- * to the groupId of the project itself.
+ * Enforcer rule verifying that every source file in a project is placed under a package that
+ * starts with the project's groupId.
  *
- * @param enforcerLevel The level of enforcement within this Rule. Defaults to `EnforcerLevel.ERROR`.
- * @param packageExtractors The PackageExtractor implementations used to find packages from source code.
+ * Source files matched by the [packageExtractors] are scanned recursively under each compile
+ * source root. Files whose base names match [ignoredFileNames] (e.g. `module-info`, `package-info`)
+ * are skipped.
+ *
+ * @param enforcerLevel Enforcement level. Defaults to [EnforcerLevel.ERROR].
+ * @param packageExtractors Language-specific extractors used to read package declarations.
  * Defaults to [DEFAULT_PACKAGE_EXTRACTORS].
- * @param ignoredFileNames Optional List of RegExp strings implying
+ * @param ignoredFileNames Base-name prefixes of files to skip during scanning.
+ * Defaults to [DEFAULT_IGNORED_FILENAMES].
  *
  * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
@@ -40,103 +43,58 @@ class CorrectPackagingRule @JvmOverloads constructor(
         synthesizeRegExpsFor(ignoredFileNames)
     }
 
-    /**
-     * The description of this CorrectPackagingRule.
-     */
     override fun getShortRuleDescription(): String = "Topmost source package must be identical to project groupId."
 
-    /**
-     * Delegate method, implemented by concrete subclasses.
-     *
-     * @param project The active MavenProject.
-     * @throws RuleFailureException If the enforcer rule was not satisfied.
-     */
     @Throws(RuleFailureException::class)
     override fun performValidation(project: MavenProject) {
 
-        // #1) Find all java source files and map their packages to their names.
-        //     No source roots ==> no complaining.
-        //
         val compileSourceRoots = project.compileSourceRoots
-        if (compileSourceRoots.isEmpty()) {
-            return
-        }
+        if (compileSourceRoots.isEmpty()) return
 
         val pkg2SourceFilesMap = sortedMapOf<String, SortedSet<String>>()
-        compileSourceRoots.forEach { current -> addPackages(File(current), pkg2SourceFilesMap) }
+        compileSourceRoots.forEach { root -> addPackages(File(root), pkg2SourceFilesMap) }
 
-        // Retrieve the groupId of this project
         val groupId = project.groupId
         if (groupId.isNullOrEmpty()) {
-
-            // Don't accept empty groupIds
             throw RuleFailureException(
                 message = "Maven groupId cannot be null or empty.",
-                offendingArtifact = project.artifact)
+                offendingArtifact = project.artifact
+            )
+        }
 
-        } else {
-
-            // Correct packaging everywhere?
-            val incorrectPackages = pkg2SourceFilesMap.keys
-                .filter { !it.startsWith(groupId) }
-                .toCollection(TreeSet())
-
-            if (incorrectPackages.isNotEmpty()) {
-
-                val result = TreeMap<String, SortedSet<String>>()
-                for (current in incorrectPackages) {
-
-                    val sourceFiles = pkg2SourceFilesMap[current]
-                    if (sourceFiles != null) {
-                        result[current] = sourceFiles
-                    }
-                }
-
-                throw RuleFailureException(
-                    message = "Incorrect packaging detected; required [" + groupId
-                        + "] but found package to file names: " + result,
-                    offendingArtifact = project.artifact)
-            }
+        val incorrectPackages = pkg2SourceFilesMap.filterKeys { !it.startsWith(groupId) }
+        if (incorrectPackages.isNotEmpty()) {
+            throw RuleFailureException(
+                message = "Incorrect packaging detected; required [$groupId] but found package to file names: " +
+                    incorrectPackages,
+                offendingArtifact = project.artifact
+            )
         }
     }
 
     /**
-     * Splices the supplied packageExtractorImplementations argument, which is assumed to be a comma-separated
-     * string holding fully qualified class names of the PackageExtractor implementations which should be used
-     * by this CorrectPackagingRule.
+     * Accepts a comma-separated list of fully-qualified [PackageExtractor] implementation class names
+     * and replaces the current [packageExtractors] with freshly instantiated instances.
      *
-     * @param packageExtractorImplementations a comma-separated string holding fully qualified class names of the
-     * PackageExtractor implementations. Each such class must have a default
-     * (i.e. no-argument) constructor.
-     * @throws IllegalArgumentException if the supplied packageExtractorImplementations argument could not yield an
-     * instantiated PackageExtractor instance.
+     * Each class must have a public no-argument constructor.
+     *
+     * @throws IllegalArgumentException if any class cannot be loaded or instantiated.
      */
     @Throws(IllegalArgumentException::class)
     fun setPackageExtractors(packageExtractorImplementations: String) {
-
-        // Instantiate the PackageExtractor instances.
-        val extractors = ArrayList<PackageExtractor>()
-        for (current in splice(packageExtractorImplementations)) {
+        val extractors = splice(packageExtractorImplementations).map { className ->
             try {
-
-                // Load the current PackageExtractor implementation class
-                val aClass = javaClass.classLoader.loadClass(current)
-
-                // The PackageExtractor implementation must have a default constructor.
-                // Fire and handle any exceptions.
-                extractors.add(aClass.getDeclaredConstructor().newInstance() as PackageExtractor)
-
+                javaClass.classLoader.loadClass(className)
+                    .getDeclaredConstructor()
+                    .newInstance() as PackageExtractor
             } catch (_: Exception) {
-
                 throw IllegalArgumentException(
-                    "Could not instantiate PackageExtractor from class ["
-                        + current + "]. Validate that implementation has a default constructor, and implements the"
-                        + PackageExtractor::class.java.simpleName + " interface.")
+                    "Could not instantiate PackageExtractor from class [$className]. " +
+                        "Validate that the implementation has a default constructor and implements the " +
+                        PackageExtractor::class.java.simpleName + " interface."
+                )
             }
-
         }
-
-        // Assign if non-null.
         if (extractors.isNotEmpty()) {
             this.packageExtractors = extractors
         }
@@ -147,56 +105,30 @@ class CorrectPackagingRule @JvmOverloads constructor(
     //
 
     /**
-     * Adds all source file found by recursive search under sourceRoot to the
-     * toPopulate List, using a width-first approach.
-     *
-     * @param fileOrDirectory      The file or directory to search for packages and [if a directory]
-     * recursively search for further source files.
-     * @param package2FileNamesMap A Map relating package names extracted by the PackageExtractors.
+     * Recursively walks [fileOrDirectory], running each [PackageExtractor] over matching source
+     * files and populating [package2FileNamesMap] with the discovered package-to-filename mappings.
      */
     private fun addPackages(
         fileOrDirectory: File,
-        package2FileNamesMap: SortedMap<String, SortedSet<String>>) {
+        package2FileNamesMap: SortedMap<String, SortedSet<String>>
+    ) {
+        packageExtractors.forEach { extractor ->
+            when {
+                fileOrDirectory.isFile &&
+                    extractor.sourceFileFilter.accept(fileOrDirectory) &&
+                    !isIgnored(fileOrDirectory, ignoredFileNamePatterns) -> {
 
-        packageExtractors.forEach { current ->
-
-            // Process Files first
-            //
-            if (fileOrDirectory.isFile
-                && current.sourceFileFilter.accept(fileOrDirectory)
-                && !isIgnored(fileOrDirectory, ignoredFileNamePatterns)) {
-
-                // Single source file to add.
-                val thePackage = current.getPackage(fileOrDirectory)
-
-                // Done.
-                val sourceFileNames: SortedSet<String> = if (package2FileNamesMap[thePackage] == null) {
-
-                    // Create a new SortedSet and add the file names to it.
-                    val toReturn: SortedSet<String> = sortedSetOf()
-                    package2FileNamesMap[thePackage] = toReturn
-
-                    // All Done
-                    toReturn
-
-                } else {
-                    package2FileNamesMap[thePackage]!!
+                    package2FileNamesMap
+                        .getOrPut(extractor.getPackage(fileOrDirectory)) { sortedSetOf() }
+                        .add(fileOrDirectory.name)
                 }
+                fileOrDirectory.isDirectory -> {
+                    fileOrDirectory.listFiles(extractor.sourceFileFilter)
+                        ?.filter { it.isFile && it.canRead() && !isIgnored(it, ignoredFileNamePatterns) }
+                        ?.forEach { addPackages(it, package2FileNamesMap) }
 
-                sourceFileNames.add(fileOrDirectory.name)
-
-            } else if (fileOrDirectory.isDirectory) {
-
-                // Add the immediate source files
-                fileOrDirectory.listFiles(current.sourceFileFilter)
-                    ?.filter { it.isFile && it.canRead() && !isIgnored(it, ignoredFileNamePatterns) }
-                    ?.forEach {
-                        addPackages(it, package2FileNamesMap)
-                    }
-
-                // Recurse into subdirectories
-                fileOrDirectory.listFiles(DIRECTORY_FILTER)?.forEach {
-                    addPackages(it, package2FileNamesMap)
+                    fileOrDirectory.listFiles(DIRECTORY_FILTER)
+                        ?.forEach { addPackages(it, package2FileNamesMap) }
                 }
             }
         }
@@ -205,45 +137,33 @@ class CorrectPackagingRule @JvmOverloads constructor(
     companion object {
 
         @JvmStatic
-        private val DIRECTORY_FILTER = FileFilter { candidate -> candidate.isDirectory }
+        private val DIRECTORY_FILTER = FileFilter { it.isDirectory }
 
         /**
-         * The default List of PackageExtractors used to identify packages within found source files.
+         * Default [PackageExtractor] list: Java and Kotlin extractors.
          */
         @JvmStatic
-        val DEFAULT_PACKAGE_EXTRACTORS = listOf(JavaPackageExtractor(), KotlinPackageExtractor())
+        val DEFAULT_PACKAGE_EXTRACTORS: List<PackageExtractor> = listOf(
+            JavaPackageExtractor(),
+            KotlinPackageExtractor()
+        )
 
         /**
-         * The default List of PackageExtractors used to identify packages within found source files.
+         * Default file base-name prefixes that are excluded from package-compliance checking.
          */
         @JvmStatic
-        val DEFAULT_IGNORED_FILENAMES = listOf("module-info", "package-info")
+        val DEFAULT_IGNORED_FILENAMES: List<String> = listOf("module-info", "package-info")
 
         @JvmStatic
-        internal fun isIgnored(file: File, ignoredFileNamePatterns: List<Regex>) : Boolean = when {
-            file.isDirectory -> false
-            else -> ignoredFileNamePatterns.any { it.matches(file.name) }
-        }
+        internal fun isIgnored(file: File, ignoredFileNamePatterns: List<Regex>): Boolean =
+            !file.isDirectory && ignoredFileNamePatterns.any { it.matches(file.name) }
 
         /**
-         * Converts the supplied list of filenames to corresponding Regex
-         *
-         * @param fileNames File names to convert by adding <code>.*</code>, so pre-matching.
-         * @return A list of Regexs for the filenames.
+         * Converts each filename in [fileNames] to a [Regex] by appending `.*`, so that any file
+         * whose base name starts with one of the entries is considered ignored.
          */
         @JvmStatic
-        internal fun synthesizeRegExpsFor(fileNames: List<String>) : List<Regex> {
-            val toReturn = mutableListOf<Regex>()
-
-            if (fileNames.isNotEmpty()) {
-
-                fileNames
-                    .map { DefaultProjectType.getDefaultRegexFor("${it}.*") }
-                    .forEach { toReturn.add(it) }
-            }
-
-            // All Done.
-            return toReturn
-        }
+        internal fun synthesizeRegExpsFor(fileNames: List<String>): List<Regex> =
+            fileNames.map { DefaultProjectType.getDefaultRegexFor("${it}.*") }
     }
 }

@@ -14,7 +14,7 @@
     <parent>
         <groupId>se.jguru.codestyle.poms.java</groupId>
         <artifactId>jguru-codestyle-java-api-parent</artifactId>
-        <version>3.2.1-SNAPSHOT</version>
+        <version>4.0.3-SNAPSHOT</version>
         <relativePath>../java-api-parent</relativePath>
     </parent>
 
@@ -137,7 +137,6 @@
                     <systemPropertyVariables>
                         <jpa_provider_class>${jpa.provider.class}</jpa_provider_class>
                     </systemPropertyVariables>
-                    <workingDirectory>${basedir}/target/FORK_DIRECTORY_${surefire.forkNumber}</workingDirectory>
                 </configuration>
             </plugin>
         </plugins>

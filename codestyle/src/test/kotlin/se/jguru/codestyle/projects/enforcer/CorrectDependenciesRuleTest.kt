@@ -41,8 +41,7 @@ class CorrectDependenciesRuleTest {
 
             unitUnderTest.performValidation(project)
 
-            fail<Void>("CorrectPackagingRule should yield an exception for projects " +
-                                           "not complying with packaging rules.")
+            fail("CorrectPackagingRule should yield an exception for projects not complying with packaging rules.")
 
         } catch (e: RuleFailureException) {
 

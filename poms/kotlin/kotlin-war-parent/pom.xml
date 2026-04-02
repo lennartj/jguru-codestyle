@@ -14,7 +14,7 @@
     <parent>
         <groupId>se.jguru.codestyle.poms.kotlin</groupId>
         <artifactId>jguru-codestyle-kotlin-api-parent</artifactId>
-        <version>3.2.1-SNAPSHOT</version>
+        <version>4.0.3-SNAPSHOT</version>
         <relativePath>../kotlin-api-parent</relativePath>
     </parent>
 

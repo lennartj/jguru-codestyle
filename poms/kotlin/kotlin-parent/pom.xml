@@ -5,7 +5,8 @@
   -->
 
 <!--suppress MavenRedundantGroupId -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!--
@@ -16,7 +17,7 @@
     <parent>
         <groupId>se.jguru.codestyle.poms.kotlin</groupId>
         <artifactId>jguru-codestyle-kotlin-internal-parent</artifactId>
-        <version>3.2.1-SNAPSHOT</version>
+        <version>4.0.3-SNAPSHOT</version>
         <relativePath>../kotlin-internal-parent</relativePath>
     </parent>
 
@@ -66,7 +67,7 @@
 
                 <!--
                     The license plugin is quite inflexible about the format for the injected/detected file header
-                    in terms of license structure. Use it as intended, but provide a variable to handle the
+                    in terms of license structure. Use it as intended but provide a variable to handle the
                     desired license and license resolver.
 
                     Why:  Ensures that all files contain a license header.
@@ -75,7 +76,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>2.0.0</version>
+                    <version>2.1.0</version>
                     <configuration>
                         <encoding>${project.build.sourceEncoding}</encoding>
                         <descriptionTemplate>/codestyle/license/${license.id}/licenseDescriptionTemplate.ftl
@@ -118,7 +119,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>3.2.1-SNAPSHOT</version>
+                            <version>4.0.3-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -149,7 +150,6 @@
                     </configuration>
                 </plugin>
 
-
                 <!-- Enforce not importing incorrect projects. -->
                 <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
@@ -158,7 +158,7 @@
                         <dependency>
                             <groupId>se.jguru.codestyle</groupId>
                             <artifactId>jguru-codestyle</artifactId>
-                            <version>3.2.1-SNAPSHOT</version>
+                            <version>4.0.3-SNAPSHOT</version>
                         </dependency>
                     </dependencies>
                 </plugin>
@@ -199,7 +199,7 @@
                 Enforce that projects comply with codestyle rules (packaging, dependencies, project types)
                 and that inherited executions (enforce-maven, enforce-imports) are not polluted with
                 codestyle-specific configuration via pluginManagement defaults.
-            -->
+              -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -221,27 +221,26 @@
                                 </requireJavaVersion>
 
                                 <!--
-                                    Enforce the ProjectType structure, implying that all projects
-                                    must comply with the project template definitions.
-                                -->
-                                <validatePermittedProjectTypes />
+                                        Enforce the ProjectType structure, implying that all projects
+                                        must comply with the project template definitions.
+                                      -->
+                                <validatePermittedProjectTypes/>
 
                                 <!--
-                                    Enforce the implementation rules for dependencies, to enforce that
-                                    the level of dependency tanglement is not increased. This implies that
-                                    implementation projects cannot import other implementation projects (but
-                                    instead should import APIs).
-                                -->
+                                        Enforce the implementation rules for dependencies ensuring that the level of
+                                        dependency tanglement is not increased. This implies that implementation projects
+                                        cannot import other implementation projects (but instead should import and use APIs).
+                                      -->
                                 <validateCorrectDependencies>
                                     <evaluateGroupIds>${enforcer.includedGroupIdPatterns}</evaluateGroupIds>
                                     <dontEvaluateGroupIds>${enforcer.excludedGroupIdPatterns}</dontEvaluateGroupIds>
                                 </validateCorrectDependencies>
 
                                 <!--
-                                    Enforce using correct packages for classes within a NSC project.
-                                    The root package of any project should be identical to its groupId.
-                                -->
-                                <validateCorrectPackaging />
+                                        Enforce using correct packages for classes within a NSC project.
+                                        The root package of any project should be identical to its groupId.
+                                      -->
+                                <validateCorrectPackaging/>
                             </rules>
                         </configuration>
                     </execution>
@@ -250,6 +249,14 @@
                         <goals>
                             <goal>enforce</goal>
                         </goals>
+                        <configuration>
+                            <!--
+                                    No import rules are configured at this level.
+                                    Child reactors should override this execution with project-specific import rules.
+                                    Skipped here to avoid enforcer 3.5+ error when no rules are present.
+                                  -->
+                            <skip>true</skip>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

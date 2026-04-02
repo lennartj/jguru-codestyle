@@ -8,19 +8,30 @@ package se.jguru.codestyle.projects
 import java.io.Serializable
 
 /**
- * Compliance status structure and message holder.
+ * Holds the compliance status of a Maven project against a [ProjectType], tracking failures
+ * across four independent dimensions: groupId, artifactId, packaging, and internal structure.
  *
- * @author [Lennart J&ouml;relid](mailto:lj@jguru.se), jGuru Europe AB
+ * Each non-null failure field contributes to [complianceDistance], which ranks how closely a
+ * project matches a given type even when it is not fully compliant. GAV failures (group, artifact,
+ * packaging) each add 2 to the distance; an internal-structure failure adds 1.
+ *
+ * @param groupComplianceFailure Non-null if the project's groupId is non-compliant, holding the reason.
+ * @param artifactComplianceFailure Non-null if the project's artifactId is non-compliant, holding the reason.
+ * @param packagingComplianceFailure Non-null if the project's packaging is non-compliant, holding the reason.
+ * @param internalStructureComplianceFailure Non-null if the project's internal structure is non-compliant,
+ * holding the reason.
+ *
+ * @author [Lennart Jörelid](mailto:lj@jguru.se), jGuru Europe AB
  */
 open class ComplianceStatusHolder @JvmOverloads constructor(
     var groupComplianceFailure: String? = null,
     var artifactComplianceFailure: String? = null,
     var packagingComplianceFailure: String? = null,
-    var internalStructureComplianceFailure: String? = null) : Serializable {
+    var internalStructureComplianceFailure: String? = null
+) : Serializable {
 
     /**
-     * Synthetic property indicating if this ComplianceStatus implies
-     * adherence to/compliance with all rules found.
+     * `true` if all compliance dimensions pass (all failure fields are `null`).
      */
     val isCompliant: Boolean
         get() = groupComplianceFailure == null &&
@@ -29,40 +40,30 @@ open class ComplianceStatusHolder @JvmOverloads constructor(
             internalStructureComplianceFailure == null
 
     /**
-     * Synthetic property indicating the distance to adherence to/compliance with all rules.
+     * Numeric distance from full compliance. A value of `0` means fully compliant.
+     * GAV failures (group, artifact, packaging) each contribute 2; an internal-structure
+     * failure contributes 1, reflecting that structural issues are secondary to naming mismatches.
      */
     val complianceDistance: Int
-        get() {
-            var toReturn = 0
+        get() = listOf(groupComplianceFailure, artifactComplianceFailure, packagingComplianceFailure)
+            .count { it != null } * 2 +
+            if (internalStructureComplianceFailure != null) 1 else 0
 
-            listOf(groupComplianceFailure,
-                artifactComplianceFailure,
-                packagingComplianceFailure).forEach { if (it != null) toReturn += 2 }
-
-            if(internalStructureComplianceFailure != null) {
-                toReturn += 1
-            }
-
-            // All Done.
-            return toReturn
-        }
-
-    override fun toString(): String = when (isCompliant) {
-        true -> "Fully Compliant"
-        else -> "[$complianceDistance] differences: " +
-            mapOf(Pair("GroupId", groupComplianceFailure),
-                Pair("ArtifactId", artifactComplianceFailure),
-                Pair("Packaging", packagingComplianceFailure),
-                Pair("Internal structure", internalStructureComplianceFailure))
-                .filter { it.value != null }
-                .map { "${it.key} ${it.value}" }
-                .joinToString(", ")
+    override fun toString(): String = when {
+        isCompliant -> "Fully Compliant"
+        else -> "[$complianceDistance] differences: " + mapOf(
+            "GroupId" to groupComplianceFailure,
+            "ArtifactId" to artifactComplianceFailure,
+            "Packaging" to packagingComplianceFailure,
+            "Internal structure" to internalStructureComplianceFailure
+        ).filterValues { it != null }
+            .entries.joinToString(", ") { "${it.key} ${it.value}" }
     }
 
     companion object {
 
         /**
-         * A ComplianceStatus indicating that all is OK.
+         * Singleton representing a fully compliant status with no failures.
          */
         @JvmStatic
         val OK = ComplianceStatusHolder()
